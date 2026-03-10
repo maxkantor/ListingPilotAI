@@ -1,0 +1,63 @@
+# ── Node / Frontend ──────────────────────────────────────────
+node_modules/
+dist/
+.cache/
+.parcel-cache/
+*.local
+
+# Environment files
+.env
+.env.local
+.env.*.local
+# Do not ignore .env.example (it should be committed)
+!.env.example
+
+# ── .NET / Backend ───────────────────────────────────────────
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.ncb
+*.sdf
+TestResults/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+*.VisualState.xml
+*.testlog
+*.ncrunchproject
+.ncrunch*/
+_NCrunch_*
+*.dotCover
+*.pidb
+*.svd
+*.userprefs
+*.lock.json
+project.lock.json
+*.nuget.props
+*.nuget.targets
+*.nupkg
+*.snupkg
+packages/
+!packages/repositories.config
+
+# ── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
