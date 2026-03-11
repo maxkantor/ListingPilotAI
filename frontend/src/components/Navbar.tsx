@@ -4,7 +4,7 @@ import styles from './Navbar.module.css';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
-  const isDashboard = location.pathname === '/dashboard';
+  const isAppRoute = location.pathname === '/dashboard' || location.pathname === '/admin';
 
   return (
     <header className={styles.navbar}>
@@ -18,10 +18,12 @@ export const Navbar: React.FC = () => {
         </Link>
 
         <nav className={styles.nav}>
-          {!isDashboard && (
+          {!isAppRoute && (
             <>
-              <a href="#product" className={styles.navLink}>Product</a>
-              <a href="#pricing" className={styles.navLink}>Pricing</a>
+              <Link to="/product" className={styles.navLink}>Product</Link>
+              <Link to="/pricing" className={styles.navLink}>Pricing</Link>
+              <Link to="/demo" className={styles.navLink}>Demo</Link>
+              <Link to="/contact" className={styles.navLink}>Contact</Link>
               <Link to="/dashboard" className={styles.secondaryCta}>
                 Login
               </Link>
@@ -30,8 +32,12 @@ export const Navbar: React.FC = () => {
               </Link>
             </>
           )}
-          {isDashboard ? (
-            <Link to="/" className={styles.secondaryCta}>← Home</Link>
+          {isAppRoute ? (
+            <>
+              <Link to="/dashboard" className={styles.navLink}>Workspace</Link>
+              <Link to="/admin" className={styles.navLink}>Admin</Link>
+              <Link to="/" className={styles.secondaryCta}>Public Site</Link>
+            </>
           ) : null}
         </nav>
       </div>

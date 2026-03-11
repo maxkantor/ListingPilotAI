@@ -1,7 +1,9 @@
 .dashboard {
-  background: var(--color-bg);
+  background:
+    radial-gradient(circle at top right, rgba(201, 168, 76, 0.14), transparent 28%),
+    linear-gradient(180deg, #f7f8fb 0%, #eef2f8 100%);
   min-height: 100vh;
-  padding: 40px 0;
+  padding: 112px 0 48px;
 }
 
 .container {
@@ -10,46 +12,243 @@
   padding: 0 var(--space-6);
 }
 
-.header {
-  margin-bottom: 40px;
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  margin-bottom: 36px;
 }
 
-.header h1 {
-  font-size: var(--font-size-4xl);
-  font-weight: 800;
-  color: var(--color-text-primary);
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
+.heroContent,
+.sidePanel,
+.formColumn,
+.performancePanel,
+.leadsPanel,
+.historyCard {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(26, 58, 92, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(18, 40, 68, 0.08);
+  backdrop-filter: blur(12px);
 }
 
-.header p {
-  font-size: 16px;
+.heroContent {
+  padding: 30px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(26, 58, 92, 0.06);
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heroContent h1 {
+  margin-top: 16px;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.heroContent p {
+  margin-top: 16px;
+  max-width: 720px;
+  font-size: 17px;
   color: var(--color-text-secondary);
 }
 
-/* Two-Column Grid */
+.metricStrip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.metricCard {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+  border: 1px solid rgba(26, 58, 92, 0.08);
+}
+
+.metricCard span {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.metricCard strong {
+  display: block;
+  margin-top: 10px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.heroRail {
+  display: grid;
+  gap: 18px;
+}
+
+.sidePanel,
+.performancePanel,
+.leadsPanel {
+  padding: 24px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panelHeader h2 {
+  font-size: 22px;
+}
+
+.panelHeader span,
+.panelLink {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.actionList,
+.channelList,
+.leadList {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.actionList {
+  list-style: none;
+}
+
+.actionList li,
+.channelCard,
+.leadCard {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #f7f9fc;
+  border: 1px solid rgba(26, 58, 92, 0.08);
+}
+
+.channelCard {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.channelCard strong,
+.leadTop strong {
+  display: block;
+}
+
+.channelCard span,
+.leadMeta,
+.leadFooter,
+.leadCard p {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
-  margin-bottom: 60px;
+  margin-bottom: 28px;
 }
 
 .formColumn {
-  background: white;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
 }
 
 .outputColumn {
   position: relative;
 }
 
-/* History Section */
+.insightsGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.chart {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
+  align-items: end;
+}
+
+.barGroup {
+  text-align: center;
+}
+
+.barStack {
+  height: 170px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 6px;
+}
+
+.barPrimary,
+.barSecondary {
+  width: 26px;
+  border-radius: 999px 999px 8px 8px;
+}
+
+.barPrimary {
+  background: linear-gradient(180deg, var(--color-primary) 0%, #325c88 100%);
+}
+
+.barSecondary {
+  background: linear-gradient(180deg, var(--color-accent) 0%, #d8bd74 100%);
+}
+
+.barGroup strong {
+  display: block;
+  margin-top: 10px;
+}
+
+.barGroup span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.leadTop,
+.leadMeta,
+.leadFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.leadCard p {
+  margin: 10px 0;
+}
+
+.stageBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(201, 168, 76, 0.16);
+  color: var(--color-accent-dark);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .historySection {
-  margin-top: 80px;
+  margin-top: 24px;
 }
 
 .historyTitle {
@@ -67,9 +266,6 @@
 }
 
 .historyCard {
-  background: white;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
   padding: 16px;
   transition: all var(--transition-base);
 }
@@ -133,6 +329,9 @@
 }
 
 @media (max-width: 1024px) {
+  .hero,
+  .insightsGrid,
+  .metricStrip,
   .grid {
     grid-template-columns: 1fr;
     gap: 24px;
@@ -146,11 +345,11 @@
 
 @media (max-width: 640px) {
   .dashboard {
-    padding: 20px 0;
+    padding-top: 96px;
   }
 
-  .header h1 {
-    font-size: 28px;
+  .heroContent h1 {
+    font-size: 34px;
   }
 
   .historyGrid {

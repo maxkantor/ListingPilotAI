@@ -57,6 +57,41 @@ public class GenerationController : ControllerBase
         }
     }
 
+    [HttpGet("dashboard/summary")]
+    public async Task<ActionResult<DashboardSummaryDto>> GetDashboardSummary()
+    {
+        var summary = await _generationService.GetDashboardSummaryAsync();
+        return Ok(summary);
+    }
+
+    [HttpGet("dashboard/performance")]
+    public async Task<ActionResult<List<PerformanceSnapshotDto>>> GetDashboardPerformance()
+    {
+        var performance = await _generationService.GetPerformanceSnapshotsAsync();
+        return Ok(performance);
+    }
+
+    [HttpGet("crm/leads")]
+    public async Task<ActionResult<List<LeadDto>>> GetLeads()
+    {
+        var leads = await _generationService.GetLeadsAsync();
+        return Ok(leads);
+    }
+
+    [HttpGet("admin/overview")]
+    public async Task<ActionResult<AdminOverviewDto>> GetAdminOverview()
+    {
+        var overview = await _generationService.GetAdminOverviewAsync();
+        return Ok(overview);
+    }
+
+    [HttpGet("analytics/overview")]
+    public async Task<ActionResult<AnalyticsOverviewDto>> GetAnalyticsOverview()
+    {
+        var overview = await _generationService.GetAnalyticsOverviewAsync();
+        return Ok(overview);
+    }
+
     [HttpPost("history")]
     public ActionResult SaveHistory([FromBody] HistoryItemDto item)
     {

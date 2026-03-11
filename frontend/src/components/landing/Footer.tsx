@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './LandingV2.module.css';
 
 export const Footer: React.FC = () => {
@@ -13,14 +14,16 @@ export const Footer: React.FC = () => {
 
           <div className={styles.footerColumn}>
             <h4 className={styles.footerHeading}>Product</h4>
-            <a href="#product">Product</a>
-            <a href="#pricing">Pricing</a>
+            <Link to="/product">Product</Link>
+            <Link to="/pricing">Pricing</Link>
+            <Link to="/demo">Demo</Link>
           </div>
 
           <div className={styles.footerColumn}>
             <h4 className={styles.footerHeading}>Company</h4>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <Link to="/contact">Contact</Link>
+            <Link to="/privacy">Privacy Policy</Link>
+            <Link to="/terms">Terms of Service</Link>
           </div>
         </div>
 

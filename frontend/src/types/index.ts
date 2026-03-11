@@ -67,3 +67,64 @@ export interface HistoryItem {
   createdAt: string;
   output: GeneratedOutput;
 }
+
+export interface ChannelPerformance {
+  channel: string;
+  label: string;
+  conversionRate: string;
+  engagementLift: string;
+  status: string;
+}
+
+export interface DashboardSummary {
+  activeListings: number;
+  outputsGenerated: number;
+  avgTurnaround: string;
+  pipelineValue: string;
+  conversionLift: string;
+  priorityActions: string[];
+  topChannels: ChannelPerformance[];
+}
+
+export interface PerformanceSnapshot {
+  week: string;
+  outputs: number;
+  qualifiedLeads: number;
+  toursBooked: number;
+}
+
+export interface Lead {
+  id: string;
+  name: string;
+  stage: string;
+  source: string;
+  propertyAddress: string;
+  intentScore: string;
+  owner: string;
+  lastActivity: string;
+  estimatedValue: number;
+}
+
+export interface LeadStageSummary {
+  stage: string;
+  count: number;
+  value: string;
+}
+
+export interface AdminOverview {
+  activeAgents: number;
+  trialAccounts: number;
+  monthlyRecurringRevenue: string;
+  churnRisk: string;
+  openSupportTickets: number;
+  pipeline: LeadStageSummary[];
+  alerts: string[];
+}
+
+export interface AnalyticsOverview {
+  organicTrafficGrowth: string;
+  demoConversionRate: string;
+  trialActivationRate: string;
+  topLandingPage: string;
+  seoPriorities: string[];
+}

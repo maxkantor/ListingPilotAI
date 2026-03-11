@@ -1,18 +1,54 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
+import { usePageMetadata } from './hooks/usePageMetadata';
+import { initializeAnalytics, trackPageView } from './utils/analytics';
+import { AdminPage } from './pages/AdminPage';
+import { ContactPage } from './pages/ContactPage';
 import { LandingPage } from './pages/LandingPage';
+import { DemoPage } from './pages/DemoPage';
+import { PricingPage } from './pages/PricingPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { ProductPage } from './pages/ProductPage';
+import { TermsPage } from './pages/TermsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import './styles/globals.css';
 
-function App() {
+function AppRoutes() {
+  const location = useLocation();
+
+  usePageMetadata(location.pathname);
+
+  React.useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location.pathname]);
+
   return (
-    <BrowserRouter>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/product" element={<ProductPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/demo" element={<DemoPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  React.useEffect(() => {
+    initializeAnalytics();
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 }

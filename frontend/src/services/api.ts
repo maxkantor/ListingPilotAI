@@ -1,7 +1,12 @@
 import type {
+  AdminOverview,
+  AnalyticsOverview,
+  DashboardSummary,
   GenerateRequest,
   GenerateResponse,
   HistoryItem,
+  Lead,
+  PerformanceSnapshot,
   PropertyInput,
 } from '../types';
 
@@ -37,6 +42,26 @@ export const apiService = {
 
   getHistory(): Promise<HistoryItem[]> {
     return request<HistoryItem[]>('/api/history');
+  },
+
+  getDashboardSummary(): Promise<DashboardSummary> {
+    return request<DashboardSummary>('/api/dashboard/summary');
+  },
+
+  getPerformanceSnapshots(): Promise<PerformanceSnapshot[]> {
+    return request<PerformanceSnapshot[]>('/api/dashboard/performance');
+  },
+
+  getLeads(): Promise<Lead[]> {
+    return request<Lead[]>('/api/crm/leads');
+  },
+
+  getAdminOverview(): Promise<AdminOverview> {
+    return request<AdminOverview>('/api/admin/overview');
+  },
+
+  getAnalyticsOverview(): Promise<AnalyticsOverview> {
+    return request<AnalyticsOverview>('/api/analytics/overview');
   },
 
   saveHistory(item: Omit<HistoryItem, 'id' | 'createdAt'>): Promise<HistoryItem> {

@@ -9,6 +9,11 @@ public interface IGenerationService
     Task<GenerateResponseDto> GenerateAsync(GenerateRequestDto request);
     Task<List<HistoryItemDto>> GetHistoryAsync();
     Task<PropertyInputDto> GetSamplePropertyAsync();
+    Task<DashboardSummaryDto> GetDashboardSummaryAsync();
+    Task<List<PerformanceSnapshotDto>> GetPerformanceSnapshotsAsync();
+    Task<List<LeadDto>> GetLeadsAsync();
+    Task<AdminOverviewDto> GetAdminOverviewAsync();
+    Task<AnalyticsOverviewDto> GetAnalyticsOverviewAsync();
 }
 
 public class GenerationService : IGenerationService
@@ -91,6 +96,172 @@ public class GenerationService : IGenerationService
         };
 
         return Task.FromResult(sample);
+    }
+
+    public async Task<DashboardSummaryDto> GetDashboardSummaryAsync()
+    {
+        var records = await _repository.GetAllAsync();
+        var generated = records.Count;
+
+        return new DashboardSummaryDto
+        {
+            ActiveListings = Math.Max(12, generated + 9),
+            OutputsGenerated = Math.Max(36, generated * 6),
+            AvgTurnaround = "42 sec",
+            PipelineValue = "$3.8M",
+            ConversionLift = "+18%",
+            PriorityActions =
+            [
+                "Follow up with luxury leads from the Buckhead launch sequence.",
+                "Refresh underperforming MLS copy for listings older than 14 days.",
+                "Prompt agents to publish Instagram reels for new waterfront inventory.",
+            ],
+            TopChannels =
+            [
+                new ChannelPerformanceDto
+                {
+                    Channel = "instagram",
+                    Label = "Instagram Reels",
+                    ConversionRate = "6.4%",
+                    EngagementLift = "+31%",
+                    Status = "Scaling",
+                },
+                new ChannelPerformanceDto
+                {
+                    Channel = "email",
+                    Label = "Email Nurture",
+                    ConversionRate = "4.9%",
+                    EngagementLift = "+18%",
+                    Status = "Healthy",
+                },
+                new ChannelPerformanceDto
+                {
+                    Channel = "mls",
+                    Label = "MLS Syndication",
+                    ConversionRate = "3.8%",
+                    EngagementLift = "+12%",
+                    Status = "Needs refresh",
+                },
+            ],
+        };
+    }
+
+    public Task<List<PerformanceSnapshotDto>> GetPerformanceSnapshotsAsync()
+    {
+        List<PerformanceSnapshotDto> snapshots =
+        [
+            new() { Week = "Wk 1", Outputs = 24, QualifiedLeads = 6, ToursBooked = 2 },
+            new() { Week = "Wk 2", Outputs = 31, QualifiedLeads = 9, ToursBooked = 3 },
+            new() { Week = "Wk 3", Outputs = 36, QualifiedLeads = 11, ToursBooked = 4 },
+            new() { Week = "Wk 4", Outputs = 42, QualifiedLeads = 14, ToursBooked = 5 },
+            new() { Week = "Wk 5", Outputs = 47, QualifiedLeads = 17, ToursBooked = 6 },
+            new() { Week = "Wk 6", Outputs = 53, QualifiedLeads = 19, ToursBooked = 7 },
+        ];
+
+        return Task.FromResult(snapshots);
+    }
+
+    public Task<List<LeadDto>> GetLeadsAsync()
+    {
+        List<LeadDto> leads =
+        [
+            new()
+            {
+                Id = "lead-101",
+                Name = "Avery Chen",
+                Stage = "Hot",
+                Source = "Instagram Reel",
+                PropertyAddress = "1180 West Paces Ferry Rd NW",
+                IntentScore = "94 / 100",
+                Owner = "Maya Reynolds",
+                LastActivity = "Booked private tour · 2h ago",
+                EstimatedValue = 2450000,
+            },
+            new()
+            {
+                Id = "lead-102",
+                Name = "Daniel Brooks",
+                Stage = "Nurture",
+                Source = "Luxury Email",
+                PropertyAddress = "4812 Wieuca Road NE",
+                IntentScore = "76 / 100",
+                Owner = "Maya Reynolds",
+                LastActivity = "Opened campaign 3 times · today",
+                EstimatedValue = 1275000,
+            },
+            new()
+            {
+                Id = "lead-103",
+                Name = "Sophia Patel",
+                Stage = "Offer",
+                Source = "Referral",
+                PropertyAddress = "905 Peachtree Battle Ave NW",
+                IntentScore = "98 / 100",
+                Owner = "Chris Walker",
+                LastActivity = "Requested comps · 34m ago",
+                EstimatedValue = 3190000,
+            },
+            new()
+            {
+                Id = "lead-104",
+                Name = "Marcus Hill",
+                Stage = "New",
+                Source = "Website Demo",
+                PropertyAddress = "220 Lake Forrest Lane",
+                IntentScore = "68 / 100",
+                Owner = "Sofia Bennett",
+                LastActivity = "Submitted form · 1d ago",
+                EstimatedValue = 980000,
+            },
+        ];
+
+        return Task.FromResult(leads);
+    }
+
+    public Task<AdminOverviewDto> GetAdminOverviewAsync()
+    {
+        var overview = new AdminOverviewDto
+        {
+            ActiveAgents = 124,
+            TrialAccounts = 38,
+            MonthlyRecurringRevenue = "$18.4k",
+            ChurnRisk = "5 accounts flagged",
+            OpenSupportTickets = 7,
+            Pipeline =
+            [
+                new() { Stage = "New", Count = 28, Value = "$7.1M" },
+                new() { Stage = "Qualified", Count = 19, Value = "$5.4M" },
+                new() { Stage = "Showing", Count = 11, Value = "$3.2M" },
+                new() { Stage = "Offer", Count = 4, Value = "$1.9M" },
+            ],
+            Alerts =
+            [
+                "3 enterprise demos need owner assignment before tomorrow morning.",
+                "2 trial accounts generated over 80 assets without inviting a teammate.",
+                "1 support ticket mentions MLS compliance review delays.",
+            ],
+        };
+
+        return Task.FromResult(overview);
+    }
+
+    public Task<AnalyticsOverviewDto> GetAnalyticsOverviewAsync()
+    {
+        var overview = new AnalyticsOverviewDto
+        {
+            OrganicTrafficGrowth = "+42%",
+            DemoConversionRate = "8.6%",
+            TrialActivationRate = "61%",
+            TopLandingPage = "/demo",
+            SeoPriorities =
+            [
+                "Publish city-specific landing pages with agent-focused schema markup.",
+                "Expand comparison content for ChatGPT vs ListingPilot search demand.",
+                "Improve internal links from pricing and demo pages to activation CTA.",
+            ],
+        };
+
+        return Task.FromResult(overview);
     }
 
     private static Property MapToEntity(PropertyInputDto dto)

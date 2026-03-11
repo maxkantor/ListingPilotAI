@@ -1,0 +1,65 @@
+.page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f7f8fb 0%, #eef2f8 100%);
+  padding: 128px 0 72px;
+}
+
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(26, 58, 92, 0.08);
+  box-shadow: 0 24px 60px rgba(18, 40, 68, 0.08);
+  border-radius: 28px;
+  padding: 32px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(26, 58, 92, 0.06);
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin-top: 18px;
+  font-size: clamp(36px, 6vw, 56px);
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+}
+
+.subtitle {
+  margin-top: 16px;
+  color: var(--color-text-secondary);
+  font-size: 18px;
+}
+
+.section {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(26, 58, 92, 0.08);
+}
+
+.section h2 {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+}
+
+.section p,
+.section li {
+  margin-top: 12px;
+  color: var(--color-text-secondary);
+}
+
+.section ul {
+  padding-left: 18px;
+}

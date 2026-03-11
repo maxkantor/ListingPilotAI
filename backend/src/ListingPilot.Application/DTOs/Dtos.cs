@@ -56,3 +56,71 @@ public class HistoryItemDto
     public DateTime CreatedAt { get; set; }
     public GeneratedOutputDto Output { get; set; } = new();
 }
+
+public class DashboardSummaryDto
+{
+    public int ActiveListings { get; set; }
+    public int OutputsGenerated { get; set; }
+    public string AvgTurnaround { get; set; } = string.Empty;
+    public string PipelineValue { get; set; } = string.Empty;
+    public string ConversionLift { get; set; } = string.Empty;
+    public List<string> PriorityActions { get; set; } = [];
+    public List<ChannelPerformanceDto> TopChannels { get; set; } = [];
+}
+
+public class ChannelPerformanceDto
+{
+    public string Channel { get; set; } = string.Empty;
+    public string Label { get; set; } = string.Empty;
+    public string ConversionRate { get; set; } = string.Empty;
+    public string EngagementLift { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
+}
+
+public class PerformanceSnapshotDto
+{
+    public string Week { get; set; } = string.Empty;
+    public int Outputs { get; set; }
+    public int QualifiedLeads { get; set; }
+    public int ToursBooked { get; set; }
+}
+
+public class LeadDto
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Stage { get; set; } = string.Empty;
+    public string Source { get; set; } = string.Empty;
+    public string PropertyAddress { get; set; } = string.Empty;
+    public string IntentScore { get; set; } = string.Empty;
+    public string Owner { get; set; } = string.Empty;
+    public string LastActivity { get; set; } = string.Empty;
+    public decimal EstimatedValue { get; set; }
+}
+
+public class LeadStageSummaryDto
+{
+    public string Stage { get; set; } = string.Empty;
+    public int Count { get; set; }
+    public string Value { get; set; } = string.Empty;
+}
+
+public class AdminOverviewDto
+{
+    public int ActiveAgents { get; set; }
+    public int TrialAccounts { get; set; }
+    public string MonthlyRecurringRevenue { get; set; } = string.Empty;
+    public string ChurnRisk { get; set; } = string.Empty;
+    public int OpenSupportTickets { get; set; }
+    public List<LeadStageSummaryDto> Pipeline { get; set; } = [];
+    public List<string> Alerts { get; set; } = [];
+}
+
+public class AnalyticsOverviewDto
+{
+    public string OrganicTrafficGrowth { get; set; } = string.Empty;
+    public string DemoConversionRate { get; set; } = string.Empty;
+    public string TrialActivationRate { get; set; } = string.Empty;
+    public string TopLandingPage { get; set; } = string.Empty;
+    public List<string> SeoPriorities { get; set; } = [];
+}
