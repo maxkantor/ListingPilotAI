@@ -32,18 +32,22 @@ export const SolutionSection: React.FC = () => {
   return (
     <section id="features" className={styles.sectionAlt}>
       <div className="container">
-        <h2 className={styles.sectionTitle}>One Property Entry. Six Marketing Channels.</h2>
-        <p className={styles.sectionSubtitle}>
-          ListingPilot structures your property details once, then generates complete multi-channel output in seconds.
-        </p>
+        <div className={styles.solutionLayout}>
+          <div className={styles.solutionIntro}>
+            <h2 className={styles.sectionTitle}>One Property Entry. Six Marketing Channels.</h2>
+            <p className={styles.sectionSubtitle}>
+              ListingPilot turns one structured property brief into full-funnel listing marketing across the channels agents actually use.
+            </p>
+          </div>
 
-        <div className={styles.solutionGrid}>
-          {channels.map((channel) => (
-            <article key={channel.name} className={styles.card}>
-              <span className={styles.channelTag}>{channel.name}</span>
-              <p>{channel.sample}</p>
-            </article>
-          ))}
+          <div className={styles.solutionBoard}>
+            {channels.map((channel) => (
+              <article key={channel.name} className={styles.solutionCard}>
+                <span className={styles.channelTag}>{channel.name}</span>
+                <p>{channel.sample}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

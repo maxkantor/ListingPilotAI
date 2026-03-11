@@ -24,14 +24,16 @@ export const BenefitsSection: React.FC = () => {
   return (
     <section className={styles.section}>
       <div className="container">
-        <h2 className={styles.sectionTitle}>Why Agents Love ListingPilot</h2>
-        <p className={styles.sectionSubtitle}>
-          Built for high-output listing teams that need speed, quality, and compliance in one workflow.
-        </p>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Why Agents Love ListingPilot</h2>
+          <p className={styles.sectionSubtitle}>
+            Built to compress the time between receiving a listing and launching a complete marketing push.
+          </p>
+        </div>
 
         <div className={styles.benefitsGrid}>
           {benefits.map((benefit) => (
-            <article key={benefit.value} className={styles.card}>
+            <article key={benefit.value} className={styles.benefitCard}>
               <div className={styles.metric}>{benefit.value}</div>
               <p className={styles.metricSub}>{benefit.label}</p>
             </article>

@@ -6,15 +6,17 @@ export const SampleOutputSection: React.FC = () => {
   return (
     <section className={styles.section}>
       <div className="container">
-        <h2 className={styles.sectionTitle}>See ListingPilot In Action</h2>
-        <p className={styles.sectionSubtitle}>
-          Example output generated for a Buckhead luxury home from a single property entry.
-        </p>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>See ListingPilot In Action</h2>
+          <p className={styles.sectionSubtitle}>
+            Example output generated for a Buckhead luxury home from a single property entry.
+          </p>
+        </div>
 
         <div className={styles.sampleProperty}>Buckhead luxury home · 5 beds · 4.5 baths · 4,200 sq ft · $1,275,000</div>
 
         <div className={styles.sampleGrid}>
-          <article className={styles.card}>
+          <article className={styles.sampleCard}>
             <span className={styles.channelTag}>MLS Description</span>
             <p>
               This Buckhead residence offers five bedrooms, 4.5 baths, and 4,200 sq ft of refined living. Highlights
@@ -24,7 +26,7 @@ export const SampleOutputSection: React.FC = () => {
             </p>
           </article>
 
-          <article className={styles.card}>
+          <article className={styles.sampleCard}>
             <span className={styles.channelTag}>Instagram Caption</span>
             <p>
               ✨ Buckhead luxury, done right. 5BR / 4.5BA with chef&apos;s kitchen, spa suite, heated pool, and premium
@@ -32,7 +34,7 @@ export const SampleOutputSection: React.FC = () => {
             </p>
           </article>
 
-          <article className={styles.card}>
+          <article className={styles.sampleCard}>
             <span className={styles.channelTag}>Email Campaign</span>
             <p>
               New listing alert: Executive Buckhead home with 5 bedrooms, 4.5 baths, and standout entertaining spaces.

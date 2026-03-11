@@ -10,7 +10,7 @@ export const Navbar: React.FC = () => {
     <header className={styles.navbar}>
       <div className={`container ${styles.inner}`}>
         <Link to="/" className={styles.brand}>
-          <span className={styles.brandIcon}>🏠</span>
+          <span className={styles.brandIcon}>⌂</span>
           <span className={styles.brandName}>
             Listing<strong>Pilot</strong>
             <span className={styles.aiTag}>AI</span>
@@ -22,15 +22,17 @@ export const Navbar: React.FC = () => {
             <>
               <a href="#features" className={styles.navLink}>Features</a>
               <a href="#pricing" className={styles.navLink}>Pricing</a>
+              <Link to="/dashboard" className={styles.secondaryCta}>
+                Open Dashboard
+              </Link>
+              <Link to="/dashboard" className={styles.primaryCta}>
+                Start Free Trial
+              </Link>
             </>
           )}
           {isDashboard ? (
-            <Link to="/" className={styles.navLink}>← Home</Link>
-          ) : (
-            <Link to="/dashboard" className={styles.ctaBtn}>
-              Open Dashboard
-            </Link>
-          )}
+            <Link to="/" className={styles.secondaryCta}>← Home</Link>
+          ) : null}
         </nav>
       </div>
     </header>

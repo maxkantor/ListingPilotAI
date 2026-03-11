@@ -23,14 +23,16 @@ export const ProblemSection: React.FC = () => {
   return (
     <section className={styles.section}>
       <div className="container">
-        <h2 className={styles.sectionTitle}>Real Estate Marketing Takes Too Long</h2>
-        <p className={styles.sectionSubtitle}>
-          Most teams spend more time drafting listing copy than actually moving inventory and scheduling showings.
-        </p>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Real Estate Marketing Takes Too Long</h2>
+          <p className={styles.sectionSubtitle}>
+            Agents already have the listing. The bottleneck is turning details into polished, publishable marketing fast enough.
+          </p>
+        </div>
 
         <div className={styles.problemGrid}>
           {problems.map((problem) => (
-            <article key={problem.title} className={styles.card}>
+            <article key={problem.title} className={styles.problemCard}>
               <h3>{problem.title}</h3>
               <p>{problem.description}</p>
             </article>

@@ -1,12 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './LandingSections.module.css';
 
 export const PricingSection: React.FC = () => {
   return (
     <section id="pricing" className={styles.sectionAlt}>
       <div className="container">
-        <h2 className={styles.sectionTitle}>Simple Pricing</h2>
-        <p className={styles.sectionSubtitle}>Choose the plan that fits your listing volume.</p>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Simple Pricing</h2>
+          <p className={styles.sectionSubtitle}>Clear plans for individual agents, growing teams, and agencies.</p>
+        </div>
 
         <div className={styles.pricingGrid}>
           <article className={styles.priceCard}>
@@ -17,6 +20,7 @@ export const PricingSection: React.FC = () => {
               <li>Six-channel generation</li>
               <li>Basic support</li>
             </ul>
+            <Link to="/dashboard" className={styles.secondaryPriceButton}>Start free</Link>
           </article>
 
           <article className={`${styles.priceCard} ${styles.featuredPrice}`}>
@@ -29,6 +33,7 @@ export const PricingSection: React.FC = () => {
               <li>Six-channel generation</li>
               <li>Priority support</li>
             </ul>
+            <Link to="/dashboard" className={styles.primaryPriceButton}>Start free trial</Link>
           </article>
 
           <article className={styles.priceCard}>
@@ -41,6 +46,7 @@ export const PricingSection: React.FC = () => {
               <li>Unlimited history</li>
               <li>Unlimited listings</li>
             </ul>
+            <Link to="/dashboard" className={styles.secondaryPriceButton}>Talk to sales</Link>
           </article>
         </div>
       </div>

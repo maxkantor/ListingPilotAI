@@ -4,7 +4,7 @@ import styles from './LandingSections.module.css';
 
 export const FinalCTA: React.FC = () => {
   return (
-    <section className={styles.finalCta}>
+    <section className={styles.finalCtaSection}>
       <div className="container">
         <div className={styles.finalInner}>
           <h2>Start Creating Listing Marketing in Seconds</h2>

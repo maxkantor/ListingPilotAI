@@ -5,7 +5,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className="container">
-        <div className={styles.footerCols}>
+        <div className={styles.footerGrid}>
           <div className={styles.footerCol}>
             <p className={styles.footerTitle}>ListingPilot AI</p>
             <p>Serious marketing infrastructure for modern real estate teams.</p>
