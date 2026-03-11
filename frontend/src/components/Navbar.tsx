@@ -20,10 +20,10 @@ export const Navbar: React.FC = () => {
         <nav className={styles.nav}>
           {!isDashboard && (
             <>
-              <a href="#features" className={styles.navLink}>Features</a>
+              <a href="#product" className={styles.navLink}>Product</a>
               <a href="#pricing" className={styles.navLink}>Pricing</a>
               <Link to="/dashboard" className={styles.secondaryCta}>
-                Open Dashboard
+                Login
               </Link>
               <Link to="/dashboard" className={styles.primaryCta}>
                 Start Free Trial

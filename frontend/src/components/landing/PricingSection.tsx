@@ -1,53 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './LandingSections.module.css';
+import styles from './LandingV2.module.css';
 
 export const PricingSection: React.FC = () => {
   return (
-    <section id="pricing" className={styles.sectionAlt}>
+    <section id="pricing" className={styles.sectionTight}>
       <div className="container">
-        <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>Simple Pricing</h2>
-          <p className={styles.sectionSubtitle}>Clear plans for individual agents, growing teams, and agencies.</p>
-        </div>
+        <div className={styles.pricingWrap}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.eyebrow}>Pricing</span>
+            <h2 className={styles.title}>Simple pricing for listing velocity</h2>
+            <p className={styles.subtitle}>Free for occasional use, professional for active agents, agency for teams running volume.</p>
+          </div>
 
-        <div className={styles.pricingGrid}>
-          <article className={styles.priceCard}>
-            <h3 className={styles.priceName}>FREE</h3>
-            <p className={styles.priceAmount}>$0</p>
-            <ul className={styles.priceList}>
-              <li>3 listings per month</li>
-              <li>Six-channel generation</li>
-              <li>Basic support</li>
-            </ul>
-            <Link to="/dashboard" className={styles.secondaryPriceButton}>Start free</Link>
-          </article>
+          <div className={styles.pricingRail}>
+            <article className={styles.priceItem}>
+              <h3 className={styles.priceName}>Free</h3>
+              <p className={styles.priceAmount}>$0</p>
+              <p className={styles.priceText}>3 listings per month</p>
+              <Link to="/dashboard" className={styles.priceSecondary}>Start free</Link>
+            </article>
 
-          <article className={`${styles.priceCard} ${styles.featuredPrice}`}>
-            <h3 className={styles.priceName}>PROFESSIONAL</h3>
-            <p className={styles.priceAmount}>
-              $29<span>/month</span>
-            </p>
-            <ul className={styles.priceList}>
-              <li>Unlimited listings</li>
-              <li>Six-channel generation</li>
-              <li>Priority support</li>
-            </ul>
-            <Link to="/dashboard" className={styles.primaryPriceButton}>Start free trial</Link>
-          </article>
+            <article className={`${styles.priceItem} ${styles.priceFeatured}`}>
+              <h3 className={styles.priceName}>Professional</h3>
+              <p className={styles.priceAmount}>$29<span>/month</span></p>
+              <p className={styles.priceText}>Unlimited listings</p>
+              <Link to="/dashboard" className={styles.pricePrimary}>Start free trial</Link>
+            </article>
 
-          <article className={styles.priceCard}>
-            <h3 className={styles.priceName}>AGENCY</h3>
-            <p className={styles.priceAmount}>
-              $99<span>/month</span>
-            </p>
-            <ul className={styles.priceList}>
-              <li>Team access</li>
-              <li>Unlimited history</li>
-              <li>Unlimited listings</li>
-            </ul>
-            <Link to="/dashboard" className={styles.secondaryPriceButton}>Talk to sales</Link>
-          </article>
+            <article className={styles.priceItem}>
+              <h3 className={styles.priceName}>Agency</h3>
+              <p className={styles.priceAmount}>$99<span>/month</span></p>
+              <p className={styles.priceText}>Team access and unlimited history</p>
+              <Link to="/dashboard" className={styles.priceSecondary}>Contact sales</Link>
+            </article>
+          </div>
         </div>
       </div>
     </section>

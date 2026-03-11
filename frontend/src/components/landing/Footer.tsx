@@ -1,24 +1,24 @@
 import React from 'react';
-import styles from './LandingSections.module.css';
+import styles from './LandingV2.module.css';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.sectionDark}>
       <div className="container">
         <div className={styles.footerGrid}>
-          <div className={styles.footerCol}>
-            <p className={styles.footerTitle}>ListingPilot AI</p>
-            <p>Serious marketing infrastructure for modern real estate teams.</p>
+          <div className={styles.footerBrand}>
+            <h3 className={styles.footerHeading}>ListingPilot AI</h3>
+            <p>Premium listing marketing software for serious real estate teams.</p>
           </div>
 
-          <div className={styles.footerCol}>
-            <p className={styles.footerTitle}>Product</p>
-            <a href="#features">Features</a>
+          <div className={styles.footerColumn}>
+            <h4 className={styles.footerHeading}>Product</h4>
+            <a href="#product">Product</a>
             <a href="#pricing">Pricing</a>
           </div>
 
-          <div className={styles.footerCol}>
-            <p className={styles.footerTitle}>Company</p>
+          <div className={styles.footerColumn}>
+            <h4 className={styles.footerHeading}>Company</h4>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
           </div>
