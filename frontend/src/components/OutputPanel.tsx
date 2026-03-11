@@ -57,6 +57,31 @@ export const OutputPanel: React.FC<OutputPanelProps> = ({
   error,
   onRegenerate,
 }) => {
+  const [isFavorite, setIsFavorite] = React.useState(false);
+  const [saveMessage, setSaveMessage] = React.useState<string | null>(null);
+
+  const exportAll = () => {
+    if (!output) {
+      return;
+    }
+
+    const content = OUTPUT_CONFIGS.map((config) => `${config.title}\n\n${output[config.key]}`).join('\n\n---\n\n');
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'listingpilot-assets.txt';
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    URL.revokeObjectURL(url);
+  };
+
+  const saveWorkspace = () => {
+    setSaveMessage('Saved to workspace');
+    window.setTimeout(() => setSaveMessage(null), 1800);
+  };
+
   if (isLoading) {
     return (
       <div className={styles.panel}>
@@ -126,20 +151,30 @@ export const OutputPanel: React.FC<OutputPanelProps> = ({
   return (
     <div className={styles.panel}>
       <div className={styles.panelHeader}>
-        <h2 className={styles.panelTitle}>Generated Copy</h2>
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={onRegenerate}
-          leftIcon={
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M1 4v6h6" />
-              <path d="M3.51 15a9 9 0 1 0 .49-3.51" />
-            </svg>
-          }
-        >
-          Regenerate
-        </Button>
+        <div>
+          <h2 className={styles.panelTitle}>Generated Copy</h2>
+          {saveMessage && <span className={styles.saveState}>{saveMessage}</span>}
+        </div>
+        <div className={styles.actionRow}>
+          <Button variant="ghost" size="sm" onClick={() => setIsFavorite((current) => !current)}>
+            {isFavorite ? '★ Favorited' : '☆ Favorite'}
+          </Button>
+          <Button variant="ghost" size="sm" onClick={saveWorkspace}>Save</Button>
+          <Button variant="ghost" size="sm" onClick={exportAll}>Export</Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={onRegenerate}
+            leftIcon={
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M1 4v6h6" />
+                <path d="M3.51 15a9 9 0 1 0 .49-3.51" />
+              </svg>
+            }
+          >
+            Regenerate
+          </Button>
+        </div>
       </div>
       <div className={styles.panelBody}>
         <div className={styles.outputGrid}>

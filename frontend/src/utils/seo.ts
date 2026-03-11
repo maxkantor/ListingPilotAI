@@ -1,4 +1,6 @@
-const SITE_URL = 'https://listingpilotai.com';
+const SITE_URL = import.meta.env.VITE_SITE_URL || 'https://listingpilotai.com';
+const googleSiteVerification = import.meta.env.VITE_GOOGLE_SITE_VERIFICATION;
+const bingSiteVerification = import.meta.env.VITE_BING_SITE_VERIFICATION;
 
 interface PageMeta {
   title: string;
@@ -111,18 +113,67 @@ function setStructuredData(meta: PageMeta) {
 
   script.textContent = JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'ListingPilot AI',
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web',
-    description: meta.description,
-    url: `${SITE_URL}${meta.path}`,
-    offers: {
-      '@type': 'Offer',
-      price: '79',
-      priceCurrency: 'USD',
-    },
+    '@graph': [
+      {
+        '@type': 'Organization',
+        name: 'ListingPilot AI',
+        url: SITE_URL,
+        logo: `${SITE_URL}/favicon.svg`,
+        sameAs: [],
+      },
+      {
+        '@type': 'SoftwareApplication',
+        name: 'ListingPilot AI',
+        applicationCategory: 'BusinessApplication',
+        operatingSystem: 'Web',
+        description: meta.description,
+        url: `${SITE_URL}${meta.path}`,
+        offers: {
+          '@type': 'Offer',
+          price: '79',
+          priceCurrency: 'USD',
+        },
+        audience: {
+          '@type': 'Audience',
+          audienceType: 'Real estate agents, teams, and brokerages',
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        mainEntity: [
+          {
+            '@type': 'Question',
+            name: 'Does ListingPilot AI invent property facts?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'No. ListingPilot AI is designed to use only the information entered by the agent and supports compliance-aware review before publishing.',
+            },
+          },
+          {
+            '@type': 'Question',
+            name: 'What does ListingPilot AI generate?',
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: 'It generates MLS descriptions, luxury narratives, social copy, email campaigns, and supporting launch assets from one property brief.',
+            },
+          },
+        ],
+      },
+    ],
   });
+}
+
+function setVerificationMeta(name: string, content?: string) {
+  if (!content) {
+    return;
+  }
+
+  setMeta('name', name, content);
+}
+
+export function initializeSeoEnhancements() {
+  setVerificationMeta('google-site-verification', googleSiteVerification);
+  setVerificationMeta('msvalidate.01', bingSiteVerification);
 }
 
 export function applyPageMetadata(pathname: string) {

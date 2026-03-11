@@ -25,7 +25,8 @@ ListingPilot AI is a premium B2B SaaS platform designed to help real estate agen
 - **React 18** with TypeScript
 - **Vite** for fast builds
 - **CSS Modules** (no Tailwind)
-- **Clean component architecture**
+- **Premium marketing site + SaaS workspace UI**
+- **GA4, schema, canonical, and verification hooks**
 - Desktop-first, responsive design
 
 ### Backend
@@ -33,7 +34,7 @@ ListingPilot AI is a premium B2B SaaS platform designed to help real estate agen
 - **Clean Architecture** (Domain, Application, Infrastructure)
 - **Dependency Injection** & interfaces
 - **AWS Lambda-ready**
-- In-memory repository (pluggable for DynamoDB/SQL Server)
+- In-memory repository for local dev, DynamoDB-first models for production
 
 ### AI
 - **OpenAI GPT-4** (configurable; mock mode available)
@@ -42,8 +43,8 @@ ListingPilot AI is a premium B2B SaaS platform designed to help real estate agen
 
 ### Deployment
 - **AWS Lambda** + API Gateway (backend)
-- **S3 + CloudFront** (frontend)
-- **AWS Secrets Manager** for keys
+- **Amplify Hosting** or **S3 + CloudFront** (frontend)
+- **SSM Parameter Store** for keys/config
 - **CloudWatch** for logging
 
 ---
@@ -79,13 +80,16 @@ dotnet run --project src/ListingPilot.Api
 ```bash
 cd frontend
 
+# Optional: copy env defaults
+# copy .env.example .env
+
 # Install dependencies
 npm install
 
-# Start dev server (auto-proxies /api to backend)
+# Start dev server
 npm run dev
 
-# Open http://localhost:3000
+# Open http://localhost:5173
 ```
 
 #### Full Stack Running
@@ -215,33 +219,28 @@ GET /api/health
 ## Features
 
 ### Landing Page
-- Premium hero section with clear value prop
-- Feature cards explaining each output type
-- How-it-works walkthrough
-- Sample output preview
-- Pricing placeholder
-- Professional footer
+- Premium navigation, layered hero, proof strip, workflow story, realistic output demo, pricing, and final CTA
+- Stronger positioning for agents, teams, and brokerages
+- Shared premium footer and richer brand system
 
 ### Dashboard
-- **Two-column layout** (desktop)
-  - **Left:** Property input form with validation
-  - **Right:** Generated outputs with copy buttons
-- **Form highlights:**
-  - Address, price, beds, baths, sq ft (required)
-  - Features, interior/exterior, schools, agent notes
-  - Tone selector (Professional, Luxury, Friendly, High-Energy)
-  - "Use Sample Property" button
-  - Real-time inline validation
-- **Output panel:**
-  - 6 output cards with platform icons
-  - One-click copy to clipboard
-  - Regenerate button
-  - Loading skeletons
-  - Empty state guidance
-  - Compliance disclaimer
-- **History section:**
-  - Recent generations grid
-  - Quick preview of past properties
+- Premium app shell with workspace navigation, auth/billing rails, history explorer, usage insights, and CRM signal panels
+- Generator + output workspace with save/export/favorite actions
+- Settings toggles for auto-save, review, and compliance mode
+
+### Admin CRM
+- Admin dashboard for users, leads, plans, support, and audit events
+- Searchable user management and stage-based lead pipeline views
+- Billing-ready plan cards and conversion summary panels
+
+### SEO / Analytics
+- Page metadata, canonical URLs, Open Graph, Twitter tags, SoftwareApplication + FAQ schema
+- GA4 page view and CTA tracking
+- Optional Google Search Console, Bing verification, Clarity, and Hotjar hooks
+
+### AWS low-cost architecture
+- See `backend/AWS_LOW_COST_ARCHITECTURE.md` for the recommended serverless deployment shape
+- See `backend/DYNAMODB_ACCESS_PATTERNS.md` for the DynamoDB single-table access model
 
 ### Design System
 - **Color palette:** Navy primary (#1a3a5c), gold accent (#c9a84c), clean neutrals

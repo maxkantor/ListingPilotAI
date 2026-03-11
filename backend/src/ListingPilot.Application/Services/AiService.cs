@@ -11,12 +11,14 @@ public class AiService : IAiService
 {
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly string? _openaiApiKey;
+    private readonly string _model;
     private readonly bool _useMockMode;
 
     public AiService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
         _httpClientFactory = httpClientFactory;
         _openaiApiKey = configuration["OpenAI:ApiKey"];
+        _model = configuration["OpenAI:Model"] ?? "gpt-4.1-mini";
         _useMockMode = string.IsNullOrEmpty(_openaiApiKey);
     }
 
@@ -47,9 +49,10 @@ public class AiService : IAiService
 
         var requestBody = new
         {
-            model = "gpt-4",
+            model = _model,
             messages = new[] { new { role = "user", content = prompt } },
-            temperature = 0.7,
+            response_format = new { type = "json_object" },
+            temperature = 0.45,
             max_tokens = 2000,
         };
 
@@ -75,11 +78,6 @@ public class AiService : IAiService
 
     private GeneratedOutputDto GenerateMockOutput(PropertyInputDto property)
     {
-        var address = $"{property.StreetAddress}, {property.City}, {property.State}";
-        var propertyType = property.PropertyType;
-        var features = property.KeyFeatures;
-        var tone = property.Tone;
-
         return new GeneratedOutputDto
         {
             MlsDescription = GenerateMlsDescription(property),
@@ -189,6 +187,7 @@ public class AiService : IAiService
             $@"Generate professional real estate marketing copy for the following property. 
 IMPORTANT: Use ONLY the information provided. Do NOT invent details, neighborhood facts, schools, or commute times.
 Do NOT include discriminatory language. Keep copy credible and grounded.
+Return clean JSON only.
 
 Property Details:
 - Type: {property.PropertyType}
@@ -214,7 +213,8 @@ Generate six separate pieces of copy:
 5. LinkedIn Post (professional, B2B appropriate, 150-200 words)
 6. Email Blurb (short, newsletter-ready, 80-120 words)
 
-Format the response as JSON with keys: mls_description, luxury_description, facebook_post, instagram_caption, linkedin_post, email_blurb";
+Format the response as JSON with keys: mls_description, luxury_description, facebook_post, instagram_caption, linkedin_post, email_blurb.
+Avoid markdown fences, commentary, or any additional prose outside the JSON object.";
     }
 
     private GeneratedOutputDto ParseOpenAiResponse(string content)

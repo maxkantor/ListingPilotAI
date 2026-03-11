@@ -4,23 +4,23 @@ import styles from './PublicPage.module.css';
 
 const plans = [
   {
-    name: 'Starter',
-    price: '$79',
-    subtitle: 'Solo agents launching listings with premium positioning.',
-    features: ['25 launches / month', 'MLS + social + email outputs', 'History and reuse library'],
+    name: 'Free',
+    price: '$0',
+    subtitle: 'Validate the workflow with a few launch-ready outputs every month.',
+    features: ['3 generations / month', 'MLS + social + email outputs', 'Sample listing workspace'],
   },
   {
     name: 'Professional',
-    price: '$199',
-    subtitle: 'Top producers who want campaigns, visibility, and faster follow-up.',
-    features: ['Unlimited launches', 'Workspace analytics', 'Lead board and concierge prompts'],
+    price: '$79',
+    subtitle: 'Top producers who want premium campaigns, visibility, and faster follow-up.',
+    features: ['200 generations / month', 'Workspace analytics and history', 'Lead board and concierge prompts'],
     highlight: true,
   },
   {
-    name: 'Brokerage',
-    price: 'Custom',
-    subtitle: 'Admin controls, onboarding, and team-wide performance tracking.',
-    features: ['Multi-agent admin portal', 'Usage governance', 'Quarterly performance review'],
+    name: 'Agency',
+    price: '$249',
+    subtitle: 'Admin controls, onboarding, and multi-user rollout support.',
+    features: ['1000 generations / month', 'Multi-agent admin portal', 'Usage governance and team workflows'],
   },
 ];
 
@@ -40,7 +40,7 @@ export const PricingPage: React.FC = () => {
             <div className={styles.eyebrow}>Pricing</div>
             <h1 className={styles.heroTitle}>Simple pricing for agents. Premium controls for teams.</h1>
             <p className={styles.heroText}>
-              Start with polished launches, then grow into a revenue operating system with CRM and admin visibility when your team is ready.
+              Start with polished launches, then grow into a revenue operating system with CRM visibility, usage management, and a business-grade back office.
             </p>
             <div className={styles.ctaRow}>
               <Link to="/dashboard" className={styles.buttonPrimary}>Start trial</Link>
@@ -49,12 +49,12 @@ export const PricingPage: React.FC = () => {
           </div>
           <div className={`${styles.heroPanel} ${styles.highlight}`}>
             <div className={styles.kicker}>Most teams choose Professional</div>
-            <div className={styles.price}>$199 <span>/ month</span></div>
+            <div className={styles.price}>$79 <span>/ month</span></div>
             <p>
               The best fit for serious agents who want consistent launches, better follow-up, and visibility into what converts.
             </p>
             <ul className={styles.list}>
-              <li><span>✓</span><span>Unlimited launches and campaign remixes</span></li>
+              <li><span>✓</span><span>200 monthly generations and campaign remixes</span></li>
               <li><span>✓</span><span>Workspace insights and lead tracking</span></li>
               <li><span>✓</span><span>Priority support and onboarding help</span></li>
             </ul>
@@ -88,8 +88,8 @@ export const PricingPage: React.FC = () => {
           <div className={styles.compareTable}>
             <div className={styles.compareRow}>
               <strong>Capability</strong>
-              <strong>Starter</strong>
-              <strong>Professional / Brokerage</strong>
+              <strong>Free</strong>
+              <strong>Professional / Agency</strong>
             </div>
             {comparison.map(([label, starter, pro]) => (
               <div key={label} className={styles.compareRow}>

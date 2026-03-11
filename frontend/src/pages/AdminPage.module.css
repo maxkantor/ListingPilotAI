@@ -1,8 +1,9 @@
 .page {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top right, rgba(201, 168, 76, 0.16), transparent 28%),
-    linear-gradient(180deg, #0d1728 0%, #14233a 100%);
+    radial-gradient(circle at top right, rgba(216, 178, 103, 0.18), transparent 26%),
+    radial-gradient(circle at 10% 8%, rgba(58, 113, 180, 0.12), transparent 18%),
+    linear-gradient(180deg, #07111f 0%, #112238 100%);
   padding: 112px 0 64px;
   color: #f8fbff;
 }
@@ -25,9 +26,9 @@
 .table,
 .pipelineCard,
 .alertCard {
-  background: rgba(10, 21, 37, 0.72);
+  background: rgba(10, 21, 37, 0.74);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px;
+  border-radius: 28px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(12px);
 }
@@ -69,9 +70,36 @@
   color: rgba(233, 241, 252, 0.76);
 }
 
+.heroBadgeRow,
+.stageRail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.heroBadgeRow span,
+.stagePill {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(240, 245, 255, 0.88);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .metricGrid,
 .panelGrid,
-.pipelineGrid {
+.pipelineGrid,
+.crmGrid,
+.leadBoard,
+.supportList,
+.planList,
+.auditList,
+.pipelineGridWide {
   display: grid;
   gap: 16px;
 }
@@ -86,14 +114,24 @@
   margin-top: 20px;
 }
 
+.crmGrid {
+  grid-template-columns: 1.1fr 0.9fr;
+  margin-top: 20px;
+}
+
 .pipelineGrid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: 20px;
 }
 
+.pipelineGridWide {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
 .metric {
   padding: 18px;
-  border-radius: 18px;
+  border-radius: 20px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
@@ -116,6 +154,22 @@
 .alertCard h2 {
   font-size: 24px;
   color: #ffffff;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.searchInput {
+  min-width: 320px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
 }
 
 .tableHead,
@@ -174,6 +228,49 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.planRow,
+.leadRecord,
+.supportRecord,
+.auditRecord {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.planRow,
+.leadTopLine,
+.leadDetailRow,
+.auditRecord {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.planRow span,
+.leadRecord p,
+.leadDetailRow span,
+.supportRecord p,
+.supportRecord span,
+.auditRecord p,
+.auditRecord span {
+  color: rgba(233, 241, 252, 0.72);
+}
+
+.leadRecord p,
+.supportRecord p,
+.auditRecord p {
+  margin: 10px 0;
+}
+
+.leadBoard,
+.supportList,
+.auditList,
+.planList {
+  margin-top: 18px;
+}
+
 .pipelineValue {
   margin-top: 10px;
   font-size: 28px;
@@ -184,9 +281,21 @@
 @media (max-width: 1080px) {
   .hero,
   .panelGrid,
+  .crmGrid,
   .metricGrid,
-  .pipelineGrid {
+  .pipelineGrid,
+  .pipelineGridWide {
     grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .searchInput {
+    min-width: 0;
+    width: 100%;
   }
 
   .tableHead,

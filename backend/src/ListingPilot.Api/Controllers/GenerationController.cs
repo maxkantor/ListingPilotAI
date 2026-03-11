@@ -42,21 +42,6 @@ public class GenerationController : ControllerBase
         return Ok(sample);
     }
 
-    [HttpGet("history")]
-    public async Task<ActionResult<List<HistoryItemDto>>> GetHistory()
-    {
-        try
-        {
-            var history = await _generationService.GetHistoryAsync();
-            return Ok(history);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error retrieving history");
-            return StatusCode(500, new { error = "Failed to retrieve history" });
-        }
-    }
-
     [HttpGet("dashboard/summary")]
     public async Task<ActionResult<DashboardSummaryDto>> GetDashboardSummary()
     {
@@ -90,13 +75,6 @@ public class GenerationController : ControllerBase
     {
         var overview = await _generationService.GetAnalyticsOverviewAsync();
         return Ok(overview);
-    }
-
-    [HttpPost("history")]
-    public ActionResult SaveHistory([FromBody] HistoryItemDto item)
-    {
-        // MVP: history is auto-saved on generation, this is optional
-        return Ok(new { id = item.Id });
     }
 
     [HttpGet("health")]

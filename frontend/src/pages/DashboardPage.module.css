@@ -1,9 +1,10 @@
 .dashboard {
   background:
-    radial-gradient(circle at top right, rgba(201, 168, 76, 0.14), transparent 28%),
-    linear-gradient(180deg, #f7f8fb 0%, #eef2f8 100%);
+    radial-gradient(circle at top right, rgba(216, 178, 103, 0.14), transparent 28%),
+    radial-gradient(circle at top left, rgba(55, 112, 180, 0.12), transparent 20%),
+    linear-gradient(180deg, #081321 0%, #0f2034 24%, #eef3f9 24%, #f5f8fc 100%);
   min-height: 100vh;
-  padding: 112px 0 48px;
+  padding: 112px 0 56px;
 }
 
 .container {
@@ -14,9 +15,24 @@
 
 .hero {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 24px;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
+}
+
+.workspaceShell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.workspaceSidebar,
+.workspaceMain,
+.historyExplorer,
+.sidebarCard {
+  display: grid;
+  gap: 16px;
 }
 
 .heroContent,
@@ -24,24 +40,126 @@
 .formColumn,
 .performancePanel,
 .leadsPanel,
-.historyCard {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(26, 58, 92, 0.08);
-  border-radius: 24px;
-  box-shadow: 0 24px 60px rgba(18, 40, 68, 0.08);
-  backdrop-filter: blur(12px);
+.historyCard,
+.sidebarCard,
+.historyExplorer,
+.commandCard,
+.workspaceHeader {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(16, 33, 57, 0.08);
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(18, 40, 68, 0.12);
+  backdrop-filter: blur(14px);
 }
 
 .heroContent {
   padding: 30px;
+  background: linear-gradient(180deg, rgba(13, 30, 49, 0.94) 0%, rgba(17, 37, 60, 0.9) 100%);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.sidebarCard,
+.historyExplorer,
+.workspaceHeader,
+.commandCard {
+  padding: 20px;
+}
+
+.sidebarLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  font-weight: 700;
+}
+
+.workspaceNav {
+  display: grid;
+  gap: 10px;
+}
+
+.workspaceNavButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(26, 58, 92, 0.08);
+  background: #f8fbff;
+  color: var(--color-text-secondary);
+  font-weight: 700;
+  text-align: left;
+}
+
+.workspaceNavButton strong,
+.workspaceNavButton span,
+.workspaceNavButton em {
+  display: block;
+  font-style: normal;
+}
+
+.workspaceNavButton span {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.workspaceNavButtonActive {
+  background: linear-gradient(180deg, #123458 0%, #214d78 100%);
+  color: #fff;
+  box-shadow: 0 18px 38px rgba(18, 52, 88, 0.16);
+}
+
+.authCard,
+.planCard,
+.settingCard {
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
+  border: 1px solid rgba(26, 58, 92, 0.08);
+}
+
+.authCard strong,
+.planCard strong,
+.settingCard strong {
+  display: block;
+}
+
+.authCard p,
+.planCard p,
+.settingCard span,
+.settingCard small {
+  display: block;
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.authFeatureList,
+.tileTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.authPill,
+.tileTags span {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(18, 52, 88, 0.08);
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .eyebrow {
   display: inline-flex;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(26, 58, 92, 0.06);
-  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.08);
+  color: #d9e8ff;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -53,13 +171,14 @@
   font-size: clamp(36px, 5vw, 60px);
   line-height: 1.02;
   letter-spacing: -0.04em;
+  color: #ffffff;
 }
 
 .heroContent p {
   margin-top: 16px;
   max-width: 720px;
   font-size: 17px;
-  color: var(--color-text-secondary);
+  color: rgba(229, 238, 250, 0.78);
 }
 
 .metricStrip {
@@ -72,14 +191,14 @@
 .metricCard {
   padding: 18px;
   border-radius: 18px;
-  background: linear-gradient(180deg, #ffffff 0%, #f4f7fb 100%);
-  border: 1px solid rgba(26, 58, 92, 0.08);
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .metricCard span {
   display: block;
   font-size: 12px;
-  color: var(--color-text-secondary);
+  color: rgba(229, 238, 250, 0.7);
 }
 
 .metricCard strong {
@@ -88,9 +207,10 @@
   font-size: 30px;
   font-weight: 800;
   letter-spacing: -0.03em;
+  color: #ffffff;
 }
 
-.heroRail {
+.heroStack {
   display: grid;
   gap: 18px;
 }
@@ -99,6 +219,49 @@
 .performancePanel,
 .leadsPanel {
   padding: 24px;
+}
+
+.commandCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: linear-gradient(180deg, rgba(216, 178, 103, 0.14) 0%, rgba(255, 255, 255, 0.95) 100%);
+}
+
+.commandLabel,
+.workspaceKicker {
+  display: inline-block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  font-weight: 700;
+}
+
+.commandCard strong,
+.workspaceHeader h2 {
+  display: block;
+  margin-top: 10px;
+  font-size: 30px;
+  letter-spacing: -0.04em;
+}
+
+.commandCard p {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+}
+
+.commandLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #123458 0%, #214d78 100%);
+  color: #fff;
+  font-weight: 700;
 }
 
 .panelHeader {
@@ -162,7 +325,121 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  margin-top: 18px;
   margin-bottom: 28px;
+}
+
+.workspaceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.workspaceBadgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.workspaceBadgeRow span,
+.stageBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(18, 52, 88, 0.08);
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.workspaceLower {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 24px;
+}
+
+.settingsRail {
+  display: grid;
+  gap: 18px;
+}
+
+.searchInput {
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(26, 58, 92, 0.12);
+  background: #f9fbff;
+}
+
+.listingBoard {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+.listingTile,
+.toggleRow,
+.billingMetric {
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f9fd 100%);
+  border: 1px solid rgba(26, 58, 92, 0.08);
+}
+
+.listingTile p,
+.tileMeta,
+.toggleRow span,
+.toggleRow strong,
+.billingMetric span {
+  color: var(--color-text-secondary);
+}
+
+.listingTile p {
+  margin: 10px 0;
+}
+
+.tileMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.settingsStack,
+.billingSummary {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+}
+
+.toggleRow strong,
+.billingMetric strong {
+  display: block;
+  color: var(--color-text-primary);
+}
+
+.toggleRow span {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.billingMetric strong {
+  margin-top: 10px;
+  font-size: 26px;
+  letter-spacing: -0.03em;
 }
 
 .formColumn {
@@ -230,6 +507,30 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
+}
+
+@media (max-width: 1180px) {
+  .hero,
+  .workspaceShell,
+  .workspaceLower,
+  .insightsGrid,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .metricStrip,
+  .workspaceHeader,
+  .commandCard {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metricStrip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .leadCard p {
@@ -330,6 +631,8 @@
 
 @media (max-width: 1024px) {
   .hero,
+  .workspaceShell,
+  .workspaceLower,
   .insightsGrid,
   .metricStrip,
   .grid {

@@ -1,8 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
+import { SiteFooter } from './components/SiteFooter';
 import { usePageMetadata } from './hooks/usePageMetadata';
 import { initializeAnalytics, trackPageView } from './utils/analytics';
+import { initializeSeoEnhancements } from './utils/seo';
 import { AdminPage } from './pages/AdminPage';
 import { ContactPage } from './pages/ContactPage';
 import { LandingPage } from './pages/LandingPage';
@@ -16,6 +18,7 @@ import './styles/globals.css';
 
 function AppRoutes() {
   const location = useLocation();
+  const isAppRoute = location.pathname === '/dashboard' || location.pathname === '/admin';
 
   usePageMetadata(location.pathname);
 
@@ -37,6 +40,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
+      {!isAppRoute ? <SiteFooter /> : null}
     </>
   );
 }
@@ -44,6 +48,7 @@ function AppRoutes() {
 function App() {
   React.useEffect(() => {
     initializeAnalytics();
+    initializeSeoEnhancements();
   }, []);
 
   return (

@@ -128,3 +128,126 @@ export interface AnalyticsOverview {
   topLandingPage: string;
   seoPriorities: string[];
 }
+
+export interface AuthSession {
+  authEnabled: boolean;
+  identityMode: string;
+  cognitoRegion: string;
+  userPoolId: string;
+  allowedFeatures: string[];
+}
+
+export interface ListingProject {
+  id: string;
+  title: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  price: string;
+  status: string;
+  tone: string;
+  updatedAt: string;
+  tags: string[];
+  channels: string[];
+}
+
+export interface GeneratedAssetItem {
+  id: string;
+  listingId: string;
+  assetType: string;
+  title: string;
+  content: string;
+  updatedAt: string;
+  isFavorite: boolean;
+}
+
+export interface WorkspaceSettings {
+  defaultTone: string;
+  teamPreset: string;
+  brandVoice: string;
+  autoSaveEnabled: boolean;
+  requireReview: boolean;
+  complianceMode: boolean;
+}
+
+export interface UserSummary {
+  id: string;
+  name: string;
+  email: string;
+  plan: string;
+  status: string;
+  teamName: string;
+  lastActiveAt: string;
+  generationCount: number;
+  monthlyUsage: number;
+}
+
+export interface AdminAnalytics {
+  totalUsers: number;
+  activeUsers: number;
+  trialUsers: number;
+  paidUsers: number;
+  totalGenerations: number;
+  totalLeads: number;
+  funnelSummary: string;
+  mrrPlaceholder: string;
+}
+
+export interface SupportTicket {
+  id: string;
+  type: string;
+  subject: string;
+  status: string;
+  priority: string;
+  owner: string;
+  createdAt: string;
+}
+
+export interface SubscriptionPlan {
+  id: string;
+  name: string;
+  monthlyPrice: number;
+  monthlyGenerationLimit: number;
+  teamSeats: number;
+  isFeatured: boolean;
+  ctaLabel: string;
+}
+
+export interface AuditEvent {
+  id: string;
+  actor: string;
+  action: string;
+  target: string;
+  createdAt: string;
+}
+
+export interface ContactSubmissionRequest {
+  name: string;
+  email: string;
+  team: string;
+  role: string;
+  message: string;
+}
+
+export interface ContactSubmissionResponse {
+  id: string;
+  status: string;
+  message: string;
+}
+
+export interface DemoRequest {
+  name: string;
+  email: string;
+  team: string;
+  interest: string;
+}
+
+export interface DemoExperience {
+  listingName: string;
+  address: string;
+  price: string;
+  beds: string;
+  baths: string;
+  heroImageUrl: string;
+  assets: GeneratedAssetItem[];
+}

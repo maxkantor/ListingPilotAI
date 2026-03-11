@@ -5,7 +5,7 @@ import styles from './PublicPage.module.css';
 const operatingLayers = [
   {
     title: 'Launch studio',
-    copy: 'Build a launch brief once and generate MLS copy, luxury narratives, social assets, and nurture email in one motion.',
+    copy: 'Build a launch brief once and generate MLS copy, luxury narratives, social assets, and nurture email in one controlled motion.',
     items: ['AI brief builder', 'Channel-aware copy', 'Approval-ready review'],
   },
   {
@@ -82,7 +82,7 @@ export const ProductPage: React.FC = () => {
           <div className={styles.sectionLabel}>Three layers</div>
           <h2 className={styles.sectionTitle}>Designed like a serious SaaS platform, not a single-purpose AI widget.</h2>
           <p className={styles.sectionText}>
-            Every surface is aligned around faster launches, better conversion, and cleaner operator visibility.
+            Every surface is aligned around faster launches, better conversion, and cleaner operator visibility — with low-cost serverless infrastructure underneath.
           </p>
           <div className={styles.grid3}>
             {operatingLayers.map((layer) => (

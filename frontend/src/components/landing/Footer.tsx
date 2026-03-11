@@ -15,6 +15,7 @@ export const Footer: React.FC = () => {
           <div className={styles.footerColumn}>
             <h4 className={styles.footerHeading}>Product</h4>
             <Link to="/product">Product</Link>
+            <a href="/#features">Features</a>
             <Link to="/pricing">Pricing</Link>
             <Link to="/demo">Demo</Link>
           </div>
