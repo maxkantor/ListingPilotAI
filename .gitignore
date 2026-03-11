@@ -1,0 +1,24 @@
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# .NET / backend
+backend/**/bin/
+backend/**/obj/
+
+# Terraform / IaC
+infrastructure/terraform/.terraform/
+infrastructure/terraform/*.tfstate
+infrastructure/terraform/*.tfstate.*
+infrastructure/terraform/.terraform.lock.hcl
+infrastructure/terraform/terraform.tfvars
+infrastructure/terraform/artifacts/
+infrastructure/terraform/tfplan
+infrastructure/terraform/tfplan.*
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+*.log

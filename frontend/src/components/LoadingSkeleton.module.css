@@ -1,0 +1,85 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--color-surface-alt);
+  border-bottom: 1px solid var(--color-border-light);
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pulse {
+  background: linear-gradient(90deg, #e8ecf0 25%, #f4f6f8 50%, #e8ecf0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+.circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.title {
+  height: 14px;
+  width: 140px;
+  margin-bottom: 6px;
+}
+
+.sub {
+  height: 11px;
+  width: 80px;
+}
+
+.btn {
+  height: 30px;
+  width: 70px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.line {
+  height: 12px;
+  width: 100%;
+}
+
+.line--short {
+  width: 65%;
+}
+
+.line--medium {
+  width: 82%;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
