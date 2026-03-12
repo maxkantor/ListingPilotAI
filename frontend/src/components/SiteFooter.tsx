@@ -32,7 +32,7 @@ export const SiteFooter: React.FC = () => {
             <div className={styles.mark}>LP</div>
             <div>
               <strong>ListingPilot AI</strong>
-              <p>Premium listing marketing, CRM-ready workflow, and lean serverless architecture for modern real estate teams.</p>
+              <p>Premium listing marketing platform for modern real estate teams.</p>
             </div>
           </div>
 

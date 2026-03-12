@@ -172,15 +172,29 @@ p {
    ============================================================ */
 
 .container {
-  max-width: 1240px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--space-8);
 }
 
 .container-wide {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 var(--space-8);
+}
+
+@media (max-width: 768px) {
+  .container,
+  .container-wide {
+    padding: 0 var(--space-6);
+  }
+}
+
+@media (max-width: 640px) {
+  .container,
+  .container-wide {
+    padding: 0 var(--space-5);
+  }
 }
 
 .sr-only {
