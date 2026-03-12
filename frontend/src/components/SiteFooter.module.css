@@ -1,6 +1,7 @@
 .footer {
-  padding: 24px 0 32px;
-  background: transparent;
+  padding: 48px 0 32px;
+  background: #f3f6fb;
+  border-top: 1px solid rgba(15, 29, 48, 0.08);
 }
 
 .inner {
@@ -10,11 +11,9 @@
   gap: 24px;
   padding: 24px;
   border-radius: 16px;
-  background: var(--card-surface);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: var(--card-border);
-  box-shadow: var(--card-shadow);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(15, 29, 48, 0.08);
+  box-shadow: 0 8px 20px rgba(12, 26, 44, 0.06);
 }
 
 .brandBlock {
@@ -43,19 +42,21 @@
 
 .brandBlock p {
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-text-secondary);
+  line-height: 1.7;
 }
 
 .columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(140px, 1fr));
-  gap: 24px;
+  gap: 32px;
 }
 
 .column {
   display: grid;
   gap: 8px;
+  align-content: start;
 }
 
 .column span {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { trackCta } from '../utils/analytics';
-import styles from './MarketingPage.module.css';
+import styles from './MarketingPremium.module.css';
 
 const heroFeatures = ['MLS-safe language', 'Multi-channel launch assets', 'No hallucinated facts', 'Built for real agents'];
 
@@ -40,7 +40,7 @@ export const LandingPage: React.FC = () => {
               </div>
               <div className={styles.chips}>{heroFeatures.map((item) => <span key={item}>{item}</span>)}</div>
             </div>
-            <div className={styles.surface}>
+            <div className={`${styles.surface} ${styles.primarySurface}`}>
               <div className={styles.panelHeader}><span>Product preview</span><span>Launch Studio</span></div>
               <div className={styles.twoColTight}>
                 <div className={styles.panelBlock}>
@@ -83,7 +83,7 @@ export const LandingPage: React.FC = () => {
                 <p>Atlanta, GA · $1,275,000 · 5 beds · 4.5 baths</p>
                 <div className={styles.chips}><span>Chef’s kitchen</span><span>Pool + terrace</span><span>Move-in ready</span></div>
               </div>
-              <div className={styles.surface}>
+              <div className={`${styles.surface} ${styles.primarySurface}`}>
                 <span className={styles.pillDark}>Generated outputs</span>
                 <div className={styles.tabs}>
                   <span className={styles.activeTab}>MLS Description</span>
@@ -165,7 +165,7 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      <section className={styles.sectionCompact}>
+      <section className={`${styles.sectionCompact} ${styles.ctaSection}`}>
         <div className={styles.container}>
           <div className={styles.ctaBand}>
             <span className={styles.sectionKicker}>Final CTA</span>

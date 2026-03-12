@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './MarketingPage.module.css';
+import styles from './MarketingPremium.module.css';
 
 const plans = [
   {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
 import type { DemoExperience } from '../types';
 import { trackCta, trackEvent } from '../utils/analytics';
-import styles from './MarketingPage.module.css';
+import styles from './MarketingPremium.module.css';
 
 export const DemoPage: React.FC = () => {
   const [demo, setDemo] = React.useState<DemoExperience | null>(null);

@@ -95,7 +95,7 @@
 
 .topbar {
   min-height: 80px;
-  border-bottom: var(--card-border);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding: 16px 32px;
   display: flex;
   align-items: center;
@@ -104,9 +104,9 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(10, 24, 43, 0.74);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(20, 25, 35, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .kicker {

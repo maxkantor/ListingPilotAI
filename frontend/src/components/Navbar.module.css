@@ -2,11 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(7, 14, 25, 0.82);
+  background: rgba(20, 25, 35, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(227, 236, 247, 0.12);
-  box-shadow: 0 12px 32px rgba(3, 10, 20, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 18px rgba(3, 10, 20, 0.14);
 }
 
 .navbar::after {
@@ -24,25 +24,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 72px;
+  min-height: 64px;
   gap: 16px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   text-decoration: none;
 }
 
 .brandIcon {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
+  border-radius: 12px;
   background: linear-gradient(180deg, rgba(79, 128, 184, 0.96) 0%, rgba(17, 41, 72, 1) 100%);
   color: #ffffff;
   font-size: 18px;
@@ -67,7 +67,7 @@
 }
 
 .brandName {
-  font-size: 1.12rem;
+  font-size: 1.02rem;
   font-weight: 600;
   color: #f4f8ff;
   letter-spacing: -0.02em;
@@ -95,14 +95,15 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
   justify-content: flex-end;
+  height: 64px;
 }
 
 .navLink {
-  padding: 10px 12px;
-  border-radius: 16px;
+  padding: 8px 10px;
+  border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   color: rgba(237, 244, 255, 0.9);
@@ -127,11 +128,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 10px 16px;
+  min-height: 44px;
+  padding: 0 16px;
   font-size: 13px;
   font-weight: 700;
-  border-radius: 16px;
+  border-radius: 12px;
   text-decoration: none;
   transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), color var(--transition-base), border-color var(--transition-base), filter var(--transition-base);
 }
@@ -171,8 +172,8 @@
 
 @media (max-width: 900px) {
   .inner {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 0;
+    padding-bottom: 0;
     align-items: flex-start;
     flex-direction: column;
   }
@@ -180,6 +181,7 @@
   .nav {
     width: 100%;
     justify-content: flex-start;
+    height: auto;
   }
 }
 

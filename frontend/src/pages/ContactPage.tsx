@@ -1,7 +1,7 @@
 import React from 'react';
 import { apiService } from '../services/api';
 import { trackCta, trackEvent } from '../utils/analytics';
-import styles from './MarketingPage.module.css';
+import styles from './MarketingPremium.module.css';
 
 export const ContactPage: React.FC = () => {
   const [form, setForm] = React.useState({
