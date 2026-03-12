@@ -95,6 +95,30 @@ variable "openai_api_key_parameter_name" {
   default     = "/listingpilot/dev/openai/api-key"
 }
 
+variable "storage_provider" {
+  description = "Active backend storage provider (memory or dynamodb)"
+  type        = string
+  default     = "dynamodb"
+}
+
+variable "cognito_user_pool_id" {
+  description = "Optional existing Cognito User Pool ID for JWT auth"
+  type        = string
+  default     = ""
+}
+
+variable "cognito_client_id" {
+  description = "Optional existing Cognito App Client ID for JWT auth"
+  type        = string
+  default     = ""
+}
+
+variable "cognito_region" {
+  description = "Optional Cognito region override; defaults to aws_region when empty"
+  type        = string
+  default     = ""
+}
+
 variable "dynamodb_table_name_override" {
   description = "Optional explicit DynamoDB table name"
   type        = string

@@ -6,6 +6,12 @@ public class AuthSessionDto
     public string IdentityMode { get; set; } = string.Empty;
     public string CognitoRegion { get; set; } = string.Empty;
     public string UserPoolId { get; set; } = string.Empty;
+    public string ClientId { get; set; } = string.Empty;
+    public bool IsAuthenticated { get; set; }
+    public string CurrentUserId { get; set; } = string.Empty;
+    public string CurrentUserEmail { get; set; } = string.Empty;
+    public string CurrentUserName { get; set; } = string.Empty;
+    public List<string> Groups { get; set; } = [];
     public List<string> AllowedFeatures { get; set; } = [];
 }
 

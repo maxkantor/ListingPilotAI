@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { MobileStickyCta } from './components/MobileStickyCta';
 import { Navbar } from './components/Navbar';
 import { SiteFooter } from './components/SiteFooter';
 import { usePageMetadata } from './hooks/usePageMetadata';
@@ -19,6 +20,7 @@ import './styles/globals.css';
 function AppRoutes() {
   const location = useLocation();
   const isAppRoute = location.pathname === '/dashboard' || location.pathname === '/admin';
+  const showStickyMobileCta = !isAppRoute && location.pathname !== '/privacy' && location.pathname !== '/terms';
 
   usePageMetadata(location.pathname);
 
@@ -40,6 +42,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
+      {showStickyMobileCta ? <MobileStickyCta /> : null}
       {!isAppRoute ? <SiteFooter /> : null}
     </>
   );

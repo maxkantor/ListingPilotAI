@@ -17,11 +17,20 @@ import type {
 import styles from './DashboardPage.module.css';
 
 const workspaceSections = [
-  { title: 'Generator', caption: 'Create listing assets' },
+  { title: 'Dashboard', caption: 'View launch metrics and active pipeline' },
+  { title: 'New Listing', caption: 'Create listing assets from a property brief' },
   { title: 'History', caption: 'Search saved launches' },
+  { title: 'Templates', caption: 'Manage reusable campaign frameworks' },
+  { title: 'Team', caption: 'Invite members and share workflows' },
   { title: 'Analytics', caption: 'Track conversion signals' },
   { title: 'Settings', caption: 'Control team defaults' },
   { title: 'Billing', caption: 'Monitor plan and credits' },
+];
+
+const sharedTemplates = [
+  { name: 'Luxury launch', detail: 'High-end residential campaigns with polished tone' },
+  { name: 'Open house push', detail: 'Fast social + email bundle for weekend traffic' },
+  { name: 'Price improvement relaunch', detail: 'Reactivation messaging for warm lead pools' },
 ];
 
 export const DashboardPage: React.FC = () => {
@@ -35,7 +44,7 @@ export const DashboardPage: React.FC = () => {
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
   const [session, setSession] = useState<AuthSession | null>(null);
   const [historyFilter, setHistoryFilter] = useState('');
-  const [selectedSection, setSelectedSection] = useState('Generator');
+  const [selectedSection, setSelectedSection] = useState('Dashboard');
 
   useEffect(() => {
     const load = async () => {
@@ -73,7 +82,7 @@ export const DashboardPage: React.FC = () => {
   };
 
   const handleRegenerate = () => {
-    setSelectedSection('Generator');
+    setSelectedSection('New Listing');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -301,6 +310,38 @@ export const DashboardPage: React.FC = () => {
                     <div className={styles.billingMetric}><span>Current plan</span><strong>{currentPlan?.name ?? 'Professional'}</strong></div>
                     <div className={styles.billingMetric}><span>Credits / month</span><strong>{currentPlan?.monthlyGenerationLimit ?? 200}</strong></div>
                     <div className={styles.billingMetric}><span>Seat capacity</span><strong>{currentPlan?.teamSeats ?? 3}</strong></div>
+                  </div>
+                </div>
+
+                <div className={styles.sidePanel}>
+                  <div className={styles.panelHeader}>
+                    <h2>Team & templates</h2>
+                    <span>{session?.authEnabled ? 'Live seats' : 'Preview mode'}</span>
+                  </div>
+                  <div className={styles.teamSummary}>
+                    <article className={styles.teamCard}>
+                      <strong>Team members</strong>
+                      <p>Invite admins and agents into one workspace with shared presets and governed output rules.</p>
+                      <div className={styles.memberStack}>
+                        <span>Admin · Brand + billing</span>
+                        <span>Agent · Generate + follow-up</span>
+                      </div>
+                    </article>
+
+                    <article className={styles.templateCard}>
+                      <strong>Shared templates</strong>
+                      <div className={styles.templateList}>
+                        {sharedTemplates.map((template) => (
+                          <div key={template.name} className={styles.templateRow}>
+                            <div>
+                              <strong>{template.name}</strong>
+                              <span>{template.detail}</span>
+                            </div>
+                            <em>Live</em>
+                          </div>
+                        ))}
+                      </div>
+                    </article>
                   </div>
                 </div>
               </div>

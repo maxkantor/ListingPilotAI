@@ -10,6 +10,13 @@ const proofItems = [
   'Built for modern agents and lean teams',
 ];
 
+const marqueeItems = [
+  'MLS safe output',
+  'No hallucinated facts',
+  'Multi channel marketing',
+  'Built for serious agents',
+];
+
 const workflow = [
   {
     step: '01',
@@ -126,10 +133,12 @@ export const LandingPage: React.FC = () => {
 
       <section className={styles.proofStrip}>
         <div className="container">
-          <div className={styles.proofStripInner}>
-            {proofItems.map((item) => (
-              <div key={item} className={styles.proofChip}>{item}</div>
-            ))}
+          <div className={styles.proofMarquee}>
+            <div className={styles.proofStripInner}>
+              {[...marqueeItems, ...marqueeItems].map((item, index) => (
+                <div key={`${item}-${index}`} className={styles.proofChip}>{item}</div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

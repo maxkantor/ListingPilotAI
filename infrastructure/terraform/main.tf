@@ -23,8 +23,13 @@ locals {
 
   common_env_vars = {
     ASPNETCORE_ENVIRONMENT        = title(var.environment)
+    Storage__Provider            = var.storage_provider
+    DynamoDb__TableName          = aws_dynamodb_table.generation_records.name
     GENERATION_TABLE_NAME         = aws_dynamodb_table.generation_records.name
     OPENAI_API_KEY_PARAMETER_NAME = var.openai_api_key_parameter_name
+    Auth__CognitoUserPoolId      = var.cognito_user_pool_id
+    Auth__CognitoClientId        = var.cognito_client_id
+    Auth__CognitoRegion          = var.cognito_region != "" ? var.cognito_region : var.aws_region
   }
 }
 
@@ -111,6 +116,7 @@ resource "aws_iam_policy" "lambda_data_access" {
         Sid    = "DynamoDbAccess"
         Effect = "Allow"
         Action = [
+          "dynamodb:BatchWriteItem",
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:UpdateItem",

@@ -12,10 +12,11 @@
   position: relative;
   outline: none;
   text-decoration: none;
+  overflow: hidden;
 }
 
 .btn:focus-visible {
-  box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.3);
+  box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
 }
 
 .btn:disabled {
@@ -48,15 +49,15 @@
 
 /* Variants */
 .btn--primary {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, #245996 0%, #1f4f84 55%, #163a61 100%);
   color: var(--color-text-inverse);
-  box-shadow: 0 1px 3px rgba(26, 58, 92, 0.3);
+  box-shadow: 0 16px 34px rgba(26, 58, 92, 0.2), 0 0 0 1px rgba(221, 236, 255, 0.08) inset;
 }
 
 .btn--primary:hover:not(:disabled) {
-  background: var(--color-primary-light);
+  background: linear-gradient(135deg, #2d6cae 0%, #245996 55%, #183f69 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(26, 58, 92, 0.25);
+  box-shadow: 0 20px 40px rgba(26, 58, 92, 0.24), 0 0 24px rgba(67, 117, 180, 0.18);
 }
 
 .btn--primary:active:not(:disabled) {
@@ -65,16 +66,17 @@
 }
 
 .btn--secondary {
-  background: var(--color-surface);
+  background: linear-gradient(180deg, var(--color-surface-elevated) 0%, var(--color-surface) 100%);
   color: var(--color-text-primary);
   border: 1.5px solid var(--color-border);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn--secondary:hover:not(:disabled) {
-  background: var(--color-surface-alt);
+  background: linear-gradient(180deg, #ffffff 0%, var(--color-surface-alt) 100%);
   border-color: #c5cdd8;
   transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn--ghost {
@@ -89,15 +91,15 @@
 }
 
 .btn--accent {
-  background: var(--color-accent);
+  background: linear-gradient(135deg, #efcf85 0%, #d8b267 55%, #b98c39 100%);
   color: var(--color-text-inverse);
-  box-shadow: 0 1px 3px rgba(201, 168, 76, 0.4);
+  box-shadow: 0 16px 34px rgba(201, 168, 76, 0.22), 0 0 0 1px rgba(255, 239, 199, 0.12) inset;
 }
 
 .btn--accent:hover:not(:disabled) {
-  background: var(--color-accent-light);
+  background: linear-gradient(135deg, #f4d895 0%, #e0bc75 55%, #c59542 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(201, 168, 76, 0.3);
+  box-shadow: 0 20px 40px rgba(201, 168, 76, 0.26), 0 0 22px rgba(233, 201, 133, 0.22);
 }
 
 .btn--danger {

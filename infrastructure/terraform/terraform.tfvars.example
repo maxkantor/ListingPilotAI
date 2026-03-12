@@ -30,6 +30,12 @@ ssm_secure_parameters = {
 }
 
 openai_api_key_parameter_name = "/listingpilot/dev/openai/api-key"
+storage_provider             = "dynamodb"
+
+# Optional Cognito JWT auth inputs
+# cognito_user_pool_id = "us-east-1_example"
+# cognito_client_id    = "exampleclientid"
+# cognito_region       = "us-east-1"
 
 # Frontend hosting with S3 + CloudFront
 create_frontend_bucket = true

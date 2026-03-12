@@ -2,17 +2,29 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(8, 16, 29, 0.72);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 15, 25, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 14px 40px rgba(3, 10, 20, 0.18);
+}
+
+.navbar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(236, 244, 255, 0.18), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }
 
 .inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 78px;
+  min-height: 80px;
   gap: 20px;
 }
 
@@ -83,23 +95,26 @@
 .nav {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
 .navLink {
-  padding: 10px 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
   font-size: 0.96rem;
   font-weight: 600;
-  color: rgba(228, 238, 251, 0.82);
+  color: rgba(237, 244, 255, 0.9);
   text-decoration: none;
-  transition: color var(--transition-fast), transform var(--transition-fast);
+  transition: color var(--transition-fast), transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .navLink:hover {
   color: #ffffff;
   transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .secondaryCta,
@@ -107,36 +122,46 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-height: 42px;
   padding: 10px 16px;
   font-size: 0.9rem;
   font-weight: 700;
   border-radius: 12px;
   text-decoration: none;
-  transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), color var(--transition-base), border-color var(--transition-base), filter var(--transition-base);
 }
 
 .secondaryCta {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   color: #f3f7ff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .secondaryCta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 28px rgba(4, 13, 26, 0.28);
+  box-shadow: 0 16px 28px rgba(4, 13, 26, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   color: #ffffff;
 }
 
 .primaryCta {
-  background: linear-gradient(135deg, #e8c77b 0%, #c79f49 100%);
+  background: linear-gradient(135deg, #efcf85 0%, #c79f49 52%, #b88934 100%);
   color: #fff;
-  box-shadow: 0 14px 30px rgba(199, 159, 73, 0.28);
+  box-shadow: 0 16px 34px rgba(199, 159, 73, 0.3), 0 0 0 1px rgba(255, 229, 175, 0.12) inset;
 }
 
 .primaryCta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 34px rgba(199, 159, 73, 0.34);
+  filter: saturate(1.05);
+  box-shadow: 0 20px 38px rgba(199, 159, 73, 0.36), 0 0 28px rgba(231, 196, 115, 0.22);
   color: #fff;
+}
+
+.navLink:focus-visible,
+.secondaryCta:focus-visible,
+.primaryCta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(214, 232, 255, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.28) inset;
 }
 
 @media (max-width: 900px) {
