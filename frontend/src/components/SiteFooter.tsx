@@ -17,6 +17,7 @@ const footerColumns = [
   {
     title: 'Company',
     links: [
+      { label: 'Platform', to: '/platform' },
       { label: 'Contact', to: '/contact' },
       { label: 'Workspace', to: '/workspace' },
       { label: 'Privacy', to: '/privacy' },
@@ -25,7 +26,11 @@ const footerColumns = [
   },
 ];
 
-export const SiteFooter: React.FC = () => {
+interface SiteFooterProps {
+  legalLine?: string;
+}
+
+export const SiteFooter: React.FC<SiteFooterProps> = ({ legalLine }) => {
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -38,19 +43,18 @@ export const SiteFooter: React.FC = () => {
             </div>
           </div>
 
-          <div className={styles.columns}>
-            {footerColumns.map((column) => (
-              <div key={column.title} className={styles.column}>
-                <span>{column.title}</span>
-                {column.links.map((link) => (
-                  <Link key={link.label} to={link.to} onClick={() => trackCta(`footer_${link.label.toLowerCase()}`, link.to)}>
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            ))}
-          </div>
+          {footerColumns.map((column) => (
+            <div key={column.title} className={styles.column}>
+              <span>{column.title}</span>
+              {column.links.map((link) => (
+                <Link key={link.label} to={link.to} onClick={() => trackCta(`footer_${link.label.toLowerCase()}`, link.to)}>
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          ))}
         </div>
+        {legalLine ? <p className={styles.legal}>{legalLine}</p> : null}
       </div>
     </footer>
   );

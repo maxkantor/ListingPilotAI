@@ -18,6 +18,7 @@ import { ListingsPage } from './pages/ListingsPage';
 import { PricingPage } from './pages/PricingPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { ProductPage } from './pages/ProductPage';
+import { PlatformPage } from './pages/PlatformPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { TermsPage } from './pages/TermsPage';
 import { WorkspacePage } from './pages/WorkspacePage';
@@ -58,6 +59,8 @@ function AppRoutes() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
       </Route>
+
+      <Route path="/platform" element={<PlatformPage />} />
 
       <Route element={<AppShell />}>
         <Route path="/workspace" element={<WorkspacePage />} />

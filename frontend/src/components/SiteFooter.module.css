@@ -1,36 +1,32 @@
 .footer {
-  padding: 48px 0 32px;
-  background: #f3f6fb;
-  border-top: 1px solid rgba(15, 29, 48, 0.08);
+  padding: 28px 0 18px;
+  background: #eef2f6;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(260px, 1.3fr) minmax(120px, auto) minmax(120px, auto);
   align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 24px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(15, 29, 48, 0.08);
-  box-shadow: 0 8px 20px rgba(12, 26, 44, 0.06);
+  gap: 28px;
 }
 
 .brandBlock {
   display: flex;
-  gap: 16px;
-  max-width: 420px;
+  gap: 12px;
+  max-width: 360px;
 }
 
 .mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
   background: linear-gradient(135deg, #2a65a5 0%, #0d2139 100%);
   color: #fff;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: -0.06em;
 }
@@ -40,46 +36,57 @@
   color: var(--color-text-primary);
 }
 
-.brandBlock p {
-  margin-top: 8px;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
+.brandBlock strong {
+  font-size: 14px;
+  letter-spacing: -0.01em;
 }
 
-.columns {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(140px, 1fr));
-  gap: 32px;
+.brandBlock p {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 32ch;
 }
 
 .column {
   display: grid;
-  gap: 8px;
+  gap: 6px;
   align-content: start;
 }
 
 .column span {
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-size: 11px;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
 .column a {
+  font-size: 12px;
   color: var(--color-text-secondary);
+  line-height: 1.35;
+  transition: color 140ms ease;
 }
 
 .column a:hover {
-  color: var(--color-text-primary);
+  color: var(--color-primary);
+}
+
+.legal {
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
 }
 
 @media (max-width: 900px) {
   .inner {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .columns {
-    width: 100%;
+  .legal {
+    margin-top: 12px;
   }
 }
