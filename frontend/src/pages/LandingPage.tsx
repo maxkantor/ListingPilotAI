@@ -14,55 +14,55 @@ const workflow = [
   {
     step: '01',
     title: 'Enter property brief',
-    copy: 'Capture address, price, features.',
+    copy: 'Capture address, price, and features in one clean form.',
   },
   {
     step: '02',
     title: 'Generate marketing assets',
-    copy: 'MLS copy, Instagram captions, emails.',
+    copy: 'Create MLS copy, Instagram captions, and email campaigns instantly.',
   },
   {
     step: '03',
     title: 'Publish and export',
-    copy: 'Copy, export, and launch listings.',
+    copy: 'Copy, export, and launch listings without extra cleanup loops.',
   },
 ];
 
 const benefits = [
   {
     title: 'Fast listing launches',
-    copy: 'Turn one brief into launch-ready copy without reworking each channel by hand.',
+    copy: 'Move from listing brief to launch-ready marketing in one short workflow.',
   },
   {
     title: 'MLS-safe language',
-    copy: 'Keep outputs grounded, polished, and easier to review before publishing.',
+    copy: 'Keep output polished, grounded, and easier to review before publishing.',
   },
   {
     title: 'Multi-channel marketing',
-    copy: 'Generate MLS descriptions, social captions, and email campaigns from the same source of truth.',
+    copy: 'Generate MLS descriptions, social posts, and email campaigns from one source of truth.',
   },
   {
     title: 'Reusable listing history',
-    copy: 'Keep winning outputs close so agents can relaunch faster and reuse proven messaging.',
+    copy: 'Keep strong launches close so agents can reuse and relaunch faster.',
   },
 ];
 
 const depthFeatures = [
   {
     title: 'User roles',
-    copy: 'Separate agent, admin, and team workflows without cluttering the core experience.',
+    copy: 'Give agents and admins the right level of access without adding product friction.',
   },
   {
     title: 'Lead tracking',
-    copy: 'Route listing responses into a lightweight CRM view with clear ownership and follow-up.',
+    copy: 'Capture warm inbound interest and keep owners, stages, and follow-through visible.',
   },
   {
     title: 'Audit history',
-    copy: 'Keep a visible record of listing activity, edits, and review decisions for lean teams.',
+    copy: 'Keep a clean record of listing activity, edits, and operational decisions.',
   },
   {
     title: 'Plan controls',
-    copy: 'Manage seats, limits, and rollout settings with a back office that feels calm and simple.',
+    copy: 'Manage seats, usage, and rollout settings in a way that feels calm and lightweight.',
   },
 ];
 
@@ -102,10 +102,11 @@ export const LandingPage: React.FC = () => {
             </div>
 
             <div className={styles.heroVisualWrap}>
+              <div className={styles.heroGlow} />
               <div className={styles.heroVisual}>
                 <div className={styles.previewTopBar}>
                   <span className={styles.previewPill}>Launch Studio</span>
-                  <span className={styles.previewMeta}>Calm workflow · high-trust output</span>
+                  <span className={styles.previewMeta}>MLS-safe output mode</span>
                 </div>
 
                 <div className={styles.previewLayout}>
@@ -123,20 +124,20 @@ export const LandingPage: React.FC = () => {
                   <div className={styles.previewOutputStack}>
                     <article className={styles.previewCardPrimary}>
                       <div>
-                        <span>Publish-ready output</span>
-                        <strong>MLS, social, and email from one brief</strong>
+                        <span>MLS Description</span>
+                        <strong>Ready to publish</strong>
                       </div>
                       <p>
-                        Refined Buckhead living with statement entertaining spaces, a light-filled plan, and a primary suite designed for calm, elevated everyday living.
+                        Refined Buckhead living with statement entertaining spaces, a light-filled open plan, and a primary suite designed for calm, elevated everyday living.
                       </p>
                     </article>
                     <article className={styles.previewCardSecondary}>
-                      <span>Saved history</span>
-                      <p>Keep winning listing launches close so agents can relaunch without starting from zero.</p>
+                      <span>Instagram Caption</span>
+                      <p>Buckhead luxury, layered natural light, and a backyard made for private showings that turn into offers. ✨</p>
                     </article>
                     <article className={styles.previewCardSecondary}>
-                      <span>Team controls</span>
-                      <p>Favorites, exports, review flow, and role-based back office controls stay close but unobtrusive.</p>
+                      <span>Email Campaign</span>
+                      <p>New to market: executive-scale Atlanta living with premium finishes, show-ready outdoor space, and strong buyer appeal.</p>
                     </article>
                   </div>
                 </div>
@@ -150,23 +151,23 @@ export const LandingPage: React.FC = () => {
         <div className="container">
           <div className={styles.sectionIntroCompact}>
             <span className={styles.sectionKicker}>Product demo</span>
-            <h2>See the product before the pitch.</h2>
-            <p>A tighter, product-first workspace that shows agents exactly how ListingPilot turns one listing brief into launch-ready output.</p>
+            <h2>The product is the pitch.</h2>
+            <p>Show the listing brief, the generated assets, and the speed benefit immediately — without hiding the real workflow below the fold.</p>
           </div>
 
           <div className={styles.demoGrid}>
-            <article className={styles.propertyShowcase}>
+            <div className={styles.propertyShowcase}>
               <div className={styles.propertyMedia} />
               <div className={styles.propertyMeta}>
                 <strong>4812 Wieuca Road NE</strong>
                 <span>Atlanta, GA · $1,275,000 · 5 beds · 4.5 baths</span>
               </div>
-              <div className={styles.propertySpecs}>
+              <div className={styles.propertyTags}>
                 <span>Chef’s kitchen</span>
                 <span>Pool + terrace</span>
                 <span>Move-in ready</span>
               </div>
-            </article>
+            </div>
 
             <div className={styles.outputShowcase}>
               <div className={styles.tabRow}>
@@ -174,7 +175,6 @@ export const LandingPage: React.FC = () => {
                 <span>Instagram Caption</span>
                 <span>Email Campaign</span>
               </div>
-
               <div className={styles.outputPanel}>
                 <p>
                   Elegant Buckhead residence with a chef’s kitchen, open-concept living spaces, a spa-caliber primary suite, and a backyard designed for memorable entertaining.
@@ -185,15 +185,14 @@ export const LandingPage: React.FC = () => {
                   <button type="button">Export</button>
                 </div>
               </div>
-
               <div className={styles.whyWinsGrid}>
                 <article>
                   <strong>30–60 minutes saved</strong>
-                  <p>Per listing launch compared with writing each asset manually.</p>
+                  <p>Per listing launch compared with writing channel copy manually.</p>
                 </article>
                 <article>
                   <strong>Fewer rewrites</strong>
-                  <p>Sharper first drafts mean less cleanup before agents publish.</p>
+                  <p>Generate faster first drafts with less cleanup before publishing.</p>
                 </article>
               </div>
             </div>
@@ -203,14 +202,14 @@ export const LandingPage: React.FC = () => {
 
       <section className={styles.section} id="features">
         <div className="container">
-          <div className={styles.sectionIntroCompact}>
+          <div className={styles.sectionIntro}>
             <span className={styles.sectionKicker}>How it works</span>
-            <h2>From brief to publish in three tight steps.</h2>
+            <h2>Three compact steps from brief to publish.</h2>
           </div>
           <div className={styles.workflowRail}>
             {workflow.map((item) => (
               <article key={item.step} className={styles.workflowCard}>
-                <span className={styles.workflowStep}>{item.step}</span>
+                <span>{item.step}</span>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
               </article>
@@ -223,7 +222,7 @@ export const LandingPage: React.FC = () => {
         <div className="container">
           <div className={styles.sectionIntro}>
             <span className={styles.sectionKicker}>Benefits</span>
-            <h2>Real product value, not filler messaging.</h2>
+            <h2>Real product value for modern real estate teams.</h2>
           </div>
           <div className={styles.benefitGrid}>
             {benefits.map((benefit) => (
@@ -239,19 +238,14 @@ export const LandingPage: React.FC = () => {
       <section className={styles.section}>
         <div className="container">
           <div className={styles.depthGrid}>
-            <div className={styles.depthCopy}>
+            <div className={styles.sectionIntroCompact}>
               <span className={styles.sectionKicker}>Product depth</span>
-              <h2>Built for serious agents and lean teams</h2>
-              <p>
-                ListingPilot is not just a copy generator. It gives small teams a composed operational layer for shipping listing campaigns, keeping history close, and coordinating follow-through.
-              </p>
-              <p>
-                The product stays product-first: generate assets fast, keep roles clear, and support launches with lightweight CRM and admin controls that feel calm rather than enterprise-heavy.
-              </p>
+              <h2>Built for serious agents and lean teams.</h2>
+              <p>ListingPilot goes beyond generation with a tight operational layer for saved history, team coordination, and lightweight back-office control.</p>
             </div>
             <div className={styles.depthFeatureGrid}>
               {depthFeatures.map((feature) => (
-                <article key={feature.title} className={styles.depthFeatureCard}>
+                <article key={feature.title} className={styles.depthCard}>
                   <h3>{feature.title}</h3>
                   <p>{feature.copy}</p>
                 </article>
@@ -265,12 +259,12 @@ export const LandingPage: React.FC = () => {
         <div className="container">
           <div className={styles.sectionIntro}>
             <span className={styles.sectionKicker}>Pricing</span>
-            <h2>Simple plans for agents and teams.</h2>
+            <h2>Simple plans. Premium positioning.</h2>
           </div>
           <div className={styles.pricingGrid}>
             {pricing.map((plan) => (
               <article key={plan.name} className={`${styles.pricingCard} ${plan.featured ? styles.pricingCardFeatured : ''}`}>
-                <span className={styles.pricingLabel}>{plan.name}</span>
+                <span>{plan.name}</span>
                 <h3>{plan.price}<small>{plan.price === '$0' ? '' : ' / month'}</small></h3>
                 <p>{plan.note}</p>
                 <Link to={plan.name === 'Agency' ? '/contact' : '/dashboard'} className={styles.cardCta} onClick={() => trackCta(`pricing_${plan.name.toLowerCase()}`, plan.name === 'Agency' ? '/contact' : '/dashboard')}>
@@ -288,7 +282,7 @@ export const LandingPage: React.FC = () => {
             <div>
               <span className={styles.sectionKicker}>Launch faster</span>
               <h2>Launch listing marketing like a premium AI company.</h2>
-              <p>Start free or book a demo to see how ListingPilot helps serious agents ship polished listing launches faster.</p>
+              <p>Start free or book a demo to see the product in a realistic listing workflow.</p>
             </div>
             <div className={styles.ctaRow}>
               <Link to="/dashboard" className={styles.primaryCta} onClick={() => trackCta('final_start_free', '/dashboard')}>Start free</Link>
