@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './PublicPage.module.css';
+import styles from './MarketingPage.module.css';
 
 const operatingLayers = [
   {
@@ -31,68 +31,56 @@ export const ProductPage: React.FC = () => {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <div className={styles.heroInner}>
+        <div className={styles.container}>
+          <div className={styles.twoCol}>
           <div>
-            <div className={styles.eyebrow}>Product operating system</div>
-            <h1 className={styles.heroTitle}>The premium growth layer for modern real estate teams.</h1>
-            <p className={styles.heroText}>
+            <div className={styles.kicker}>Product operating model</div>
+            <h1 className={styles.title}>The software system behind every listing launch.</h1>
+            <p className={styles.lead}>
               ListingPilot AI turns one property brief into a full launch engine: positioning,
               copy generation, CRM follow-up, and visibility into what is actually moving buyers.
             </p>
-            <div className={styles.ctaRow}>
-              <Link to="/dashboard" className={styles.buttonPrimary}>Open workspace</Link>
-              <Link to="/demo" className={styles.buttonSecondary}>See sample launch</Link>
+            <div className={styles.buttonRow}>
+              <Link to="/workspace" className={styles.primaryBtn}>Open workspace</Link>
+              <Link to="/demo" className={styles.secondaryBtn}>See sample launch</Link>
             </div>
-            <div className={styles.heroMeta}>
-              <span>Built for solo agents, luxury teams, and brokerages</span>
-              <span>MLS-safe prompts and review flows</span>
-              <span>Admin + CRM ready</span>
+            <div className={styles.chips}>
+              <span>Built for solo agents and teams</span>
+              <span>MLS-safe review flows</span>
+              <span>CRM and admin ready</span>
             </div>
           </div>
 
-          <div className={styles.heroPanel}>
-            <div className={styles.panelHeader}>
-              <span className={styles.panelTitle}>Platform snapshot</span>
-              <span>Updated live</span>
-            </div>
-            <div className={styles.statGrid}>
-              <div className={styles.statCard}>
-                <div className={styles.statLabel}>Time to launch</div>
-                <div className={styles.statValue}>42 sec</div>
-              </div>
-              <div className={styles.statCard}>
-                <div className={styles.statLabel}>Agent adoption</div>
-                <div className={styles.statValue}>61%</div>
-              </div>
-              <div className={styles.statCard}>
-                <div className={styles.statLabel}>Lead lift</div>
-                <div className={styles.statValue}>+18%</div>
-              </div>
-              <div className={styles.statCard}>
-                <div className={styles.statLabel}>Outputs per listing</div>
-                <div className={styles.statValue}>6+</div>
-              </div>
+          <div className={styles.surface}>
+            <div className={styles.grid4}>
+              <article className={styles.stat}><h3>42 sec</h3><p>Time to launch</p></article>
+              <article className={styles.stat}><h3>61%</h3><p>Agent adoption</p></article>
+              <article className={styles.stat}><h3>+18%</h3><p>Lead lift</p></article>
+              <article className={styles.stat}><h3>6+</h3><p>Outputs per listing</p></article>
             </div>
           </div>
         </div>
+        </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionLabel}>Three layers</div>
-          <h2 className={styles.sectionTitle}>Designed like a serious SaaS platform, not a single-purpose AI widget.</h2>
-          <p className={styles.sectionText}>
+      <section className={styles.sectionCompact}>
+        <div className={styles.container}>
+          <div className={styles.sectionIntro}>
+            <div className={styles.sectionKicker}>Three layers</div>
+            <h2 className={styles.sectionTitle}>Designed like software, not a one-off AI widget.</h2>
+            <p className={styles.sectionBody}>
             Every surface is aligned around faster launches, better conversion, and cleaner operator visibility — with low-cost serverless infrastructure underneath.
           </p>
-          <div className={styles.grid3}>
+          </div>
+          <div className={styles.productPanels}>
             {operatingLayers.map((layer) => (
-              <article key={layer.title} className={styles.card}>
-                <div className={styles.kicker}>{layer.title}</div>
+              <article key={layer.title} className={styles.panelBlock}>
+                <div className={styles.pillDark}>{layer.title}</div>
                 <h3>{layer.title}</h3>
                 <p>{layer.copy}</p>
-                <ul className={styles.list}>
+                <ul>
                   {layer.items.map((item) => (
-                    <li key={item}><span>✦</span><span>{item}</span></li>
+                    <li key={item}>{item}</li>
                   ))}
                 </ul>
               </article>
@@ -101,27 +89,36 @@ export const ProductPage: React.FC = () => {
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionLabel}>What teams unlock</div>
-          <h2 className={styles.sectionTitle}>One workspace for strategy, production, and follow-through.</h2>
-          <div className={styles.grid2}>
-            <div className={styles.featureRail}>
-              <h3>Core capabilities</h3>
-              <ul className={styles.list}>
-                {featureRails.map((item) => (
-                  <li key={item}><span>✓</span><span>{item}</span></li>
-                ))}
-              </ul>
+      <section className={styles.sectionCompact}>
+        <div className={styles.container}>
+          <div className={styles.sectionIntro}>
+            <div className={styles.sectionKicker}>What teams unlock</div>
+            <h2 className={styles.sectionTitle}>One workspace for strategy, production, and follow-through.</h2>
+          </div>
+          <div className={styles.workflowShell}>
+            <div className={styles.twoCol}>
+              <div className={styles.surface}>
+                <h3>Core capabilities</h3>
+                <ul>
+                  {featureRails.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className={`${styles.surface} ${styles.pricingCardFeatured}`}>
+                <div className={styles.sectionKicker}>Enterprise signal</div>
+                <h3>Know where conversion is rising — and where your team is leaking momentum.</h3>
+                <p>
+                  ListingPilot AI surfaces top channels, launch bottlenecks, agent utilization, and lead stages so managers can coach faster.
+                </p>
+                <h3>$3.8M</h3>
+                <p>Pipeline value currently influenced by active ListingPilot-generated campaigns.</p>
+              </div>
             </div>
-            <div className={styles.highlightCard}>
-              <div className={styles.kicker}>Enterprise signal</div>
-              <h3>Know where conversion is rising — and where your team is leaking momentum.</h3>
-              <p>
-                ListingPilot AI surfaces top channels, launch bottlenecks, agent utilization, and lead stages so managers can coach faster.
-              </p>
-              <div className={styles.bigMetric}>$3.8M</div>
-              <p>Pipeline value currently influenced by active ListingPilot-generated campaigns.</p>
+            <div className={styles.proofRow}>
+              <article className={styles.proofCard}><h3>42 sec</h3><p>Time to launch</p></article>
+              <article className={styles.proofCard}><h3>61%</h3><p>Agent adoption</p></article>
+              <article className={styles.proofCard}><h3>+18%</h3><p>Lead lift</p></article>
             </div>
           </div>
         </div>

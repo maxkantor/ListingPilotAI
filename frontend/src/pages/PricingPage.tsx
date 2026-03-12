@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './PublicPage.module.css';
+import styles from './MarketingPage.module.css';
 
 const plans = [
   {
@@ -25,79 +25,93 @@ const plans = [
 ];
 
 const comparison = [
-  ['Launch-ready marketing assets', 'Yes', 'Yes'],
-  ['Performance dashboards', 'Basic', 'Advanced'],
-  ['Admin portal', 'No', 'Yes'],
-  ['Lead tracking', 'Basic', 'Advanced'],
+  ['Launch-ready assets', 'Included', 'Included', 'Included'],
+  ['Performance dashboards', 'Basic', 'Advanced', 'Advanced'],
+  ['Admin portal', '—', 'Optional', 'Included'],
+  ['Lead tracking + CRM', 'Basic', 'Advanced', 'Advanced'],
 ];
 
 export const PricingPage: React.FC = () => {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <div className={styles.heroInner}>
+        <div className={styles.container}>
+          <div className={styles.intro}>
           <div>
-            <div className={styles.eyebrow}>Pricing</div>
-            <h1 className={styles.heroTitle}>Simple pricing for agents. Premium controls for teams.</h1>
-            <p className={styles.heroText}>
+            <div className={styles.kicker}>Pricing</div>
+            <h1 className={styles.title}>Simple pricing for agents. Premium controls for teams.</h1>
+            <p className={styles.lead}>
               Start with polished launches, then grow into a revenue operating system with CRM visibility, usage management, and a business-grade back office.
             </p>
-            <div className={styles.ctaRow}>
-              <Link to="/dashboard" className={styles.buttonPrimary}>Start trial</Link>
-              <Link to="/contact" className={styles.buttonSecondary}>Talk sales</Link>
+            <div className={styles.buttonRow}>
+              <Link to="/workspace" className={styles.primaryBtn}>Start trial</Link>
+              <Link to="/contact" className={styles.secondaryBtn}>Talk sales</Link>
             </div>
           </div>
-          <div className={`${styles.heroPanel} ${styles.highlight}`}>
-            <div className={styles.kicker}>Most teams choose Professional</div>
-            <div className={styles.price}>$79 <span>/ month</span></div>
-            <p>
-              The best fit for serious agents who want consistent launches, better follow-up, and visibility into what converts.
-            </p>
-            <ul className={styles.list}>
-              <li><span>✓</span><span>200 monthly generations and campaign remixes</span></li>
-              <li><span>✓</span><span>Workspace insights and lead tracking</span></li>
-              <li><span>✓</span><span>Priority support and onboarding help</span></li>
-            </ul>
-          </div>
+        </div>
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.pricingGrid}>
+      <section className={styles.sectionCompact}>
+        <div className={styles.container}>
+          <div className={styles.pricingRow}>
             {plans.map((plan) => (
-              <article key={plan.name} className={`${styles.pricingCard} ${plan.highlight ? styles.highlight : ''}`}>
-                <div className={styles.kicker}>{plan.name}</div>
-                <div className={styles.price}>{plan.price} {plan.price !== 'Custom' && <span>/ month</span>}</div>
+              <article key={plan.name} className={`${styles.pricingCard} ${plan.highlight ? styles.featuredPlan : ''}`}>
+                {plan.highlight ? <span className={styles.planBadge}>Most popular</span> : null}
+                <h3>{plan.name}</h3>
+                <p>{plan.price} / month</p>
                 <p>{plan.subtitle}</p>
-                <ul className={styles.list}>
+                <ul>
                   {plan.features.map((feature) => (
-                    <li key={feature}><span>✦</span><span>{feature}</span></li>
+                    <li key={feature}>{feature}</li>
                   ))}
                 </ul>
+                <div className={styles.buttonRow}>
+                  <Link to={plan.name === 'Agency' ? '/contact' : '/workspace'} className={plan.highlight ? styles.primaryBtn : styles.ghostBtn}>
+                    {plan.name === 'Agency' ? 'Talk sales' : 'Start free trial'}
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionInner}>
-          <div className={styles.sectionLabel}>Plan comparison</div>
-          <h2 className={styles.sectionTitle}>Scale from launch automation to team-level operating visibility.</h2>
-          <div className={styles.compareTable}>
-            <div className={styles.compareRow}>
+      <section className={styles.sectionCompact}>
+        <div className={styles.container}>
+          <div className={styles.intro}>
+            <div className={styles.kicker}>Plan comparison</div>
+            <h2 className={styles.sectionTitle}>Scale from launch automation to team-level visibility.</h2>
+          </div>
+          <div className={styles.table}>
+            <div className={styles.tableRow}>
               <strong>Capability</strong>
               <strong>Free</strong>
-              <strong>Professional / Agency</strong>
+              <strong>Professional</strong>
+              <strong>Agency</strong>
             </div>
-            {comparison.map(([label, starter, pro]) => (
-              <div key={label} className={styles.compareRow}>
+            {comparison.map(([label, free, pro, agency]) => (
+              <div key={label} className={styles.tableRow}>
                 <span>{label}</span>
-                <span>{starter}</span>
+                <span>{free}</span>
                 <span>{pro}</span>
+                <span>{agency}</span>
               </div>
             ))}
+          </div>
+
+          <div className={styles.grid3}>
+            <article className={styles.faqItem}><h3>Can I switch plans anytime?</h3><p>Yes. Upgrade or downgrade at any time with usage visibility built in.</p></article>
+            <article className={styles.faqItem}><h3>Is there brokerage onboarding?</h3><p>Agency includes rollout support and admin setup for multi-agent teams.</p></article>
+            <article className={styles.faqItem}><h3>Do you support MLS-safe output?</h3><p>Yes. Compliance-aware controls are built into generation and review flow.</p></article>
+          </div>
+
+          <div className={styles.ctaBand}>
+            <h2 className={styles.sectionTitle}>Start free, then scale with confidence.</h2>
+            <div className={styles.buttonRow}>
+              <Link to="/workspace" className={styles.primaryBtn}>Start free trial</Link>
+              <Link to="/contact" className={styles.ghostBtn}>Talk to sales</Link>
+            </div>
           </div>
         </div>
       </section>

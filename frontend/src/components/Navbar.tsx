@@ -1,12 +1,9 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { trackCta } from '../utils/analytics';
 import styles from './Navbar.module.css';
 
 export const Navbar: React.FC = () => {
-  const location = useLocation();
-  const isAppRoute = location.pathname === '/dashboard' || location.pathname === '/admin';
-
   return (
     <header className={styles.navbar}>
       <div className={`container ${styles.inner}`}>
@@ -22,28 +19,17 @@ export const Navbar: React.FC = () => {
         </Link>
 
         <nav className={styles.nav}>
-          {!isAppRoute && (
-            <>
-              <Link to="/product" className={styles.navLink}>Product</Link>
-              <a href="/#features" className={styles.navLink}>Features</a>
-              <Link to="/pricing" className={styles.navLink}>Pricing</Link>
-              <Link to="/demo" className={styles.navLink}>Demo</Link>
-              <Link to="/contact" className={styles.navLink}>Contact</Link>
-              <Link to="/dashboard" className={styles.secondaryCta} onClick={() => trackCta('nav_login', '/dashboard')}>
-                Login
-              </Link>
-              <Link to="/dashboard" className={styles.primaryCta} onClick={() => trackCta('nav_start_trial', '/dashboard')}>
-                Start Free Trial
-              </Link>
-            </>
-          )}
-          {isAppRoute ? (
-            <>
-              <Link to="/dashboard" className={styles.navLink}>Workspace</Link>
-              <Link to="/admin" className={styles.navLink}>Admin CRM</Link>
-              <Link to="/" className={styles.secondaryCta}>Public Site</Link>
-            </>
-          ) : null}
+          <NavLink to="/product" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Product</NavLink>
+          <NavLink to="/features" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Features</NavLink>
+          <NavLink to="/pricing" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Pricing</NavLink>
+          <NavLink to="/demo" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Demo</NavLink>
+          <NavLink to="/contact" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Contact</NavLink>
+          <Link to="/workspace" className={styles.secondaryCta} onClick={() => trackCta('nav_login', '/workspace')}>
+            Login
+          </Link>
+          <Link to="/workspace" className={styles.primaryCta} onClick={() => trackCta('nav_start_trial', '/workspace')}>
+            Start Free Trial
+          </Link>
         </nav>
       </div>
     </header>

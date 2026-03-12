@@ -2,11 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 15, 25, 0.75);
+  background: rgba(7, 14, 25, 0.82);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 14px 40px rgba(3, 10, 20, 0.18);
+  border-bottom: 1px solid rgba(227, 236, 247, 0.12);
+  box-shadow: 0 12px 32px rgba(3, 10, 20, 0.2);
 }
 
 .navbar::after {
@@ -24,8 +24,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 80px;
-  gap: 20px;
+  min-height: 72px;
+  gap: 16px;
 }
 
 .brand {
@@ -102,8 +102,8 @@
 
 .navLink {
   padding: 10px 12px;
-  border-radius: 12px;
-  font-size: 0.96rem;
+  border-radius: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: rgba(237, 244, 255, 0.9);
   text-decoration: none;
@@ -112,9 +112,14 @@
 
 .navLink:hover {
   color: #ffffff;
-  transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.05);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.navLinkActive {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .secondaryCta,
@@ -122,11 +127,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
+  min-height: 40px;
   padding: 10px 16px;
-  font-size: 0.9rem;
+  font-size: 13px;
   font-weight: 700;
-  border-radius: 12px;
+  border-radius: 16px;
   text-decoration: none;
   transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), color var(--transition-base), border-color var(--transition-base), filter var(--transition-base);
 }
@@ -166,8 +171,8 @@
 
 @media (max-width: 900px) {
   .inner {
-    padding-top: 14px;
-    padding-bottom: 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     align-items: flex-start;
     flex-direction: column;
   }

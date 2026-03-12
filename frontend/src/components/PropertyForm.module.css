@@ -8,9 +8,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
+  padding: 24px;
   border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  background: var(--card-surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   position: sticky;
   top: 64px;
   z-index: 10;
@@ -28,12 +30,14 @@
 }
 
 .section {
-  padding: 20px 24px;
+  padding: 24px;
   border-bottom: 1px solid var(--color-border-light);
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  background: var(--color-surface);
+  gap: 16px;
+  background: var(--card-surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .section:last-of-type {
@@ -46,20 +50,20 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--color-text-muted);
-  margin-bottom: 2px;
+  margin-bottom: 8px;
 }
 
 .sectionNote {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
-  margin-top: -8px;
+  margin-top: 0;
   line-height: 1.5;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
 .label {
@@ -76,9 +80,9 @@
 .select,
 .textarea {
   width: 100%;
-  padding: 9px 12px;
+  padding: 16px;
   border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   background: var(--color-surface);
   font-size: var(--font-size-base);
   color: var(--color-text-primary);
@@ -105,7 +109,7 @@
 
 .textarea {
   resize: vertical;
-  min-height: 70px;
+  min-height: 80px;
   line-height: 1.6;
 }
 
@@ -114,7 +118,7 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  padding-right: 36px;
+  padding-right: 48px;
   cursor: pointer;
 }
 
@@ -126,7 +130,7 @@
 
 .inputPrefix {
   position: absolute;
-  left: 12px;
+  left: 16px;
   font-size: var(--font-size-base);
   color: var(--color-text-muted);
   font-weight: 500;
@@ -134,7 +138,7 @@
 }
 
 .input--prefixed {
-  padding-left: 24px;
+  padding-left: 32px;
 }
 
 .errorMsg {
@@ -153,19 +157,19 @@
 .row2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 16px;
 }
 
 .row3 {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 12px;
+  gap: 16px;
 }
 
 .row4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: 16px;
 }
 
 /* Tone Grid */
@@ -179,9 +183,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 8px;
+  padding: 16px 8px;
   border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border-radius: 16px;
   background: var(--color-surface);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -214,17 +218,19 @@
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   display: block;
-  margin-top: 2px;
+  margin-top: 8px;
 }
 
 /* Submit */
 .submitSection {
   padding: 24px;
-  background: var(--color-surface);
+  background: var(--card-surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-top: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .disclaimer {

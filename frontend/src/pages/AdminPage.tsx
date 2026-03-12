@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiService } from '../services/api';
 import type { AdminAnalytics, AuditEvent, Lead, SubscriptionPlan, SupportTicket, UserSummary } from '../types';
-import styles from './AdminPage.module.css';
-
-const pipelineStages = ['New', 'Contacted', 'Demo Scheduled', 'Trial Started', 'Won', 'Lost'];
+import styles from './AppPages.module.css';
 
 export const AdminPage: React.FC = () => {
   const [analytics, setAnalytics] = useState<AdminAnalytics | null>(null);
@@ -28,193 +26,92 @@ export const AdminPage: React.FC = () => {
 
         setAnalytics(analyticsData);
         setUsers(usersData);
-        setLeads(leadsData);
-        setSupport(supportData);
+        setLeads(leadsData.slice(0, 8));
+        setSupport(supportData.slice(0, 6));
         setPlans(plansData);
-        setAuditEvents(auditData);
+        setAuditEvents(auditData.slice(0, 8));
       } catch {
-        // keep mock UI resilient
+        // resilient preview mode
       }
     };
 
     load();
   }, []);
 
-  const filteredUsers = users.filter((user) => {
-    const query = userFilter.toLowerCase();
-    return [user.name, user.email, user.plan, user.status, user.teamName].join(' ').toLowerCase().includes(query);
-  });
+  const filteredUsers = users.filter((user) => [user.name, user.email, user.plan, user.status, user.teamName].join(' ').toLowerCase().includes(userFilter.toLowerCase()));
 
   return (
     <div className={styles.page}>
-      <div className={styles.container}>
-        <section className={styles.hero}>
-          <div className={styles.heroCard}>
-            <div className={styles.eyebrow}>Admin portal</div>
-            <h1 className={styles.title}>Run ListingPilot like an operating business.</h1>
-            <p className={styles.subtitle}>
-              Track adoption, pipeline health, support risk, and conversion momentum across your agent base with a lean, premium back office.
-            </p>
-            <div className={styles.heroBadgeRow}>
-              <span>Users + plans</span>
-              <span>Lead CRM</span>
-              <span>Support + audit trail</span>
-            </div>
-          </div>
+      <section className={styles.header}>
+        <div><h2>Admin</h2><p>Operate adoption, plans, support pressure, and revenue signals from one control panel.</p></div>
+        <div className={styles.actions}><input className={styles.input} placeholder="Search users" value={userFilter} onChange={(event) => setUserFilter(event.target.value)} /></div>
+      </section>
 
-          <div className={styles.heroCard}>
-            <div className={styles.metricGrid}>
-              <div className={styles.metric}>
-                <div className={styles.metricLabel}>Total users</div>
-                <div className={styles.metricValue}>{analytics?.totalUsers ?? '—'}</div>
-              </div>
-              <div className={styles.metric}>
-                <div className={styles.metricLabel}>Active users</div>
-                <div className={styles.metricValue}>{analytics?.activeUsers ?? '—'}</div>
-              </div>
-              <div className={styles.metric}>
-                <div className={styles.metricLabel}>Trials</div>
-                <div className={styles.metricValue}>{analytics?.trialUsers ?? '—'}</div>
-              </div>
-              <div className={styles.metric}>
-                <div className={styles.metricLabel}>MRR</div>
-                <div className={styles.metricValue}>{analytics?.mrrPlaceholder ?? '—'}</div>
-              </div>
-            </div>
-          </div>
-        </section>
+      <section className={styles.grid4}>
+        <article className={styles.stat}><span>Total users</span><strong>{analytics?.totalUsers ?? '—'}</strong></article>
+        <article className={styles.stat}><span>Active users</span><strong>{analytics?.activeUsers ?? '—'}</strong></article>
+        <article className={styles.stat}><span>Trials</span><strong>{analytics?.trialUsers ?? '—'}</strong></article>
+        <article className={styles.stat}><span>MRR</span><strong>{analytics?.mrrPlaceholder ?? '—'}</strong></article>
+      </section>
 
-        <section className={styles.panelGrid}>
-          <div className={styles.panel}>
-            <h2>Conversion summary</h2>
-            <div className={styles.pipelineGridWide}>
-              <div className={styles.pipelineCard}>
-                <div className={styles.muted}>Total generations</div>
-                <div className={styles.pipelineValue}>{analytics?.totalGenerations ?? '—'}</div>
-                <div className={styles.pipelineMeta}>Assets produced across all workspaces</div>
-              </div>
-              <div className={styles.pipelineCard}>
-                <div className={styles.muted}>Total leads</div>
-                <div className={styles.pipelineValue}>{analytics?.totalLeads ?? '—'}</div>
-                <div className={styles.pipelineMeta}>CRM pipeline records tracked</div>
-              </div>
-              <div className={styles.pipelineCard}>
-                <div className={styles.muted}>Funnel snapshot</div>
-                <div className={styles.pipelineValue}>{analytics?.funnelSummary ?? '—'}</div>
-                <div className={styles.pipelineMeta}>Launch-to-paid placeholder for GTM tracking</div>
-              </div>
-            </div>
-            <div className={styles.stageRail}>
-              {pipelineStages.map((stage) => (
-                <div key={stage} className={styles.stagePill}>{stage}</div>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.alertCard}>
-            <h2>Plans / usage admin</h2>
-            <div className={styles.planList}>
-              {plans.map((plan) => (
-                <div key={plan.id} className={styles.planRow}>
-                  <div>
-                    <strong>{plan.name}</strong>
-                    <span>{plan.monthlyGenerationLimit} credits · {plan.teamSeats} seats</span>
-                  </div>
-                  <div>
-                    <strong>${plan.monthlyPrice}</strong>
-                    <span>{plan.ctaLabel}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.table}>
-          <div className={styles.sectionHeader}>
-            <h2>User management</h2>
-            <input
-              className={styles.searchInput}
-              type="search"
-              placeholder="Search users by name, email, plan, or team"
-              value={userFilter}
-              onChange={(event) => setUserFilter(event.target.value)}
-            />
-          </div>
-          <div className={styles.tableHead}>
-            <span>User</span>
-            <span>Plan</span>
-            <span>Status</span>
-            <span>Team</span>
-            <span>Usage</span>
-          </div>
+      <section className={styles.grid2}>
+        <article className={styles.panel}>
+          <h3>User management</h3>
+          <div className={styles.tableHead}><strong>User</strong><strong>Plan</strong><strong>Status</strong></div>
           {filteredUsers.map((user) => (
             <div key={user.id} className={styles.tableRow}>
-              <span>
-                <div className={styles.leadName}>{user.name}</div>
-                <div className={styles.leadMeta}>{user.email}</div>
-              </span>
-              <span><span className={styles.badge}>{user.plan}</span></span>
+              <span>{user.name} · {user.email}</span>
+              <span className={styles.badge}>{user.plan}</span>
               <span>{user.status}</span>
-              <span>{user.teamName}</span>
-              <span>{user.monthlyUsage} / {user.generationCount}</span>
             </div>
           ))}
-        </section>
+        </article>
 
-        <section className={styles.crmGrid}>
-          <div className={styles.panel}>
-            <h2>Lead CRM</h2>
-            <div className={styles.leadBoard}>
-              {leads.map((lead) => (
-                <article key={lead.id} className={styles.leadRecord}>
-                  <div className={styles.leadTopLine}>
-                    <strong>{lead.name}</strong>
-                    <span className={styles.badge}>{lead.stage}</span>
-                  </div>
-                  <p>{lead.propertyAddress}</p>
-                  <div className={styles.leadDetailRow}><span>{lead.source}</span><span>{lead.owner}</span></div>
-                  <div className={styles.leadDetailRow}><span>{lead.intentScore}</span><span>${lead.estimatedValue.toLocaleString()}</span></div>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.panel}>
-            <h2>Support / feedback</h2>
-            <div className={styles.supportList}>
-              {support.map((ticket) => (
-                <article key={ticket.id} className={styles.supportRecord}>
-                  <div className={styles.leadTopLine}>
-                    <strong>{ticket.subject}</strong>
-                    <span className={styles.badge}>{ticket.priority}</span>
-                  </div>
-                  <p>{ticket.type} · {ticket.status} · {ticket.owner}</p>
-                  <span>{ticket.createdAt}</span>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.table}>
-          <h2>Audit / activity</h2>
-          <div className={styles.auditList}>
-            {auditEvents.map((event) => (
-              <div key={event.id} className={styles.auditRecord}>
-                <div>
-                  <strong>{event.action}</strong>
-                  <p>{event.target}</p>
-                </div>
-                <div>
-                  <strong>{event.actor}</strong>
-                  <span>{event.createdAt}</span>
-                </div>
+        <article className={styles.panel}>
+          <h3>Plan controls</h3>
+          <div className={styles.itemList}>
+            {plans.map((plan) => (
+              <div key={plan.id} className={styles.item}>
+                <div className={styles.itemTop}><strong>{plan.name}</strong><span className={styles.badge}>${plan.monthlyPrice}/mo</span></div>
+                <p>{plan.monthlyGenerationLimit} credits · {plan.teamSeats} seats</p>
               </div>
             ))}
           </div>
-        </section>
-      </div>
+        </article>
+      </section>
+
+      <section className={styles.grid2}>
+        <article className={styles.panel}>
+          <h3>Lead CRM</h3>
+          <div className={styles.itemList}>
+            {leads.map((lead) => (
+              <article key={lead.id} className={styles.item}>
+                <div className={styles.itemTop}><strong>{lead.name}</strong><span className={styles.badge}>{lead.stage}</span></div>
+                <p>{lead.propertyAddress}</p>
+                <div className={styles.itemMeta}><span>{lead.source}</span><span>{lead.owner}</span><strong>${lead.estimatedValue.toLocaleString()}</strong></div>
+              </article>
+            ))}
+          </div>
+        </article>
+
+        <article className={styles.panel}>
+          <h3>Support and audit</h3>
+          <div className={styles.itemList}>
+            {support.map((ticket) => (
+              <article key={ticket.id} className={styles.item}>
+                <div className={styles.itemTop}><strong>{ticket.subject}</strong><span className={styles.badge}>{ticket.priority}</span></div>
+                <p>{ticket.status} · {ticket.owner}</p>
+              </article>
+            ))}
+            {auditEvents.map((event) => (
+              <article key={event.id} className={styles.item}>
+                <div className={styles.itemTop}><strong>{event.action}</strong><span>{event.actor}</span></div>
+                <p>{event.target}</p>
+              </article>
+            ))}
+          </div>
+        </article>
+      </section>
     </div>
   );
 };

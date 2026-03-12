@@ -27,6 +27,13 @@ const pageMetaMap: Record<string, PageMeta> = {
     keywords: 'real estate marketing platform, listing workflow software, agent collaboration',
     path: '/product',
   },
+  '/features': {
+    title: 'Features | ListingPilot AI',
+    description:
+      'Explore ListingPilot AI feature clusters for listing intelligence, launch workflow, team collaboration, and compliance controls.',
+    keywords: 'real estate ai features, listing workflow features, brokerage collaboration software',
+    path: '/features',
+  },
   '/pricing': {
     title: 'Pricing | ListingPilot AI',
     description:
@@ -48,12 +55,36 @@ const pageMetaMap: Record<string, PageMeta> = {
     keywords: 'contact listingpilot, real estate saas demo, brokerage onboarding',
     path: '/contact',
   },
-  '/dashboard': {
+  '/workspace': {
     title: 'Workspace | ListingPilot AI',
     description:
       'Manage listing launches, AI-generated assets, and campaign performance from the ListingPilot AI workspace.',
     keywords: 'listing workspace, marketing dashboard, real estate campaign performance',
-    path: '/dashboard',
+    path: '/workspace',
+  },
+  '/listings': {
+    title: 'Listings | ListingPilot AI',
+    description: 'Track listing status, launch readiness, channels, and reusable campaign history.',
+    keywords: 'listing management, real estate listing workflow, campaign tracking',
+    path: '/listings',
+  },
+  '/assets': {
+    title: 'Assets | ListingPilot AI',
+    description: 'Review, favorite, and export generated marketing assets by listing.',
+    keywords: 'generated listing assets, mls content library, real estate content workflow',
+    path: '/assets',
+  },
+  '/crm': {
+    title: 'CRM | ListingPilot AI',
+    description: 'Monitor lead stages, follow-up queue, and conversion momentum from listing campaigns.',
+    keywords: 'real estate crm pipeline, listing lead tracking, campaign conversion',
+    path: '/crm',
+  },
+  '/settings': {
+    title: 'Settings | ListingPilot AI',
+    description: 'Manage workspace defaults, compliance controls, authentication mode, and plan settings.',
+    keywords: 'workspace settings, compliance settings, brokerage saas controls',
+    path: '/settings',
   },
   '/admin': {
     title: 'Admin | ListingPilot AI',

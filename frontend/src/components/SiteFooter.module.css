@@ -1,6 +1,6 @@
 .footer {
-  padding: 20px 0 32px;
-  background: linear-gradient(180deg, rgba(7, 17, 31, 0) 0%, #081321 30%, #081321 100%);
+  padding: 24px 0 32px;
+  background: transparent;
 }
 
 .inner {
@@ -9,10 +9,12 @@
   justify-content: space-between;
   gap: 24px;
   padding: 24px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  border-radius: 16px;
+  background: var(--card-surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
 }
 
 .brandBlock {
@@ -27,7 +29,7 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: 14px;
   background: linear-gradient(135deg, #2a65a5 0%, #0d2139 100%);
   color: #fff;
   font-weight: 800;
@@ -36,13 +38,13 @@
 
 .brandBlock strong,
 .column span {
-  color: #ffffff;
+  color: var(--color-text-primary);
 }
 
 .brandBlock p {
   margin-top: 8px;
-  font-size: 16px;
-  color: rgba(229, 238, 250, 0.76);
+  font-size: 14px;
+  color: var(--color-text-secondary);
 }
 
 .columns {
@@ -60,15 +62,15 @@
   font-size: 13px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(229, 238, 250, 0.58);
+  color: var(--color-text-muted);
 }
 
 .column a {
-  color: rgba(245, 249, 255, 0.82);
+  color: var(--color-text-secondary);
 }
 
 .column a:hover {
-  color: #ffffff;
+  color: var(--color-text-primary);
 }
 
 @media (max-width: 900px) {

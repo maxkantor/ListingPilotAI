@@ -9,6 +9,7 @@ const footerColumns = [
     links: [
       { label: 'Home', to: '/' },
       { label: 'Product', to: '/product' },
+      { label: 'Features', to: '/features' },
       { label: 'Pricing', to: '/pricing' },
       { label: 'Demo', to: '/demo' },
     ],
@@ -17,6 +18,7 @@ const footerColumns = [
     title: 'Company',
     links: [
       { label: 'Contact', to: '/contact' },
+      { label: 'Workspace', to: '/workspace' },
       { label: 'Privacy', to: '/privacy' },
       { label: 'Terms', to: '/terms' },
     ],

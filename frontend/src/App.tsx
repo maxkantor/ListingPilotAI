@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { AppShell } from './components/AppShell';
 import { MobileStickyCta } from './components/MobileStickyCta';
 import { Navbar } from './components/Navbar';
 import { SiteFooter } from './components/SiteFooter';
@@ -7,20 +8,37 @@ import { usePageMetadata } from './hooks/usePageMetadata';
 import { initializeAnalytics, trackPageView } from './utils/analytics';
 import { initializeSeoEnhancements } from './utils/seo';
 import { AdminPage } from './pages/AdminPage';
+import { AssetsPage } from './pages/AssetsPage';
 import { ContactPage } from './pages/ContactPage';
+import { CrmPage } from './pages/CrmPage';
 import { LandingPage } from './pages/LandingPage';
 import { DemoPage } from './pages/DemoPage';
+import { FeaturesPage } from './pages/FeaturesPage';
+import { ListingsPage } from './pages/ListingsPage';
 import { PricingPage } from './pages/PricingPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { ProductPage } from './pages/ProductPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { TermsPage } from './pages/TermsPage';
-import { DashboardPage } from './pages/DashboardPage';
+import { WorkspacePage } from './pages/WorkspacePage';
 import './styles/globals.css';
+
+function PublicLayout() {
+  const location = useLocation();
+  const showStickyMobileCta = location.pathname !== '/privacy' && location.pathname !== '/terms';
+
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+      {showStickyMobileCta ? <MobileStickyCta /> : null}
+      <SiteFooter />
+    </>
+  );
+}
 
 function AppRoutes() {
   const location = useLocation();
-  const isAppRoute = location.pathname === '/dashboard' || location.pathname === '/admin';
-  const showStickyMobileCta = !isAppRoute && location.pathname !== '/privacy' && location.pathname !== '/terms';
 
   usePageMetadata(location.pathname);
 
@@ -29,22 +47,30 @@ function AppRoutes() {
   }, [location.pathname]);
 
   return (
-    <>
-      <Navbar />
-      <Routes>
+    <Routes>
+      <Route element={<PublicLayout />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/product" element={<ProductPage />} />
+        <Route path="/features" element={<FeaturesPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/demo" element={<DemoPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
+      </Route>
+
+      <Route element={<AppShell />}>
+        <Route path="/workspace" element={<WorkspacePage />} />
+        <Route path="/listings" element={<ListingsPage />} />
+        <Route path="/assets" element={<AssetsPage />} />
+        <Route path="/crm" element={<CrmPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="/admin" element={<AdminPage />} />
-      </Routes>
-      {showStickyMobileCta ? <MobileStickyCta /> : null}
-      {!isAppRoute ? <SiteFooter /> : null}
-    </>
+      </Route>
+
+      <Route path="/dashboard" element={<Navigate to="/workspace" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

@@ -15,7 +15,7 @@ export const MobileStickyCta: React.FC = () => {
           <Link to="/demo" className={styles.secondary} onClick={() => trackCta('mobile_sticky_demo', '/demo')}>
             Demo
           </Link>
-          <Link to="/dashboard" className={styles.primary} onClick={() => trackCta('mobile_sticky_trial', '/dashboard')}>
+          <Link to="/workspace" className={styles.primary} onClick={() => trackCta('mobile_sticky_trial', '/workspace')}>
             Start Trial
           </Link>
         </div>
