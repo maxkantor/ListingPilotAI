@@ -382,6 +382,12 @@ EOT
   environment_variables = {
     VITE_API_BASE_URL = aws_apigatewayv2_stage.stage.invoke_url
   }
+
+  custom_rule {
+    source = "/<*>"
+    target = "/index.html"
+    status = "404-200"
+  }
 }
 
 resource "aws_amplify_branch" "main" {
