@@ -44,7 +44,8 @@ function ScrollToTop() {
 
 function PublicLayout() {
   const location = useLocation();
-  const showStickyMobileCta = location.pathname !== '/privacy' && location.pathname !== '/terms';
+  const hideStickyCtaOn = new Set(['/privacy', '/terms', '/login', '/signup', '/forgot-password', '/verify-email', '/admin/login']);
+  const showStickyMobileCta = !hideStickyCtaOn.has(location.pathname);
 
   return (
     <>
@@ -77,13 +78,12 @@ function AppRoutes() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
       </Route>
-
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/verify-email" element={<VerifyEmailPage />} />
-      <Route path="/admin/login" element={<AdminLoginPage />} />
 
       <Route path="/platform" element={<PlatformPage />} />
 
