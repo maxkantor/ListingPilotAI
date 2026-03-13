@@ -14,6 +14,7 @@ import { AdminPage } from './pages/AdminPage';
 import { AssetsPage } from './pages/AssetsPage';
 import { ContactPage } from './pages/ContactPage';
 import { CrmPage } from './pages/CrmPage';
+import { DashboardPage } from './pages/DashboardPage';
 import { LandingPage } from './pages/LandingPage';
 import { DemoPage } from './pages/DemoPage';
 import { FeaturesPage } from './pages/FeaturesPage';
@@ -90,6 +91,7 @@ function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppShell />}>
           <Route path="/workspace" element={<WorkspacePage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/assets" element={<AssetsPage />} />
           <Route path="/crm" element={<CrmPage />} />
@@ -103,7 +105,6 @@ function AppRoutes() {
         </Route>
       </Route>
 
-      <Route path="/dashboard" element={<Navigate to="/workspace" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

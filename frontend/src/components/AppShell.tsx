@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 import styles from './AppShell.module.css';
 
 const appNav = [
@@ -7,12 +8,14 @@ const appNav = [
   { label: 'Listings', to: '/listings' },
   { label: 'Assets', to: '/assets' },
   { label: 'CRM', to: '/crm' },
+  { label: 'Analytics', to: '/dashboard' },
   { label: 'Settings', to: '/settings' },
-  { label: 'Admin', to: '/admin' },
 ];
 
 export const AppShell: React.FC = () => {
   const location = useLocation();
+  const { isAdmin, session } = useAuth();
+  const creditsRemaining = session?.currentUser?.creditBalance ?? 0;
 
   return (
     <div className={styles.shell}>
@@ -26,7 +29,7 @@ export const AppShell: React.FC = () => {
         </Link>
 
         <nav className={styles.nav}>
-          {appNav.map((item) => (
+          {[...appNav, ...(isAdmin ? [{ label: 'Admin', to: '/admin' }] : [])].map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -47,8 +50,10 @@ export const AppShell: React.FC = () => {
             <h1>{appNav.find((item) => item.to === location.pathname)?.label ?? 'Workspace'}</h1>
           </div>
           <div className={styles.topbarActions}>
-            <button type="button">Invite</button>
-            <button type="button">Export</button>
+            <Link to="/workspace#new-listing">New Listing</Link>
+            <Link to="/workspace#history">History</Link>
+            <span className={styles.creditsPill}>{creditsRemaining} credits</span>
+            <Link to="/packages" className={styles.upgradeButton}>Upgrade plan</Link>
           </div>
         </header>
         <main className={styles.content}>
