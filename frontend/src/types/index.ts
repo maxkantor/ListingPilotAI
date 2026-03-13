@@ -50,12 +50,43 @@ export interface GenerationResult {
 
 export interface GenerateRequest {
   property: PropertyInput;
+  usageContext?: UsageContext;
 }
 
-export interface GenerateResponse {
+export interface GenerateResult {
   id: string;
   output: GeneratedOutput;
   createdAt: string;
+}
+
+export interface UsageContext {
+  scope: 'demo' | 'workspace';
+  anonymousId?: string;
+}
+
+export interface UsageSummary {
+  scope: string;
+  creditBalance: number;
+  incentiveCreditBalance: number;
+  remainingDemoActions: number;
+  remainingFreeOutputs: number;
+  generatedOutputs: number;
+  requiresSignup: boolean;
+  requiresPurchase: boolean;
+  lockReason: string;
+}
+
+export interface UsageGateResult {
+  allowed: boolean;
+  lockResults: boolean;
+  reason: string;
+  conversionAction: string;
+  summary: UsageSummary;
+}
+
+export interface GenerateResponse {
+  result: GenerateResult | null;
+  usage: UsageSummary;
 }
 
 export interface HistoryItem {
@@ -134,7 +165,127 @@ export interface AuthSession {
   identityMode: string;
   cognitoRegion: string;
   userPoolId: string;
+  clientId?: string;
+  isAuthenticated?: boolean;
+  currentUserId?: string;
+  currentUserEmail?: string;
+  currentUserName?: string;
+  groups?: string[];
   allowedFeatures: string[];
+  currentUser?: CurrentUser | null;
+  usagePolicy?: UsagePolicy;
+  packages?: PackageCatalogItem[];
+}
+
+export interface CurrentUser {
+  id: string;
+  email: string;
+  fullName: string;
+  role: 'user' | 'admin' | string;
+  accountState: string;
+  emailVerified: boolean;
+  planCode: string;
+  creditBalance: number;
+  incentiveCreditBalance: number;
+  demoActionsUsed: number;
+  outputGeneratedCount: number;
+  conversionFunnelStage: string;
+}
+
+export interface UsagePolicy {
+  anonymousDemoOutputLimit: number;
+  anonymousWorkflowSessions: number;
+  signedUpStarterCredits: number;
+  freeWorkspaceOutputLimit: number;
+  lockResultsWhenAnonymousLimitReached: boolean;
+}
+
+export interface PackageCatalogItem {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  billingMode: string;
+  credits: number;
+  accessLevel: string;
+  includesAdminCapabilities: boolean;
+  includesTeamCapabilities: boolean;
+  priceUsd: number;
+  isFeatured: boolean;
+  features: string[];
+}
+
+export interface AuthTokens {
+  accessToken: string;
+  idToken: string;
+  refreshToken: string;
+  expiresInSeconds: number;
+  tokenType: string;
+}
+
+export interface AuthResult {
+  success: boolean;
+  requiresEmailVerification: boolean;
+  message: string;
+  redirectTo: string;
+  tokens?: AuthTokens;
+  user?: CurrentUser | null;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+  intendedDestination?: string;
+}
+
+export interface SignUpRequest extends LoginRequest {
+  firstName: string;
+  lastName: string;
+}
+
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ResetPasswordRequest {
+  email: string;
+  code: string;
+  newPassword: string;
+}
+
+export interface ConfirmEmailRequest {
+  email: string;
+  code: string;
+}
+
+export interface CheckoutSessionRequest {
+  packageCode: string;
+  successUrl: string;
+  cancelUrl: string;
+}
+
+export interface CheckoutSessionResponse {
+  checkoutUrl: string;
+  purchaseId: string;
+}
+
+export interface PurchaseRecord {
+  id: string;
+  packageCode: string;
+  status: string;
+  amountUsd: number;
+  creditsGranted: number;
+  receiptUrl: string;
+  createdAt: string;
+  completedAt: string;
+}
+
+export interface TrackEventRequest {
+  eventType: string;
+  path: string;
+  source: string;
+  anonymousId?: string;
+  metadata?: Record<string, string>;
 }
 
 export interface ListingProject {
@@ -180,6 +331,17 @@ export interface UserSummary {
   lastActiveAt: string;
   generationCount: number;
   monthlyUsage: number;
+}
+
+export interface ActivityEventRecord {
+  id: string;
+  eventType: string;
+  userEmail: string;
+  anonymousId: string;
+  path: string;
+  source: string;
+  occurredAt: string;
+  metadata: Record<string, string>;
 }
 
 export interface AdminAnalytics {
@@ -233,6 +395,94 @@ export interface ContactSubmissionResponse {
   id: string;
   status: string;
   message: string;
+}
+
+export interface ContactInquiry {
+  id: string;
+  userId: string;
+  name: string;
+  email: string;
+  team: string;
+  role: string;
+  subject: string;
+  message: string;
+  status: string;
+  unread: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastReplyPreview: string;
+}
+
+export interface ContactReply {
+  id: string;
+  inquiryId: string;
+  adminUserId: string;
+  senderEmail: string;
+  recipientEmail: string;
+  subject: string;
+  messageBody: string;
+  deliveryStatus: string;
+  sentAt: string;
+}
+
+export interface ReplyContactRequest {
+  subject: string;
+  messageBody: string;
+}
+
+export interface UserNote {
+  id: string;
+  body: string;
+  adminEmail: string;
+  createdAt: string;
+}
+
+export interface AdminActionRecord {
+  id: string;
+  adminEmail: string;
+  actionType: string;
+  targetUserId: string;
+  targetType: string;
+  oldValueJson: string;
+  newValueJson: string;
+  notes: string;
+  createdAt: string;
+}
+
+export interface UpdateUserRequest {
+  planCode: string;
+  role: string;
+  accountState: string;
+  creditDelta: number;
+  incentiveCreditDelta: number;
+  notes: string;
+}
+
+export interface CreateUserNoteRequest {
+  body: string;
+}
+
+export interface UserDetail {
+  user: CurrentUser;
+  activityTimeline: ActivityEventRecord[];
+  purchases: PurchaseRecord[];
+  notes: UserNote[];
+  adminActions: AdminActionRecord[];
+  contactHistory: ContactInquiry[];
+}
+
+export interface AdminDashboard {
+  totalUsers: number;
+  freeUsers: number;
+  paidUsers: number;
+  conversionRate: number;
+  demoToSignupRate: number;
+  signupToPaidRate: number;
+  activeUsers: number;
+  revenuePlaceholder: string;
+  contactInquiriesOpen: number;
+  totalPurchases: number;
+  demoLimitReachedCount: number;
 }
 
 export interface DemoRequest {

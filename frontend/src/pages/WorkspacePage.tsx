@@ -1,13 +1,15 @@
 import React from 'react';
 import { PropertyForm } from '../components/PropertyForm';
 import { OutputPanel } from '../components/OutputPanel';
+import { useAuth } from '../auth/AuthContext';
 import { useGenerator } from '../hooks/useGenerator';
 import { apiService } from '../services/api';
 import type { DashboardSummary, Lead, PropertyInput } from '../types';
 import styles from './AppPages.module.css';
 
 export const WorkspacePage: React.FC = () => {
-  const { output, isLoading, error, generate, reset } = useGenerator();
+  const { session } = useAuth();
+  const { output, usage, isLoading, error, generate, reset } = useGenerator();
   const [summary, setSummary] = React.useState<DashboardSummary | null>(null);
   const [leads, setLeads] = React.useState<Lead[]>([]);
 
@@ -30,7 +32,7 @@ export const WorkspacePage: React.FC = () => {
 
   const handleGenerate = async (property: PropertyInput) => {
     reset();
-    await generate(property);
+    await generate(property, 'workspace');
   };
 
   return (
@@ -48,6 +50,13 @@ export const WorkspacePage: React.FC = () => {
         <article className={styles.stat}><span>Outputs generated</span><strong>{summary?.outputsGenerated ?? '—'}</strong></article>
         <article className={styles.stat}><span>Avg turnaround</span><strong>{summary?.avgTurnaround ?? '—'}</strong></article>
         <article className={styles.stat}><span>Pipeline value</span><strong>{summary?.pipelineValue ?? '—'}</strong></article>
+      </section>
+
+      <section className={styles.grid4}>
+        <article className={styles.stat}><span>Available credits</span><strong>{usage?.creditBalance ?? session?.currentUser?.creditBalance ?? '—'}</strong></article>
+        <article className={styles.stat}><span>Starter credits</span><strong>{usage?.incentiveCreditBalance ?? session?.currentUser?.incentiveCreditBalance ?? '—'}</strong></article>
+        <article className={styles.stat}><span>Free outputs left</span><strong>{usage?.remainingFreeOutputs ?? '—'}</strong></article>
+        <article className={styles.stat}><span>Current access</span><strong>{session?.currentUser?.planCode ?? 'Starter'}</strong></article>
       </section>
 
       <section className={styles.grid2}>

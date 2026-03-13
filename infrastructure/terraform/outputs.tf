@@ -37,3 +37,30 @@ output "amplify_app_default_domain" {
   description = "Amplify default domain (if enabled)"
   value       = var.enable_amplify ? aws_amplify_app.this[0].default_domain : null
 }
+
+# Cognito
+output "cognito_user_pool_id" {
+  description = "Cognito User Pool ID (newly created pool; empty when create_cognito = false)"
+  value       = var.create_cognito ? aws_cognito_user_pool.main[0].id : var.cognito_user_pool_id
+}
+
+output "cognito_client_id" {
+  description = "Cognito App Client ID (newly created client; empty when create_cognito = false)"
+  value       = var.create_cognito ? aws_cognito_user_pool_client.main[0].id : var.cognito_client_id
+}
+
+# Stripe SSM parameter paths (useful for referencing in app config / CI)
+output "stripe_secret_key_parameter_name" {
+  description = "SSM parameter path containing the Stripe secret key"
+  value       = var.stripe_secret_key_parameter_name
+}
+
+output "stripe_webhook_secret_parameter_name" {
+  description = "SSM parameter path containing the Stripe webhook signing secret"
+  value       = var.stripe_webhook_secret_parameter_name
+}
+
+output "stripe_publishable_key_parameter_name" {
+  description = "SSM parameter path containing the Stripe publishable key"
+  value       = var.stripe_publishable_key_parameter_name
+}

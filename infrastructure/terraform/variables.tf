@@ -160,3 +160,95 @@ variable "cors_allow_origins" {
   type        = list(string)
   default     = ["http://localhost:3000"]
 }
+
+# -------------------------------
+# Stripe
+# -------------------------------
+variable "stripe_secret_key" {
+  description = "Stripe secret key — written to SSM as a SecureString"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "stripe_webhook_secret" {
+  description = "Stripe webhook signing secret — written to SSM as a SecureString"
+  type        = string
+  sensitive   = true
+  default     = ""
+}
+
+variable "stripe_publishable_key" {
+  description = "Stripe publishable key"
+  type        = string
+  default     = ""
+}
+
+variable "stripe_secret_key_parameter_name" {
+  description = "SSM parameter path for the Stripe secret key"
+  type        = string
+  default     = "/listingpilot/dev/stripe/secret-key"
+}
+
+variable "stripe_webhook_secret_parameter_name" {
+  description = "SSM parameter path for the Stripe webhook signing secret"
+  type        = string
+  default     = "/listingpilot/dev/stripe/webhook-secret"
+}
+
+variable "stripe_publishable_key_parameter_name" {
+  description = "SSM parameter path for the Stripe publishable key"
+  type        = string
+  default     = "/listingpilot/dev/stripe/publishable-key"
+}
+
+# -------------------------------
+# SES
+# -------------------------------
+variable "ses_from_address" {
+  description = "Verified SES from-address for transactional email (leave blank to skip identity creation)"
+  type        = string
+  default     = ""
+}
+
+variable "ses_from_address_parameter_name" {
+  description = "SSM parameter path for the SES from-address"
+  type        = string
+  default     = "/listingpilot/dev/ses/from-address"
+}
+
+# -------------------------------
+# Admin bootstrap
+# -------------------------------
+variable "admin_bootstrap_email" {
+  description = "Bootstrap admin email address"
+  type        = string
+  default     = ""
+}
+
+variable "admin_bootstrap_email_parameter_name" {
+  description = "SSM parameter path for the admin bootstrap email"
+  type        = string
+  default     = "/listingpilot/dev/admin/bootstrap-email"
+}
+
+# -------------------------------
+# Cognito (create new pool)
+# -------------------------------
+variable "create_cognito" {
+  description = "Set to true to provision a new Cognito User Pool and App Client"
+  type        = bool
+  default     = false
+}
+
+variable "cognito_callback_urls" {
+  description = "Allowed callback URLs for the Cognito App Client"
+  type        = list(string)
+  default     = ["http://localhost:3000", "http://localhost:4173"]
+}
+
+variable "cognito_logout_urls" {
+  description = "Allowed logout URLs for the Cognito App Client"
+  type        = list(string)
+  default     = ["http://localhost:3000", "http://localhost:4173"]
+}

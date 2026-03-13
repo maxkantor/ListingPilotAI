@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 import { trackCta } from '../utils/analytics';
 import styles from './Navbar.module.css';
 
 export const Navbar: React.FC = () => {
+  const { isAuthenticated, isAdmin, logout } = useAuth();
+
   return (
     <header className={styles.navbar}>
       <div className={`container ${styles.inner}`}>
@@ -22,14 +25,40 @@ export const Navbar: React.FC = () => {
           <NavLink to="/product" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Product</NavLink>
           <NavLink to="/features" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Features</NavLink>
           <NavLink to="/pricing" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Pricing</NavLink>
+          <NavLink to="/packages" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Packages</NavLink>
           <NavLink to="/demo" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Demo</NavLink>
           <NavLink to="/contact" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Contact</NavLink>
-          <Link to="/workspace" className={styles.secondaryCta} onClick={() => trackCta('nav_login', '/workspace')}>
-            Login
-          </Link>
-          <Link to="/workspace" className={styles.primaryCta} onClick={() => trackCta('nav_start_trial', '/workspace')}>
-            Start Free Trial
-          </Link>
+          {isAuthenticated ? (
+            <>
+              {isAdmin ? (
+                <Link to="/admin" className={styles.secondaryCta} onClick={() => trackCta('nav_admin', '/admin')}>
+                  Admin
+                </Link>
+              ) : null}
+              <Link to="/workspace" className={styles.secondaryCta} onClick={() => trackCta('nav_workspace', '/workspace')}>
+                Workspace
+              </Link>
+              <button
+                type="button"
+                className={`${styles.primaryCta} ${styles.ctaButton}`}
+                onClick={() => {
+                  trackCta('nav_logout', '/');
+                  void logout();
+                }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className={styles.secondaryCta} onClick={() => trackCta('nav_login', '/login')}>
+                Login
+              </Link>
+              <Link to="/signup" className={styles.primaryCta} onClick={() => trackCta('nav_start_trial', '/signup')}>
+                Start Free Trial
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>

@@ -1,11 +1,13 @@
 using ListingPilot.Application.DTOs;
 using ListingPilot.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ListingPilot.Api.Controllers;
 
 [ApiController]
 [Route("api/listings")]
+[Authorize]
 public class ListingsController : ControllerBase
 {
     private readonly IListingsService _listingsService;

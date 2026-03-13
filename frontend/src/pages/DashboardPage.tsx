@@ -34,7 +34,7 @@ const sharedTemplates = [
 ];
 
 export const DashboardPage: React.FC = () => {
-  const { output, isLoading, error, generate, reset } = useGenerator();
+  const { output, usage, isLoading, error, generate, reset } = useGenerator();
   const { history, refresh } = useHistory();
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [performance, setPerformance] = useState<PerformanceSnapshot[]>([]);
@@ -78,7 +78,7 @@ export const DashboardPage: React.FC = () => {
 
   const handleGenerate = async (property: PropertyInput) => {
     reset();
-    await generate(property);
+    await generate(property, 'workspace');
   };
 
   const handleRegenerate = () => {
@@ -178,6 +178,7 @@ export const DashboardPage: React.FC = () => {
                 <strong>{session?.identityMode ?? 'launch-preview'}</strong>
                 <p>{session?.authEnabled ? 'Cognito-enabled workspace' : 'Lean preview mode for fast launch validation.'}</p>
                 <div className={styles.authFeatureList}>
+                  {usage ? <span className={styles.authPill}>{usage.creditBalance} credits available</span> : null}
                   {session?.allowedFeatures.map((feature) => (
                     <span key={feature} className={styles.authPill}>{feature}</span>
                   ))}

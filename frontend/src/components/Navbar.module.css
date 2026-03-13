@@ -137,6 +137,12 @@
   transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), color var(--transition-base), border-color var(--transition-base), filter var(--transition-base);
 }
 
+.ctaButton {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 .secondaryCta {
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);

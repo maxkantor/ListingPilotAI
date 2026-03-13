@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 import { trackCta } from '../utils/analytics';
 import styles from './SiteFooter.module.css';
 
@@ -31,6 +32,16 @@ interface SiteFooterProps {
 }
 
 export const SiteFooter: React.FC<SiteFooterProps> = ({ legalLine }) => {
+  const { isAuthenticated, isAdmin } = useAuth();
+  const companyLinks = [
+    { label: 'Platform', to: '/platform' },
+    { label: 'Contact', to: '/contact' },
+    { label: isAuthenticated ? 'Workspace' : 'Login', to: isAuthenticated ? '/workspace' : '/login' },
+    ...(isAdmin ? [{ label: 'Admin', to: '/admin' }] : []),
+    { label: 'Privacy', to: '/privacy' },
+    { label: 'Terms', to: '/terms' },
+  ];
+
   return (
     <footer className={styles.footer}>
       <div className="container">
@@ -46,7 +57,7 @@ export const SiteFooter: React.FC<SiteFooterProps> = ({ legalLine }) => {
           {footerColumns.map((column) => (
             <div key={column.title} className={styles.column}>
               <span>{column.title}</span>
-              {column.links.map((link) => (
+              {(column.title === 'Company' ? companyLinks : column.links).map((link) => (
                 <Link key={link.label} to={link.to} onClick={() => trackCta(`footer_${link.label.toLowerCase()}`, link.to)}>
                   {link.label}
                 </Link>

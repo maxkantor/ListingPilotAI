@@ -6,7 +6,7 @@ namespace ListingPilot.Application.Services;
 
 public interface IGenerationService
 {
-    Task<GenerateResponseDto> GenerateAsync(GenerateRequestDto request);
+    Task<GenerateResponseEnvelopeDto> GenerateAsync(GenerateRequestDto request);
     Task<List<HistoryItemDto>> GetHistoryAsync();
     Task<PropertyInputDto> GetSamplePropertyAsync();
     Task<DashboardSummaryDto> GetDashboardSummaryAsync();
@@ -20,15 +20,22 @@ public class GenerationService : IGenerationService
 {
     private readonly IAiService _aiService;
     private readonly IGenerationRepository _repository;
+    private readonly IUsagePolicyService _usagePolicyService;
+    private readonly IRequestContextService _requestContextService;
 
-    public GenerationService(IAiService aiService, IGenerationRepository repository)
+    public GenerationService(IAiService aiService, IGenerationRepository repository, IUsagePolicyService usagePolicyService, IRequestContextService requestContextService)
     {
         _aiService = aiService;
         _repository = repository;
+        _usagePolicyService = usagePolicyService;
+        _requestContextService = requestContextService;
     }
 
-    public async Task<GenerateResponseDto> GenerateAsync(GenerateRequestDto request)
+    public async Task<GenerateResponseEnvelopeDto> GenerateAsync(GenerateRequestDto request)
     {
+        var scope = request.UsageContext?.Scope ?? (_requestContextService.GetCurrent().IsAuthenticated ? "workspace" : "demo");
+        var anonymousId = request.UsageContext?.AnonymousId ?? _requestContextService.GetCurrent().AnonymousId;
+        var usage = await _usagePolicyService.ConsumeGenerationAsync(scope, anonymousId);
         var output = await _aiService.GenerateAsync(request.Property);
 
         var record = new GenerationRecord
@@ -39,11 +46,15 @@ public class GenerationService : IGenerationService
 
         var saved = await _repository.SaveAsync(record);
 
-        return new GenerateResponseDto
+        return new GenerateResponseEnvelopeDto
         {
-            Id = saved.Id,
-            Output = MapToDto(saved.Output),
-            CreatedAt = saved.CreatedAt,
+            Result = new GenerateResponseDto
+            {
+                Id = saved.Id,
+                Output = MapToDto(saved.Output),
+                CreatedAt = saved.CreatedAt,
+            },
+            Usage = usage,
         };
     }
 

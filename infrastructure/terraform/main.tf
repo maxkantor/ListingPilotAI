@@ -21,15 +21,23 @@ locals {
 
   lambda_name = "${local.prefix}-${var.lambda_function_name}"
 
+  effective_cognito_pool_id   = var.create_cognito ? aws_cognito_user_pool.main[0].id : var.cognito_user_pool_id
+  effective_cognito_client_id = var.create_cognito ? aws_cognito_user_pool_client.main[0].id : var.cognito_client_id
+
   common_env_vars = {
-    ASPNETCORE_ENVIRONMENT        = title(var.environment)
-    Storage__Provider            = var.storage_provider
-    DynamoDb__TableName          = aws_dynamodb_table.generation_records.name
-    GENERATION_TABLE_NAME         = aws_dynamodb_table.generation_records.name
-    OPENAI_API_KEY_PARAMETER_NAME = var.openai_api_key_parameter_name
-    Auth__CognitoUserPoolId      = var.cognito_user_pool_id
-    Auth__CognitoClientId        = var.cognito_client_id
-    Auth__CognitoRegion          = var.cognito_region != "" ? var.cognito_region : var.aws_region
+    ASPNETCORE_ENVIRONMENT                  = title(var.environment)
+    Storage__Provider                       = var.storage_provider
+    DynamoDb__TableName                     = aws_dynamodb_table.generation_records.name
+    GENERATION_TABLE_NAME                   = aws_dynamodb_table.generation_records.name
+    OPENAI_API_KEY_PARAMETER_NAME           = var.openai_api_key_parameter_name
+    Auth__CognitoUserPoolId                 = local.effective_cognito_pool_id
+    Auth__CognitoClientId                   = local.effective_cognito_client_id
+    Auth__CognitoRegion                     = var.cognito_region != "" ? var.cognito_region : var.aws_region
+    Stripe__SecretKeyParameterName          = var.stripe_secret_key_parameter_name
+    Stripe__WebhookSecretParameterName      = var.stripe_webhook_secret_parameter_name
+    Stripe__PublishableKeyParameterName     = var.stripe_publishable_key_parameter_name
+    Ses__FromAddressParameterName           = var.ses_from_address_parameter_name
+    Admin__BootstrapEmailParameterName      = var.admin_bootstrap_email_parameter_name
   }
 }
 
@@ -50,6 +58,23 @@ resource "aws_dynamodb_table" "generation_records" {
   attribute {
     name = "SK"
     type = "S"
+  }
+
+  attribute {
+    name = "GSI1PK"
+    type = "S"
+  }
+
+  attribute {
+    name = "GSI1SK"
+    type = "S"
+  }
+
+  global_secondary_index {
+    name            = "GSI1"
+    hash_key        = "GSI1PK"
+    range_key       = "GSI1SK"
+    projection_type = "ALL"
   }
 
   ttl {
@@ -136,7 +161,10 @@ resource "aws_iam_policy" "lambda_data_access" {
           "ssm:GetParameter",
           "ssm:GetParameters"
         ]
-        Resource = "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter${var.openai_api_key_parameter_name}"
+        Resource = [
+          "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter/listingpilot/${var.environment}/*",
+          "arn:${data.aws_partition.current.partition}:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter${var.openai_api_key_parameter_name}"
+        ]
       }
     ]
   })
@@ -397,3 +425,157 @@ resource "aws_amplify_branch" "main" {
   branch_name = var.amplify_branch_name
   stage       = var.environment == "dev" ? "DEVELOPMENT" : upper(var.environment)
 }
+
+# -------------------------------
+# Stripe SSM Parameters
+# -------------------------------
+resource "aws_ssm_parameter" "stripe_secret_key" {
+  count = var.stripe_secret_key != "" ? 1 : 0
+
+  name  = var.stripe_secret_key_parameter_name
+  type  = "SecureString"
+  value = var.stripe_secret_key
+
+  tags = var.tags
+}
+
+resource "aws_ssm_parameter" "stripe_webhook_secret" {
+  count = var.stripe_webhook_secret != "" ? 1 : 0
+
+  name  = var.stripe_webhook_secret_parameter_name
+  type  = "SecureString"
+  value = var.stripe_webhook_secret
+
+  tags = var.tags
+}
+
+resource "aws_ssm_parameter" "stripe_publishable_key" {
+  count = var.stripe_publishable_key != "" ? 1 : 0
+
+  name  = var.stripe_publishable_key_parameter_name
+  type  = "String"
+  value = var.stripe_publishable_key
+
+  tags = var.tags
+}
+
+# -------------------------------
+# SES Email Identity (optional)
+# -------------------------------
+resource "aws_ses_email_identity" "from" {
+  count = var.ses_from_address != "" ? 1 : 0
+
+  email = var.ses_from_address
+}
+
+resource "aws_ssm_parameter" "ses_from_address" {
+  count = var.ses_from_address != "" ? 1 : 0
+
+  name  = var.ses_from_address_parameter_name
+  type  = "String"
+  value = var.ses_from_address
+
+  tags = var.tags
+}
+
+# -------------------------------
+# Admin Bootstrap Email SSM
+# -------------------------------
+resource "aws_ssm_parameter" "admin_bootstrap_email" {
+  count = var.admin_bootstrap_email != "" ? 1 : 0
+
+  name  = var.admin_bootstrap_email_parameter_name
+  type  = "String"
+  value = var.admin_bootstrap_email
+
+  tags = var.tags
+}
+
+# -------------------------------
+# Cognito User Pool (optional)
+# Set create_cognito = true to provision a new pool.
+# Leave false and supply cognito_user_pool_id / cognito_client_id
+# to use an existing pool.
+# -------------------------------
+resource "aws_cognito_user_pool" "main" {
+  count = var.create_cognito ? 1 : 0
+
+  name = "${local.prefix}-users"
+
+  username_attributes      = ["email"]
+  auto_verified_attributes = ["email"]
+
+  password_policy {
+    minimum_length    = 8
+    require_uppercase = true
+    require_lowercase = true
+    require_numbers   = true
+    require_symbols   = false
+  }
+
+  schema {
+    attribute_data_type = "String"
+    name                = "email"
+    required            = true
+    mutable             = true
+
+    string_attribute_constraints {
+      min_length = 3
+      max_length = 320
+    }
+  }
+
+  email_configuration {
+    email_sending_account = "COGNITO_DEFAULT"
+  }
+
+  admin_create_user_config {
+    allow_admin_create_user_only = false
+  }
+
+  account_recovery_setting {
+    recovery_mechanism {
+      name     = "verified_email"
+      priority = 1
+    }
+  }
+
+  tags = var.tags
+}
+
+resource "aws_cognito_user_pool_client" "main" {
+  count        = var.create_cognito ? 1 : 0
+  name         = "${local.prefix}-web-client"
+  user_pool_id = aws_cognito_user_pool.main[0].id
+
+  generate_secret               = false
+  prevent_user_existence_errors = "ENABLED"
+  enable_token_revocation       = true
+
+  explicit_auth_flows = [
+    "ALLOW_USER_PASSWORD_AUTH",
+    "ALLOW_REFRESH_TOKEN_AUTH",
+    "ALLOW_USER_SRP_AUTH",
+  ]
+
+  callback_urls = var.cognito_callback_urls
+  logout_urls   = var.cognito_logout_urls
+
+  token_validity_units {
+    access_token  = "hours"
+    id_token      = "hours"
+    refresh_token = "days"
+  }
+
+  access_token_validity  = 1
+  id_token_validity      = 1
+  refresh_token_validity = 30
+}
+
+resource "aws_cognito_user_group" "admin" {
+  count        = var.create_cognito ? 1 : 0
+  name         = "admin"
+  user_pool_id = aws_cognito_user_pool.main[0].id
+  description  = "Platform administrators"
+}
+

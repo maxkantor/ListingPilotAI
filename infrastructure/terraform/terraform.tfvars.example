@@ -20,7 +20,7 @@ cors_allow_origins = [
 # frontend_bucket_name_override = "listingpilot-dev-frontend"
 # dynamodb_table_name_override  = "listingpilot-dev-generation-records"
 
-# SSM parameters created by Terraform
+# Generic SSM parameters (use for any one-off values)
 ssm_plain_parameters = {
   "/listingpilot/dev/app/environment" = "dev"
 }
@@ -30,12 +30,51 @@ ssm_secure_parameters = {
 }
 
 openai_api_key_parameter_name = "/listingpilot/dev/openai/api-key"
-storage_provider             = "dynamodb"
+storage_provider              = "dynamodb"
 
-# Optional Cognito JWT auth inputs
+# ---------------------------------------------------------------
+# Stripe
+# These are written to SSM as dedicated named parameters.
+# stripe_secret_key and stripe_webhook_secret are sensitive —
+# prefer passing them via TF_VAR_stripe_secret_key env vars or a
+# .tfvars file that is .gitignored.
+# ---------------------------------------------------------------
+stripe_secret_key      = "sk_live_..."   # or sk_test_... for dev
+stripe_webhook_secret  = "whsec_..."
+stripe_publishable_key = "pk_live_..."   # or pk_test_... for dev
+
+stripe_secret_key_parameter_name      = "/listingpilot/dev/stripe/secret-key"
+stripe_webhook_secret_parameter_name  = "/listingpilot/dev/stripe/webhook-secret"
+stripe_publishable_key_parameter_name = "/listingpilot/dev/stripe/publishable-key"
+
+# ---------------------------------------------------------------
+# SES (leave ses_from_address blank to skip identity creation)
+# ---------------------------------------------------------------
+ses_from_address               = "noreply@your-domain.com"
+ses_from_address_parameter_name = "/listingpilot/dev/ses/from-address"
+
+# ---------------------------------------------------------------
+# Admin bootstrap
+# ---------------------------------------------------------------
+admin_bootstrap_email               = "admin@your-domain.com"
+admin_bootstrap_email_parameter_name = "/listingpilot/dev/admin/bootstrap-email"
+
+# ---------------------------------------------------------------
+# Cognito
+# Option A — let Terraform create a new pool:
+#   create_cognito = true
+# Option B — supply an existing pool:
+#   create_cognito       = false
+#   cognito_user_pool_id = "us-east-1_XXXXXXXXX"
+#   cognito_client_id    = "xxxxxxxxxxxxxxxxxxxxxxxxxx"
+# ---------------------------------------------------------------
+create_cognito = false
 # cognito_user_pool_id = "us-east-1_example"
 # cognito_client_id    = "exampleclientid"
 # cognito_region       = "us-east-1"
+
+cognito_callback_urls = ["http://localhost:3000", "https://your-frontend-domain.com"]
+cognito_logout_urls   = ["http://localhost:3000", "https://your-frontend-domain.com"]
 
 # Frontend hosting with S3 + CloudFront
 create_frontend_bucket = true

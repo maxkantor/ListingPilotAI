@@ -1,5 +1,6 @@
 using ListingPilot.Application.DTOs;
 using ListingPilot.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ListingPilot.Api.Controllers;
@@ -15,6 +16,7 @@ public class ContactController : ControllerBase
         _contactService = contactService;
     }
 
+    [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult<ContactSubmissionResponseDto>> Submit([FromBody] ContactSubmissionRequestDto request)
     {
@@ -25,5 +27,12 @@ public class ContactController : ControllerBase
 
         var response = await _contactService.SubmitContactAsync(request);
         return Ok(response);
+    }
+
+    [Authorize(Policy = "AdminOnly")]
+    [HttpPost("{inquiryId}/reply")]
+    public async Task<ActionResult<ContactReplyDto>> Reply(string inquiryId, [FromBody] ReplyContactRequestDto request)
+    {
+        return Ok(await _contactService.ReplyAsync(inquiryId, request));
     }
 }

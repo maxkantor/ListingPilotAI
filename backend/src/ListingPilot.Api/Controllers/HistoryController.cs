@@ -1,11 +1,13 @@
 using ListingPilot.Application.DTOs;
 using ListingPilot.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ListingPilot.Api.Controllers;
 
 [ApiController]
 [Route("api/history")]
+[Authorize]
 public class HistoryController : ControllerBase
 {
     private readonly IHistoryService _historyService;

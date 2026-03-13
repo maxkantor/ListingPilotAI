@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ListingPilot.Application.DTOs;
 using ListingPilot.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ListingPilot.Api.Controllers;
 
@@ -17,8 +18,9 @@ public class GenerationController : ControllerBase
         _logger = logger;
     }
 
+    [AllowAnonymous]
     [HttpPost("generate")]
-    public async Task<ActionResult<GenerateResponseDto>> Generate([FromBody] GenerateRequestDto request)
+    public async Task<ActionResult<GenerateResponseEnvelopeDto>> Generate([FromBody] GenerateRequestDto request)
     {
         try
         {
@@ -27,6 +29,10 @@ public class GenerationController : ControllerBase
 
             var result = await _generationService.GenerateAsync(request);
             return Ok(result);
+        }
+        catch (UsageGateException ex)
+        {
+            return StatusCode(StatusCodes.Status402PaymentRequired, ex.GateResult);
         }
         catch (Exception ex)
         {
@@ -42,6 +48,7 @@ public class GenerationController : ControllerBase
         return Ok(sample);
     }
 
+    [Authorize]
     [HttpGet("dashboard/summary")]
     public async Task<ActionResult<DashboardSummaryDto>> GetDashboardSummary()
     {
@@ -49,6 +56,7 @@ public class GenerationController : ControllerBase
         return Ok(summary);
     }
 
+    [Authorize]
     [HttpGet("dashboard/performance")]
     public async Task<ActionResult<List<PerformanceSnapshotDto>>> GetDashboardPerformance()
     {
@@ -56,6 +64,7 @@ public class GenerationController : ControllerBase
         return Ok(performance);
     }
 
+    [Authorize]
     [HttpGet("crm/leads")]
     public async Task<ActionResult<List<LeadDto>>> GetLeads()
     {
@@ -63,6 +72,7 @@ public class GenerationController : ControllerBase
         return Ok(leads);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet("admin/overview")]
     public async Task<ActionResult<AdminOverviewDto>> GetAdminOverview()
     {
@@ -70,6 +80,7 @@ public class GenerationController : ControllerBase
         return Ok(overview);
     }
 
+    [Authorize(Policy = "AdminOnly")]
     [HttpGet("analytics/overview")]
     public async Task<ActionResult<AnalyticsOverviewDto>> GetAnalyticsOverview()
     {

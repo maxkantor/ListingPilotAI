@@ -27,6 +27,7 @@ public class PropertyInputDto
 public class GenerateRequestDto
 {
     public PropertyInputDto Property { get; set; } = new();
+    public UsageContextDto? UsageContext { get; set; }
 }
 
 public class GeneratedOutputDto
