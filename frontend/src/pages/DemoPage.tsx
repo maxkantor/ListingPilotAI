@@ -72,7 +72,7 @@ export const DemoPage: React.FC = () => {
 
       <section className={styles.sectionCompact}>
         <div className={styles.container}>
-          <div className={styles.intro}><div className={styles.kicker}>What the demo shows</div><h2 className={styles.sectionTitle}>Interactive preview, realistic outputs, and clear next actions.</h2></div>
+          <div className={styles.intro}><div className={styles.sectionKicker}>What the demo shows</div><h2 className={styles.sectionTitle}>Interactive preview, realistic outputs, and clear next actions.</h2></div>
           <div className={styles.contactSplit}>
             <div className={styles.surface}>
               <h3>{demo?.listingName ?? 'Luxury listing launch'}</h3>

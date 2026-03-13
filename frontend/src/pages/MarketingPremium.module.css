@@ -90,6 +90,7 @@
   border-radius: 999px;
   font-size: 13px;
   font-weight: 700;
+  line-height: 1;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -102,9 +103,10 @@
 }
 
 .sectionKicker {
-  background: rgba(12, 29, 49, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  color: #fce8c3;
+  background: #10233b;
+  border: 1px solid rgba(16, 35, 59, 0.14);
+  color: #f2d28f;
+  box-shadow: 0 8px 20px rgba(10, 25, 44, 0.12);
 }
 
 .title {
@@ -223,19 +225,30 @@
   align-items: center;
   font-size: 13px;
   font-weight: 700;
+  line-height: 1;
 }
 
 .chips span,
 .pill {
+  background: #10233b;
+  border: 1px solid rgba(16, 35, 59, 0.14);
+  color: #f2d28f;
+  box-shadow: 0 8px 20px rgba(10, 25, 44, 0.12);
+}
+
+.hero .chips span,
+.hero .pill {
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   color: rgba(241, 247, 255, 0.96);
+  box-shadow: none;
 }
 
 .pillDark {
-  background: rgba(12, 29, 49, 0.9);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  color: #fce8c3;
+  background: #10233b;
+  border: 1px solid rgba(16, 35, 59, 0.14);
+  color: #f2d28f;
+  box-shadow: 0 8px 20px rgba(10, 25, 44, 0.12);
 }
 
 .surface,
@@ -448,14 +461,17 @@
   min-height: 32px;
   padding: 0 16px;
   border-radius: 999px;
-  background: rgba(12, 29, 49, 0.92);
-  color: #fce8c3;
+  background: #10233b;
+  border: 1px solid rgba(16, 35, 59, 0.14);
+  color: #f2d28f;
   font-size: 13px;
   display: inline-flex;
   align-items: center;
   font-weight: 700;
+  line-height: 1;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  box-shadow: 0 8px 20px rgba(10, 25, 44, 0.12);
 }
 
 .price {

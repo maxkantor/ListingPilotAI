@@ -80,7 +80,7 @@ export const PricingPage: React.FC = () => {
       <section className={styles.sectionCompact}>
         <div className={styles.container}>
           <div className={styles.intro}>
-            <div className={styles.kicker}>Plan comparison</div>
+            <div className={styles.sectionKicker}>Plan comparison</div>
             <h2 className={styles.sectionTitle}>Scale from launch automation to team-level visibility.</h2>
           </div>
           <div className={styles.table}>

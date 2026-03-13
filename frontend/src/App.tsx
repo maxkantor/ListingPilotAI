@@ -24,6 +24,16 @@ import { TermsPage } from './pages/TermsPage';
 import { WorkspacePage } from './pages/WorkspacePage';
 import './styles/globals.css';
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+
+  return null;
+}
+
 function PublicLayout() {
   const location = useLocation();
   const showStickyMobileCta = location.pathname !== '/privacy' && location.pathname !== '/terms';
@@ -85,6 +95,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AppRoutes />
     </BrowserRouter>
   );
