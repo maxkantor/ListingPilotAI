@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getLastUsedEmail, storeLastUsedEmail } from '../auth/authStorage';
 import { useAuth } from '../auth/AuthContext';
 import styles from './AuthPage.module.css';
 
@@ -7,17 +8,22 @@ export const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = React.useState(getLastUsedEmail());
   const [password, setPassword] = React.useState('');
   const [message, setMessage] = React.useState('');
   const destination = (location.state as { from?: string } | null)?.from ?? '/workspace';
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const result = await login({ email, password, intendedDestination: destination });
-    setMessage(result.message);
-    if (result.success) {
-      navigate(result.redirectTo || destination, { replace: true });
+    try {
+      const result = await login({ email, password, intendedDestination: destination });
+      setMessage(result.message);
+      if (result.success) {
+        storeLastUsedEmail(email);
+        navigate(result.redirectTo || destination, { replace: true });
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Unable to sign in right now.');
     }
   };
 

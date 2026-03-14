@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getLastUsedEmail, storeLastUsedEmail } from '../auth/authStorage';
 import { useAuth } from '../auth/AuthContext';
 import styles from './AuthPage.module.css';
 
@@ -7,15 +8,22 @@ export const VerifyEmailPage: React.FC = () => {
   const { confirmEmail } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [email, setEmail] = React.useState((location.state as { email?: string } | null)?.email ?? '');
+  const [email, setEmail] = React.useState((location.state as { email?: string } | null)?.email ?? getLastUsedEmail());
   const [code, setCode] = React.useState('');
   const [message, setMessage] = React.useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const result = await confirmEmail({ email, code });
-    setMessage(result.message);
-    navigate(result.redirectTo || '/login', { state: { from: '/workspace' } });
+    try {
+      const result = await confirmEmail({ email, code });
+      setMessage(result.message);
+      storeLastUsedEmail(email);
+      if (result.success) {
+        navigate(result.redirectTo || '/login', { state: { from: '/workspace' } });
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Verification failed. Please try again.');
+    }
   };
 
   return (

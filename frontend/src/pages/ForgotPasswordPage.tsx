@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getLastUsedEmail, storeLastUsedEmail } from '../auth/authStorage';
 import { useAuth } from '../auth/AuthContext';
 import styles from './AuthPage.module.css';
 
 export const ForgotPasswordPage: React.FC = () => {
   const { forgotPassword, resetPassword } = useAuth();
-  const [email, setEmail] = React.useState('');
+  const [email, setEmail] = React.useState(getLastUsedEmail());
   const [code, setCode] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
   const [stage, setStage] = React.useState<'request' | 'reset'>('request');
@@ -13,15 +14,27 @@ export const ForgotPasswordPage: React.FC = () => {
 
   const handleRequest = async (event: React.FormEvent) => {
     event.preventDefault();
-    const result = await forgotPassword({ email });
-    setMessage(result.message);
-    setStage('reset');
+    try {
+      const result = await forgotPassword({ email });
+      setMessage(result.message);
+      storeLastUsedEmail(email);
+      if (result.success) {
+        setStage('reset');
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Unable to request reset code.');
+    }
   };
 
   const handleReset = async (event: React.FormEvent) => {
     event.preventDefault();
-    const result = await resetPassword({ email, code, newPassword });
-    setMessage(result.message);
+    try {
+      const result = await resetPassword({ email, code, newPassword });
+      setMessage(result.message);
+      storeLastUsedEmail(email);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Unable to reset password.');
+    }
   };
 
   return (

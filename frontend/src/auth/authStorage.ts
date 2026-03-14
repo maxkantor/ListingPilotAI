@@ -3,6 +3,7 @@ import type { AuthTokens, CurrentUser } from '../types';
 const TOKENS_KEY = 'listingpilot.auth.tokens';
 const USER_KEY = 'listingpilot.auth.user';
 const ANON_KEY = 'listingpilot.anonymous.id';
+const LAST_EMAIL_KEY = 'listingpilot.auth.last-email';
 
 export function getStoredTokens(): AuthTokens | null {
   const raw = window.localStorage.getItem(TOKENS_KEY);
@@ -35,6 +36,19 @@ export function storeUser(user: CurrentUser | null) {
 export function clearStoredAuth() {
   window.localStorage.removeItem(TOKENS_KEY);
   window.localStorage.removeItem(USER_KEY);
+}
+
+export function getLastUsedEmail(): string {
+  return window.localStorage.getItem(LAST_EMAIL_KEY) ?? '';
+}
+
+export function storeLastUsedEmail(email: string) {
+  const normalized = email.trim();
+  if (!normalized) {
+    return;
+  }
+
+  window.localStorage.setItem(LAST_EMAIL_KEY, normalized);
 }
 
 export function getAnonymousId(): string {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getLastUsedEmail, storeLastUsedEmail } from '../auth/authStorage';
 import { useAuth } from '../auth/AuthContext';
 import styles from './AuthPage.module.css';
 
@@ -7,15 +8,22 @@ export const SignupPage: React.FC = () => {
   const { signUp } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [form, setForm] = React.useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [form, setForm] = React.useState({ firstName: '', lastName: '', email: getLastUsedEmail(), password: '' });
   const [message, setMessage] = React.useState('');
   const destination = (location.state as { from?: string } | null)?.from ?? '/workspace';
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const result = await signUp({ ...form, intendedDestination: destination });
-    setMessage(result.message);
-    navigate(result.redirectTo || '/verify-email', { state: { email: form.email } });
+    try {
+      const result = await signUp({ ...form, intendedDestination: destination });
+      setMessage(result.message);
+      storeLastUsedEmail(form.email);
+      if (result.success || result.requiresEmailVerification) {
+        navigate(result.redirectTo || '/verify-email', { state: { email: form.email } });
+      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Unable to create account right now. Please try again.');
+    }
   };
 
   return (
