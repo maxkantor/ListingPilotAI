@@ -109,6 +109,30 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
+.topbarLead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.backButton {
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(224, 233, 247, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e9f1ff;
+  font-weight: 700;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .kicker {
   color: rgba(224, 233, 247, 0.7);
   font-size: 13px;

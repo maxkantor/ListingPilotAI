@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import styles from './AppShell.module.css';
 
@@ -7,15 +7,32 @@ const appNav = [
   { label: 'Workspace', to: '/workspace' },
   { label: 'Listings', to: '/listings' },
   { label: 'Assets', to: '/assets' },
-  { label: 'CRM', to: '/crm' },
   { label: 'Analytics', to: '/dashboard' },
   { label: 'Settings', to: '/settings' },
 ];
 
+const adminNav = [
+  { label: 'Admin CRM', to: '/crm' },
+  { label: 'Admin', to: '/admin' },
+];
+
 export const AppShell: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isAdmin, session } = useAuth();
   const creditsRemaining = session?.currentUser?.creditBalance ?? 0;
+  const navigationItems = isAdmin ? [...appNav, ...adminNav] : appNav;
+
+  const activePage = navigationItems.find((item) => item.to === location.pathname)?.label ?? 'Workspace';
+
+  const handleBack = React.useCallback(() => {
+    if (window.history.length > 1) {
+      navigate(-1);
+      return;
+    }
+
+    navigate('/', { replace: true });
+  }, [navigate]);
 
   return (
     <div className={styles.shell}>
@@ -29,7 +46,7 @@ export const AppShell: React.FC = () => {
         </Link>
 
         <nav className={styles.nav}>
-          {[...appNav, ...(isAdmin ? [{ label: 'Admin', to: '/admin' }] : [])].map((item) => (
+          {navigationItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -45,9 +62,14 @@ export const AppShell: React.FC = () => {
 
       <div className={styles.main}>
         <header className={styles.topbar}>
-          <div>
-            <p className={styles.kicker}>Internal app</p>
-            <h1>{appNav.find((item) => item.to === location.pathname)?.label ?? 'Workspace'}</h1>
+          <div className={styles.topbarLead}>
+            <button type="button" className={styles.backButton} onClick={handleBack} aria-label="Go back to previous page">
+              ← Back
+            </button>
+            <div>
+              <p className={styles.kicker}>Internal app</p>
+              <h1>{activePage}</h1>
+            </div>
           </div>
           <div className={styles.topbarActions}>
             <Link to="/workspace#new-listing">New Listing</Link>

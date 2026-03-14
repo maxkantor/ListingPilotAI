@@ -94,13 +94,13 @@ function AppRoutes() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/listings" element={<ListingsPage />} />
           <Route path="/assets" element={<AssetsPage />} />
-          <Route path="/crm" element={<CrmPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
       </Route>
 
       <Route element={<AdminRoute />}>
         <Route element={<AppShell />}>
+          <Route path="/crm" element={<CrmPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Route>
       </Route>
