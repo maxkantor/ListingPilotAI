@@ -89,6 +89,17 @@ export interface GenerateResponse {
   usage: UsageSummary;
 }
 
+export interface ListingPreviewResponse {
+  streetAddress?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  price?: string;
+  beds?: string;
+  baths?: string;
+  squareFeet?: string;
+}
+
 export interface HistoryItem {
   id: string;
   streetAddress: string;

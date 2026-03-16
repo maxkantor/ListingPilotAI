@@ -27,6 +27,7 @@ import type {
   GenerateResponse,
   HistoryItem,
   ListingProject,
+  ListingPreviewResponse,
   LoginRequest,
   Lead,
   PackageCatalogItem,
@@ -224,6 +225,11 @@ export const apiService = {
 
   getSampleProperty(): Promise<PropertyInput> {
     return request<PropertyInput>('/api/sample-property');
+  },
+
+  getListingPreview(url: string): Promise<ListingPreviewResponse> {
+    const params = new URLSearchParams({ url });
+    return request<ListingPreviewResponse>(`/api/listing-preview?${params.toString()}`);
   },
 
   getHistory(): Promise<HistoryItem[]> {

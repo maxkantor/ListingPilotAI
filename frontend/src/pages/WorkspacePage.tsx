@@ -64,6 +64,20 @@ const toTitleCase = (value: string) => value
   .map(toTitleCaseToken)
   .join(' ');
 
+const formatWithCommas = (value: string) => {
+  const digits = value.replace(/[^0-9]/g, '');
+  if (!digits) {
+    return value;
+  }
+
+  const numeric = Number(digits);
+  if (!Number.isFinite(numeric)) {
+    return value;
+  }
+
+  return numeric.toLocaleString();
+};
+
 const formatMillions = (value: string) => {
   const numeric = Number(value.replace(/[^0-9.]/g, ''));
   if (!Number.isFinite(numeric) || numeric <= 0) {
@@ -255,14 +269,61 @@ export const WorkspacePage: React.FC = () => {
     setShowSummaryCard(true);
   };
 
-  const handleListingUrlBlur = () => {
+  const handleListingUrlBlur = async () => {
     const trimmed = listingUrl.trim();
     if (!trimmed) {
       return;
     }
 
-    const parsed = parseListingUrl(trimmed);
     const autoFilled: string[] = [];
+
+    try {
+      const preview = await apiService.getListingPreview(trimmed);
+
+      if (!streetAddress && preview.streetAddress) {
+        setStreetAddress(preview.streetAddress);
+        autoFilled.push('Address');
+      }
+
+      if (!city && preview.city) {
+        setCity(city ? city : preview.city);
+        autoFilled.push('City');
+      }
+
+      if (!state && preview.state) {
+        setState(preview.state);
+        autoFilled.push('State');
+      }
+
+      if (!zip && preview.zip) {
+        setZip(preview.zip);
+        autoFilled.push('ZIP');
+      }
+
+      if (!price && preview.price) {
+        setPrice(formatWithCommas(preview.price));
+        autoFilled.push('Price');
+      }
+
+      if (!beds && preview.beds) {
+        setBeds(preview.beds);
+        autoFilled.push('Beds');
+      }
+
+      if (!baths && preview.baths) {
+        setBaths(preview.baths);
+        autoFilled.push('Baths');
+      }
+
+      if (!squareFeet && preview.squareFeet) {
+        setSquareFeet(formatWithCommas(preview.squareFeet));
+        autoFilled.push('Square feet');
+      }
+    } catch {
+      // graceful fallback to URL parsing only
+    }
+
+    const parsed = parseListingUrl(trimmed);
 
     if (!streetAddress && parsed.streetAddress) {
       setStreetAddress(parsed.streetAddress);
@@ -296,7 +357,9 @@ export const WorkspacePage: React.FC = () => {
 
     if (!squareFeet && parsed.squareFeet) {
       setSquareFeet(parsed.squareFeet);
-      autoFilled.push('Square feet');
+      if (!autoFilled.includes('Square feet')) {
+        autoFilled.push('Square feet');
+      }
     }
 
     if (autoFilled.length) {
@@ -443,6 +506,7 @@ export const WorkspacePage: React.FC = () => {
                 onChange={(event) => setListingUrl(event.target.value)}
                 onBlur={handleListingUrlBlur}
                 placeholder="https://www.zillow.com/homedetails/..."
+                autoComplete="off"
               />
             </div>
           ) : null}
@@ -450,39 +514,39 @@ export const WorkspacePage: React.FC = () => {
           <div className={styles.formGrid}>
             <div className={styles.fieldGroup}>
               <label>Address</label>
-              <input value={streetAddress} onChange={(event) => setStreetAddress(event.target.value)} placeholder="4812 Wieuca Road NE" />
+              <input value={streetAddress} onChange={(event) => setStreetAddress(event.target.value)} placeholder="4812 Wieuca Road NE" autoComplete="off" />
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.fieldGroup}>
                 <label>City</label>
-                <input value={city} onChange={(event) => setCity(event.target.value)} placeholder="Atlanta" />
+                <input value={city} onChange={(event) => setCity(event.target.value)} placeholder="Atlanta" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>State</label>
-                <input value={state} onChange={(event) => setState(event.target.value)} placeholder="GA" />
+                <input value={state} onChange={(event) => setState(event.target.value)} placeholder="GA" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>ZIP</label>
-                <input value={zip} onChange={(event) => setZip(event.target.value)} placeholder="30305" />
+                <input value={zip} onChange={(event) => setZip(event.target.value)} placeholder="30305" autoComplete="off" />
               </div>
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.fieldGroup}>
                 <label>Price</label>
-                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="$10,000,000" />
+                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="$10,000,000" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>Beds</label>
-                <input value={beds} onChange={(event) => setBeds(event.target.value)} placeholder="4" />
+                <input value={beds} onChange={(event) => setBeds(event.target.value)} placeholder="4" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>Baths</label>
-                <input value={baths} onChange={(event) => setBaths(event.target.value)} placeholder="3" />
+                <input value={baths} onChange={(event) => setBaths(event.target.value)} placeholder="3" autoComplete="off" />
               </div>
             </div>
             <div className={styles.fieldGroup}>
               <label>Square feet</label>
-              <input value={squareFeet} onChange={(event) => setSquareFeet(event.target.value)} placeholder="3,200" />
+              <input value={squareFeet} onChange={(event) => setSquareFeet(event.target.value)} placeholder="3,200" autoComplete="off" />
             </div>
             <div className={styles.fieldGroup}>
               <label>Key features</label>
