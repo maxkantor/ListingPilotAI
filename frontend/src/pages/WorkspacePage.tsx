@@ -3,6 +3,7 @@ import { useAuth } from '../auth/AuthContext';
 import { useGenerator } from '../hooks/useGenerator';
 import { apiService } from '../services/api';
 import type { GeneratedOutput, PropertyInput } from '../types';
+import { STATE_ABBREVIATIONS } from '../utils/constants';
 import styles from './WorkspacePage.module.css';
 
 type AssetKey = keyof GeneratedOutput;
@@ -40,9 +41,28 @@ const STREET_SUFFIXES = new Set([
   'trl', 'trail', 'way', 'n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw',
 ]);
 
+const DIRECTIONALS = new Set(['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw']);
+const US_STATES = new Set(STATE_ABBREVIATIONS.map((state) => state.toUpperCase()));
+
+const toTitleCaseToken = (token: string) => {
+  const lowered = token.toLowerCase();
+
+  if (DIRECTIONALS.has(lowered)) {
+    return lowered.toUpperCase();
+  }
+
+  if (/^\d/.test(token)) {
+    return token;
+  }
+
+  return lowered.charAt(0).toUpperCase() + lowered.slice(1);
+};
+
 const toTitleCase = (value: string) => value
-  .toLowerCase()
-  .replace(/\b([a-z])/g, (char) => char.toUpperCase());
+  .split(/\s+/)
+  .filter(Boolean)
+  .map(toTitleCaseToken)
+  .join(' ');
 
 const formatMillions = (value: string) => {
   const numeric = Number(value.replace(/[^0-9.]/g, ''));
@@ -87,7 +107,15 @@ const parseListingUrl = (rawUrl: string): Partial<PropertyInput> => {
     }
 
     const zipIndex = tokens.findIndex((token) => /^\d{5}(?:\d{4})?$/.test(token));
-    const stateIndex = tokens.findIndex((token, index) => /^[A-Za-z]{2}$/.test(token) && (zipIndex === -1 || index < zipIndex));
+
+    let stateIndex = -1;
+    for (let index = (zipIndex > 0 ? zipIndex - 1 : tokens.length - 1); index >= 0; index -= 1) {
+      const candidate = tokens[index].toUpperCase();
+      if (US_STATES.has(candidate)) {
+        stateIndex = index;
+        break;
+      }
+    }
 
     let streetAddress = '';
     let city = '';
@@ -110,8 +138,16 @@ const parseListingUrl = (rawUrl: string): Partial<PropertyInput> => {
       }
 
       if (streetEndIndex >= 0) {
-        streetAddress = toTitleCase(streetAndCity.slice(0, streetEndIndex + 1).join(' '));
+        const nextToken = streetAndCity[streetEndIndex + 1]?.toLowerCase() ?? '';
+        const includeDirectional = DIRECTIONALS.has(nextToken);
+        const streetEnd = includeDirectional ? streetEndIndex + 1 : streetEndIndex;
+
+        streetAddress = toTitleCase(streetAndCity.slice(0, streetEnd + 1).join(' '));
         city = toTitleCase(streetAndCity.slice(streetEndIndex + 1).join(' '));
+
+        if (includeDirectional) {
+          city = toTitleCase(streetAndCity.slice(streetEnd + 1).join(' '));
+        }
       } else {
         streetAddress = toTitleCase(streetAndCity.join(' '));
       }
@@ -433,7 +469,7 @@ export const WorkspacePage: React.FC = () => {
             <div className={styles.fieldRow}>
               <div className={styles.fieldGroup}>
                 <label>Price</label>
-                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="$10MM" />
+                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="$10,000,000" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>Beds</label>
