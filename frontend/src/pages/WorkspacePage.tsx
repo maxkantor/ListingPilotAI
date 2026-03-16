@@ -286,7 +286,7 @@ export const WorkspacePage: React.FC = () => {
       }
 
       if (!city && preview.city) {
-        setCity(city ? city : preview.city);
+        setCity(preview.city);
         autoFilled.push('City');
       }
 
@@ -514,39 +514,39 @@ export const WorkspacePage: React.FC = () => {
           <div className={styles.formGrid}>
             <div className={styles.fieldGroup}>
               <label>Address</label>
-              <input value={streetAddress} onChange={(event) => setStreetAddress(event.target.value)} placeholder="4812 Wieuca Road NE" autoComplete="off" />
+              <input value={streetAddress} onChange={(event) => setStreetAddress(event.target.value)} placeholder="Street address" autoComplete="off" />
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.fieldGroup}>
                 <label>City</label>
-                <input value={city} onChange={(event) => setCity(event.target.value)} placeholder="Atlanta" autoComplete="off" />
+                <input value={city} onChange={(event) => setCity(event.target.value)} placeholder="City" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>State</label>
-                <input value={state} onChange={(event) => setState(event.target.value)} placeholder="GA" autoComplete="off" />
+                <input value={state} onChange={(event) => setState(event.target.value)} placeholder="State" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>ZIP</label>
-                <input value={zip} onChange={(event) => setZip(event.target.value)} placeholder="30305" autoComplete="off" />
+                <input value={zip} onChange={(event) => setZip(event.target.value)} placeholder="ZIP code" autoComplete="off" />
               </div>
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.fieldGroup}>
                 <label>Price</label>
-                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="$10,000,000" autoComplete="off" />
+                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="List price" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>Beds</label>
-                <input value={beds} onChange={(event) => setBeds(event.target.value)} placeholder="4" autoComplete="off" />
+                <input value={beds} onChange={(event) => setBeds(event.target.value)} placeholder="Number of beds" autoComplete="off" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>Baths</label>
-                <input value={baths} onChange={(event) => setBaths(event.target.value)} placeholder="3" autoComplete="off" />
+                <input value={baths} onChange={(event) => setBaths(event.target.value)} placeholder="Number of baths" autoComplete="off" />
               </div>
             </div>
             <div className={styles.fieldGroup}>
               <label>Square feet</label>
-              <input value={squareFeet} onChange={(event) => setSquareFeet(event.target.value)} placeholder="3,200" autoComplete="off" />
+              <input value={squareFeet} onChange={(event) => setSquareFeet(event.target.value)} placeholder="Square footage" autoComplete="off" />
             </div>
             <div className={styles.fieldGroup}>
               <label>Key features</label>

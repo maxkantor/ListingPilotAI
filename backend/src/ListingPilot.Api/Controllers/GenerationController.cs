@@ -78,20 +78,24 @@ public class GenerationController : ControllerBase
             var price = ExtractFirstGroup(html,
                 "\"price\"\\s*:\\s*\"?([0-9][0-9,]*)\"?",
                 "\"priceForHDP\"\\s*:\\s*\"?([0-9][0-9,]*)\"?",
-                "\"unformattedPrice\"\\s*:\\s*([0-9][0-9,]*)");
+                "\"unformattedPrice\"\\s*:\\s*([0-9][0-9,]*)",
+                "\\$\\s*([0-9][0-9,]*(?:\\.[0-9]{2})?)");
 
             var beds = ExtractFirstGroup(html,
                 "\"bedrooms\"\\s*:\\s*([0-9]+(?:\\.[0-9]+)?)",
-                "\"beds\"\\s*:\\s*([0-9]+(?:\\.[0-9]+)?)");
+                "\"beds\"\\s*:\\s*([0-9]+(?:\\.[0-9]+)?)",
+                "([0-9]+(?:\\.[0-9]+)?)\\s*beds?");
 
             var baths = ExtractFirstGroup(html,
                 "\"bathrooms\"\\s*:\\s*([0-9]+(?:\\.[0-9]+)?)",
-                "\"baths\"\\s*:\\s*([0-9]+(?:\\.[0-9]+)?)");
+                "\"baths\"\\s*:\\s*([0-9]+(?:\\.[0-9]+)?)",
+                "([0-9]+(?:\\.[0-9]+)?)\\s*baths?");
 
             var squareFeet = ExtractFirstGroup(html,
                 "\"livingArea\"\\s*:\\s*([0-9][0-9,]*)",
                 "\"livingAreaValue\"\\s*:\\s*([0-9][0-9,]*)",
-                "\"sqft\"\\s*:\\s*([0-9][0-9,]*)");
+                "\"sqft\"\\s*:\\s*([0-9][0-9,]*)",
+                "([0-9][0-9,]*)\\s*sq\\.?\\s*ft");
 
             var streetAddress = ExtractFirstGroup(html,
                 "\"streetAddress\"\\s*:\\s*\"([^\"]+)\"");
