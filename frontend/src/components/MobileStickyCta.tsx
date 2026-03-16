@@ -15,8 +15,8 @@ export const MobileStickyCta: React.FC = () => {
           <span>MLS-safe AI outputs for serious agents.</span>
         </div>
         <div className={styles.actions}>
-          <Link to="/packages" className={styles.secondary} onClick={() => trackCta('mobile_sticky_packages', '/packages')}>
-            Packages
+          <Link to="/pricing" className={styles.secondary} onClick={() => trackCta('mobile_sticky_pricing', '/pricing')}>
+            Pricing
           </Link>
           <Link to={isAuthenticated ? '/workspace' : '/signup'} className={styles.primary} onClick={() => trackCta('mobile_sticky_trial', isAuthenticated ? '/workspace' : '/signup')}>
             {isAuthenticated ? 'Open Workspace' : 'Start Trial'}

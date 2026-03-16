@@ -25,7 +25,6 @@ export const Navbar: React.FC = () => {
           <NavLink to="/product" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Product</NavLink>
           <NavLink to="/features" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Features</NavLink>
           <NavLink to="/pricing" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Pricing</NavLink>
-          <NavLink to="/packages" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Packages</NavLink>
           <NavLink to="/demo" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Demo</NavLink>
           <NavLink to="/contact" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Contact</NavLink>
           {isAuthenticated ? (

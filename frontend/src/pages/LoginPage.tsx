@@ -57,7 +57,7 @@ export const LoginPage: React.FC = () => {
           </div>
           <div className={styles.metaRow}>
             <Link to="/forgot-password">Forgot password?</Link>
-            <Link to="/packages">View packages</Link>
+            <Link to="/pricing">View pricing</Link>
           </div>
         </form>
       </div>

@@ -70,7 +70,7 @@ export const AppShell: React.FC = () => {
             <Link to="/workspace#new-listing">New Listing</Link>
             <Link to="/workspace#history">History</Link>
             <span className={styles.creditsPill}>{creditsRemaining} credits</span>
-            <Link to="/packages" className={styles.upgradeButton}>Upgrade plan</Link>
+            <Link to="/pricing" className={styles.upgradeButton}>Upgrade plan</Link>
           </div>
         </header>
         <main className={styles.content}>
