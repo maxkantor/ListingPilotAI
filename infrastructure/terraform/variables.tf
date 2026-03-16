@@ -149,6 +149,12 @@ variable "amplify_branch_name" {
   default     = "main"
 }
 
+variable "amplify_branch_stage" {
+  description = "Amplify branch stage (e.g., PRODUCTION, DEVELOPMENT)"
+  type        = string
+  default     = "PRODUCTION"
+}
+
 variable "amplify_github_token_ssm_parameter_name" {
   description = "SSM SecureString parameter containing GitHub personal access token for Amplify"
   type        = string

@@ -423,7 +423,7 @@ resource "aws_amplify_branch" "main" {
 
   app_id      = aws_amplify_app.this[0].id
   branch_name = var.amplify_branch_name
-  stage       = var.environment == "dev" ? "DEVELOPMENT" : upper(var.environment)
+  stage       = upper(var.amplify_branch_stage)
 }
 
 # -------------------------------
