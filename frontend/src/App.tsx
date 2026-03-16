@@ -13,7 +13,6 @@ import { initializeSeoEnhancements } from './utils/seo';
 import { AdminPage } from './pages/AdminPage';
 import { AssetsPage } from './pages/AssetsPage';
 import { ContactPage } from './pages/ContactPage';
-import { CrmPage } from './pages/CrmPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { LandingPage } from './pages/LandingPage';
 import { DemoPage } from './pages/DemoPage';
@@ -100,7 +99,6 @@ function AppRoutes() {
 
       <Route element={<AdminRoute />}>
         <Route element={<AppShell />}>
-          <Route path="/crm" element={<CrmPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Route>
       </Route>

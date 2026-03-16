@@ -5,7 +5,7 @@ import { trackCta } from '../utils/analytics';
 import styles from './Navbar.module.css';
 
 export const Navbar: React.FC = () => {
-  const { isAuthenticated, isAdmin, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
 
   return (
     <header className={styles.navbar}>
@@ -30,11 +30,6 @@ export const Navbar: React.FC = () => {
           <NavLink to="/contact" className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}>Contact</NavLink>
           {isAuthenticated ? (
             <>
-              {isAdmin ? (
-                <Link to="/admin" className={styles.secondaryCta} onClick={() => trackCta('nav_admin', '/admin')}>
-                  Admin
-                </Link>
-              ) : null}
               <Link to="/workspace" className={styles.secondaryCta} onClick={() => trackCta('nav_workspace', '/workspace')}>
                 Workspace
               </Link>

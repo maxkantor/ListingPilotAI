@@ -11,17 +11,12 @@ const appNav = [
   { label: 'Settings', to: '/settings' },
 ];
 
-const adminNav = [
-  { label: 'Admin CRM', to: '/crm' },
-  { label: 'Admin', to: '/admin' },
-];
-
 export const AppShell: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAdmin, session } = useAuth();
+  const { session } = useAuth();
   const creditsRemaining = session?.currentUser?.creditBalance ?? 0;
-  const navigationItems = isAdmin ? [...appNav, ...adminNav] : appNav;
+  const navigationItems = appNav;
 
   const activePage = navigationItems.find((item) => item.to === location.pathname)?.label ?? 'Workspace';
 
