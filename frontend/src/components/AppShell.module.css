@@ -193,6 +193,10 @@
 
 .content {
   padding: 28px 32px 40px;
+  background:
+    radial-gradient(circle at 80% 0%, rgba(118, 162, 230, 0.14), transparent 34%),
+    linear-gradient(180deg, rgba(8, 19, 35, 0.95) 0%, rgba(10, 21, 39, 0.96) 100%);
+  min-height: calc(100vh - 80px);
 }
 
 @media (max-width: 1040px) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './MarketingPremium.module.css';
+import styles from './PricingPage.module.css';
 
 const plans = [
   {
@@ -35,25 +35,34 @@ export const PricingPage: React.FC = () => {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
+        <div className={styles.heroGlow} />
         <div className={styles.container}>
-          <div className={styles.intro}>
-          <div>
-            <div className={styles.kicker}>Pricing</div>
-            <h1 className={styles.title}>Simple pricing for agents. Premium controls for teams.</h1>
-            <p className={styles.lead}>
-              Start with polished launches, then grow into a revenue operating system with CRM visibility, usage management, and a business-grade back office.
-            </p>
-            <div className={styles.buttonRow}>
-              <Link to="/workspace" className={styles.primaryBtn}>Start trial</Link>
-              <Link to="/contact" className={styles.secondaryBtn}>Talk sales</Link>
-            </div>
+          <div className={styles.kicker}>Pricing</div>
+          <h1 className={styles.title}>Institutional-grade pricing for modern listing teams.</h1>
+          <p className={styles.lead}>
+            Choose the operating tier that matches your production velocity. Keep every listing launch compliant, premium, and ready to publish.
+          </p>
+
+          <div className={styles.metricsRow}>
+            <div className={styles.metricCard}><strong>24/7</strong><span>Generation access</span></div>
+            <div className={styles.metricCard}><strong>6</strong><span>Marketing channels</span></div>
+            <div className={styles.metricCard}><strong>1</strong><span>Unified workspace</span></div>
           </div>
-        </div>
+
+          <div className={styles.buttonRow}>
+            <Link to="/workspace" className={styles.primaryBtn}>Start trial</Link>
+            <Link to="/contact" className={styles.secondaryBtn}>Talk sales</Link>
+          </div>
         </div>
       </section>
 
-      <section className={styles.sectionCompact}>
+      <section className={styles.section}>
         <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionKicker}>Plans</div>
+            <h2>Built for solo agents through multi-agent brokerages.</h2>
+          </div>
+
           <div className={styles.pricingRow}>
             {plans.map((plan) => (
               <article key={plan.name} className={`${styles.pricingCard} ${plan.highlight ? styles.featuredPlan : ''}`}>
@@ -77,11 +86,11 @@ export const PricingPage: React.FC = () => {
         </div>
       </section>
 
-      <section className={styles.sectionCompact}>
+      <section className={styles.sectionAlt}>
         <div className={styles.container}>
-          <div className={styles.intro}>
+          <div className={styles.sectionHeader}>
             <div className={styles.sectionKicker}>Plan comparison</div>
-            <h2 className={styles.sectionTitle}>Scale from launch automation to team-level visibility.</h2>
+            <h2>Scale from launch automation to team-level visibility.</h2>
           </div>
           <div className={styles.table}>
             <div className={styles.tableRow}>
@@ -107,7 +116,7 @@ export const PricingPage: React.FC = () => {
           </div>
 
           <div className={styles.ctaBand}>
-            <h2 className={styles.sectionTitle}>Start free, then scale with confidence.</h2>
+            <h2>Launch faster. Publish cleaner. Close with confidence.</h2>
             <div className={styles.buttonRow}>
               <Link to="/workspace" className={styles.primaryBtn}>Start free trial</Link>
               <Link to="/contact" className={styles.ghostBtn}>Talk to sales</Link>

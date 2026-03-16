@@ -34,6 +34,111 @@ const emptyOutput: GeneratedOutput = {
   emailBlurb: '',
 };
 
+const STREET_SUFFIXES = new Set([
+  'aly', 'allee', 'alley', 'ave', 'avenue', 'blvd', 'boulevard', 'cir', 'circle', 'court', 'ct', 'dr', 'drive', 'hwy',
+  'highway', 'ln', 'lane', 'loop', 'pkwy', 'parkway', 'pl', 'place', 'rd', 'road', 'sq', 'street', 'st', 'ter', 'terrace',
+  'trl', 'trail', 'way', 'n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw',
+]);
+
+const toTitleCase = (value: string) => value
+  .toLowerCase()
+  .replace(/\b([a-z])/g, (char) => char.toUpperCase());
+
+const formatMillions = (value: string) => {
+  const numeric = Number(value.replace(/[^0-9.]/g, ''));
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    return value;
+  }
+
+  if (numeric >= 1_000_000) {
+    const millions = numeric / 1_000_000;
+    const compact = millions >= 10 ? millions.toFixed(0) : millions.toFixed(1);
+    return `$${compact}MM`;
+  }
+
+  return `$${numeric.toLocaleString()}`;
+};
+
+const parseListingUrl = (rawUrl: string): Partial<PropertyInput> => {
+  try {
+    const parsed = new URL(rawUrl.trim());
+    const pathname = decodeURIComponent(parsed.pathname || '').replace(/\/+$/, '');
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const detailIndex = pathSegments.findIndex((segment) => segment.toLowerCase() === 'homedetails');
+    const slugCandidate = detailIndex >= 0 ? pathSegments[detailIndex + 1] : pathSegments[pathSegments.length - 1];
+
+    if (!slugCandidate) {
+      return {};
+    }
+
+    const cleanedSlug = slugCandidate
+      .replace(/_zpid.*/i, '')
+      .replace(/-\d{7,}$/i, '')
+      .replace(/[^a-zA-Z0-9-]/g, '')
+      .trim();
+
+    const tokens = cleanedSlug
+      .split('-')
+      .filter(Boolean)
+      .map((token) => token.trim());
+
+    if (!tokens.length) {
+      return {};
+    }
+
+    const zipIndex = tokens.findIndex((token) => /^\d{5}(?:\d{4})?$/.test(token));
+    const stateIndex = tokens.findIndex((token, index) => /^[A-Za-z]{2}$/.test(token) && (zipIndex === -1 || index < zipIndex));
+
+    let streetAddress = '';
+    let city = '';
+    let stateCode = '';
+    let zipCode = '';
+
+    if (zipIndex >= 0) {
+      zipCode = tokens[zipIndex];
+    }
+
+    if (stateIndex >= 0) {
+      stateCode = tokens[stateIndex].toUpperCase();
+      const streetAndCity = tokens.slice(0, stateIndex);
+      let streetEndIndex = -1;
+      for (let index = streetAndCity.length - 1; index >= 0; index -= 1) {
+        if (STREET_SUFFIXES.has(streetAndCity[index].toLowerCase())) {
+          streetEndIndex = index;
+          break;
+        }
+      }
+
+      if (streetEndIndex >= 0) {
+        streetAddress = toTitleCase(streetAndCity.slice(0, streetEndIndex + 1).join(' '));
+        city = toTitleCase(streetAndCity.slice(streetEndIndex + 1).join(' '));
+      } else {
+        streetAddress = toTitleCase(streetAndCity.join(' '));
+      }
+    }
+
+    const bedsMatch = cleanedSlug.match(/(\d+(?:\.\d+)?)\s*-?beds?/i);
+    const bathsMatch = cleanedSlug.match(/(\d+(?:\.\d+)?)\s*-?baths?/i);
+    const sqftMatch = cleanedSlug.match(/(\d[\d,]*)\s*-?(?:sqft|sq-ft|square-feet|sqfeet)/i);
+
+    const parsedFields: Partial<PropertyInput> = {
+      streetAddress: streetAddress || undefined,
+      city: city || undefined,
+      state: stateCode || undefined,
+      zip: zipCode || undefined,
+      beds: bedsMatch?.[1],
+      baths: bathsMatch?.[1],
+      squareFeet: sqftMatch?.[1],
+    };
+
+    return Object.fromEntries(
+      Object.entries(parsedFields).filter(([, value]) => Boolean(value)),
+    ) as Partial<PropertyInput>;
+  } catch {
+    return {};
+  }
+};
+
 export const WorkspacePage: React.FC = () => {
   const { session } = useAuth();
   const { output, usage, isLoading, error, generate, reset } = useGenerator();
@@ -54,6 +159,8 @@ export const WorkspacePage: React.FC = () => {
   const [showSummaryCard, setShowSummaryCard] = React.useState(false);
   const [notice, setNotice] = React.useState('');
   const [activeStepIndex, setActiveStepIndex] = React.useState(0);
+
+  const displayPrice = React.useMemo(() => formatMillions(price), [price]);
 
   React.useEffect(() => {
     if (output) {
@@ -77,7 +184,7 @@ export const WorkspacePage: React.FC = () => {
 
   const listingSummary = {
     address: streetAddress || 'Address pending',
-    price: price || 'Price pending',
+    price: displayPrice || 'Price pending',
     bedsBaths: `${beds || '—'} beds / ${baths || '—'} baths`,
     location: [city, state].filter(Boolean).join(', ') || 'Location pending',
   };
@@ -88,7 +195,7 @@ export const WorkspacePage: React.FC = () => {
     city: city || 'Atlanta',
     state: state || 'GA',
     zip: zip || '30305',
-    price: price || '$1,000,000',
+    price: price || '$10,000,000',
     beds: beds || '4',
     baths: baths || '3',
     squareFeet: squareFeet || '3200',
@@ -110,6 +217,57 @@ export const WorkspacePage: React.FC = () => {
     setNotice('');
     await generate(createPropertyPayload(), 'workspace');
     setShowSummaryCard(true);
+  };
+
+  const handleListingUrlBlur = () => {
+    const trimmed = listingUrl.trim();
+    if (!trimmed) {
+      return;
+    }
+
+    const parsed = parseListingUrl(trimmed);
+    const autoFilled: string[] = [];
+
+    if (!streetAddress && parsed.streetAddress) {
+      setStreetAddress(parsed.streetAddress);
+      autoFilled.push('Address');
+    }
+
+    if (!city && parsed.city) {
+      setCity(parsed.city);
+      autoFilled.push('City');
+    }
+
+    if (!state && parsed.state) {
+      setState(parsed.state);
+      autoFilled.push('State');
+    }
+
+    if (!zip && parsed.zip) {
+      setZip(parsed.zip);
+      autoFilled.push('ZIP');
+    }
+
+    if (!beds && parsed.beds) {
+      setBeds(parsed.beds);
+      autoFilled.push('Beds');
+    }
+
+    if (!baths && parsed.baths) {
+      setBaths(parsed.baths);
+      autoFilled.push('Baths');
+    }
+
+    if (!squareFeet && parsed.squareFeet) {
+      setSquareFeet(parsed.squareFeet);
+      autoFilled.push('Square feet');
+    }
+
+    if (autoFilled.length) {
+      setNotice(`Auto-filled from listing URL: ${autoFilled.join(', ')}.`);
+    } else {
+      setNotice('Listing URL parsed. No new fields were available to auto-fill.');
+    }
   };
 
   const updateActiveAsset = (value: string) => {
@@ -247,6 +405,7 @@ export const WorkspacePage: React.FC = () => {
               <input
                 value={listingUrl}
                 onChange={(event) => setListingUrl(event.target.value)}
+                onBlur={handleListingUrlBlur}
                 placeholder="https://www.zillow.com/homedetails/..."
               />
             </div>
@@ -274,7 +433,7 @@ export const WorkspacePage: React.FC = () => {
             <div className={styles.fieldRow}>
               <div className={styles.fieldGroup}>
                 <label>Price</label>
-                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="$1,275,000" />
+                <input value={price} onChange={(event) => setPrice(event.target.value)} placeholder="$10MM" />
               </div>
               <div className={styles.fieldGroup}>
                 <label>Beds</label>
