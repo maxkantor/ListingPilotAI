@@ -48,6 +48,7 @@ import type {
 } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const LISTING_PREVIEW_FALLBACK_BASE_URL = import.meta.env.VITE_LISTING_PREVIEW_FALLBACK_BASE_URL || 'https://api.listingpilot.com';
 
 class ApiError extends Error {
   status: number;
@@ -227,9 +228,30 @@ export const apiService = {
     return request<PropertyInput>('/api/sample-property');
   },
 
-  getListingPreview(url: string): Promise<ListingPreviewResponse> {
+  async getListingPreview(url: string): Promise<ListingPreviewResponse> {
     const params = new URLSearchParams({ url });
-    return request<ListingPreviewResponse>(`/api/listing-preview?${params.toString()}`);
+    const path = `/api/listing-preview?${params.toString()}`;
+
+    try {
+      return await request<ListingPreviewResponse>(path);
+    } catch (error) {
+      if (!(error instanceof ApiError) || error.status !== 404) {
+        throw error;
+      }
+
+      const fallbackResponse = await fetch(`${LISTING_PREVIEW_FALLBACK_BASE_URL}${path}`, {
+        method: 'GET',
+        headers: {
+          'X-Anonymous-Id': getAnonymousId(),
+        },
+      });
+
+      if (!fallbackResponse.ok) {
+        throw error;
+      }
+
+      return fallbackResponse.json() as Promise<ListingPreviewResponse>;
+    }
   },
 
   getHistory(): Promise<HistoryItem[]> {

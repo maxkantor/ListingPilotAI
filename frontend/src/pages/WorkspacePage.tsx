@@ -154,14 +154,11 @@ const parseListingUrl = (rawUrl: string): Partial<PropertyInput> => {
       if (streetEndIndex >= 0) {
         const nextToken = streetAndCity[streetEndIndex + 1]?.toLowerCase() ?? '';
         const includeDirectional = DIRECTIONALS.has(nextToken);
-        const streetEnd = includeDirectional ? streetEndIndex + 1 : streetEndIndex;
+        const includeNumberedRoute = /^\d+[a-z]?$/i.test(nextToken);
+        const streetEnd = includeDirectional || includeNumberedRoute ? streetEndIndex + 1 : streetEndIndex;
 
         streetAddress = toTitleCase(streetAndCity.slice(0, streetEnd + 1).join(' '));
-        city = toTitleCase(streetAndCity.slice(streetEndIndex + 1).join(' '));
-
-        if (includeDirectional) {
-          city = toTitleCase(streetAndCity.slice(streetEnd + 1).join(' '));
-        }
+        city = toTitleCase(streetAndCity.slice(streetEnd + 1).join(' '));
       } else {
         streetAddress = toTitleCase(streetAndCity.join(' '));
       }
