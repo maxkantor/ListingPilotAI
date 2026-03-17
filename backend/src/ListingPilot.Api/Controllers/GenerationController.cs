@@ -75,6 +75,11 @@ public class GenerationController : ControllerBase
 
             var html = await client.GetStringAsync(uri);
 
+            if (IsBotBlockedResponse(html))
+            {
+                html = await TryFetchRenderedHtmlAsync(client, uri.ToString());
+            }
+
             var price = ExtractFirstGroup(html,
                 "\"price\"\\s*:\\s*\"?([0-9][0-9,]*)\"?",
                 "\"priceForHDP\"\\s*:\\s*\"?([0-9][0-9,]*)\"?",
@@ -96,6 +101,29 @@ public class GenerationController : ControllerBase
                 "\"livingAreaValue\"\\s*:\\s*([0-9][0-9,]*)",
                 "\"sqft\"\\s*:\\s*([0-9][0-9,]*)",
                 "([0-9][0-9,]*)\\s*sq\\.?\\s*ft");
+
+            // URL fallback for Zillow links that include structure tokens (e.g. 4-beds-3-baths-3200-sqft)
+            var path = uri.AbsolutePath ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(beds))
+            {
+                beds = ExtractFirstGroup(path,
+                    "([0-9]+(?:\\.[0-9]+)?)-beds?",
+                    "([0-9]+(?:\\.[0-9]+)?)-bd");
+            }
+
+            if (string.IsNullOrWhiteSpace(baths))
+            {
+                baths = ExtractFirstGroup(path,
+                    "([0-9]+(?:\\.[0-9]+)?)-baths?",
+                    "([0-9]+(?:\\.[0-9]+)?)-ba");
+            }
+
+            if (string.IsNullOrWhiteSpace(squareFeet))
+            {
+                squareFeet = ExtractFirstGroup(path,
+                    "([0-9][0-9,]*)-sq-?ft",
+                    "([0-9][0-9,]*)-sqft");
+            }
 
             var streetAddress = ExtractFirstGroup(html,
                 "\"streetAddress\"\\s*:\\s*\"([^\"]+)\"");
@@ -150,6 +178,46 @@ public class GenerationController : ControllerBase
         }
 
         return null;
+    }
+
+    private static bool IsBotBlockedResponse(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+        {
+            return true;
+        }
+
+        return html.Contains("Access to this page has been denied", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("px-captcha", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("Press & Hold to confirm you are", StringComparison.OrdinalIgnoreCase)
+            || html.Contains("window._pxAppId", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static async Task<string> TryFetchRenderedHtmlAsync(HttpClient client, string targetUrl)
+    {
+        var zenRowsKey = Environment.GetEnvironmentVariable("ZENROWS_API_KEY");
+        if (!string.IsNullOrWhiteSpace(zenRowsKey))
+        {
+            var zenRowsUrl = $"https://api.zenrows.com/v1/?apikey={Uri.EscapeDataString(zenRowsKey)}&url={Uri.EscapeDataString(targetUrl)}&js_render=true&premium_proxy=true";
+            var zenRowsHtml = await client.GetStringAsync(zenRowsUrl);
+            if (!string.IsNullOrWhiteSpace(zenRowsHtml) && !IsBotBlockedResponse(zenRowsHtml))
+            {
+                return zenRowsHtml;
+            }
+        }
+
+        var scraperApiKey = Environment.GetEnvironmentVariable("SCRAPERAPI_KEY");
+        if (!string.IsNullOrWhiteSpace(scraperApiKey))
+        {
+            var scraperApiUrl = $"http://api.scraperapi.com/?api_key={Uri.EscapeDataString(scraperApiKey)}&url={Uri.EscapeDataString(targetUrl)}&render=true";
+            var scraperApiHtml = await client.GetStringAsync(scraperApiUrl);
+            if (!string.IsNullOrWhiteSpace(scraperApiHtml) && !IsBotBlockedResponse(scraperApiHtml))
+            {
+                return scraperApiHtml;
+            }
+        }
+
+        return string.Empty;
     }
 
     private static string? NormalizeDigits(string? value)
