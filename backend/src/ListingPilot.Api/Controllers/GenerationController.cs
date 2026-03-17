@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using ListingPilot.Application.DTOs;
 using ListingPilot.Application.Services;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace ListingPilot.Api.Controllers;
@@ -137,6 +138,18 @@ public class GenerationController : ControllerBase
             var zip = ExtractFirstGroup(html,
                 "\"postalCode\"\\s*:\\s*\"([0-9]{5}(?:-[0-9]{4})?)\"");
 
+            if (string.IsNullOrWhiteSpace(price)
+                || string.IsNullOrWhiteSpace(beds)
+                || string.IsNullOrWhiteSpace(baths)
+                || string.IsNullOrWhiteSpace(squareFeet))
+            {
+                var snippetFallback = await TryFetchFromSearchSnippetAsync(client, uri, streetAddress, city, state, zip);
+                price ??= snippetFallback.price;
+                beds ??= snippetFallback.beds;
+                baths ??= snippetFallback.baths;
+                squareFeet ??= snippetFallback.squareFeet;
+            }
+
             return Ok(new
             {
                 streetAddress,
@@ -178,6 +191,174 @@ public class GenerationController : ControllerBase
         }
 
         return null;
+    }
+
+    private static async Task<(string? price, string? beds, string? baths, string? squareFeet)> TryFetchFromSearchSnippetAsync(
+        HttpClient client,
+        Uri listingUri,
+        string? streetAddress,
+        string? city,
+        string? state,
+        string? zip)
+    {
+        var zpid = ExtractFirstGroup(listingUri.AbsolutePath ?? string.Empty, "([0-9]{6,})_zpid");
+        var slug = GetListingSlug(listingUri);
+
+        var queries = new List<string>();
+        if (!string.IsNullOrWhiteSpace(zpid))
+        {
+            queries.Add($"\"{zpid}_zpid\" zillow");
+        }
+
+        if (!string.IsNullOrWhiteSpace(streetAddress) && !string.IsNullOrWhiteSpace(city) && !string.IsNullOrWhiteSpace(state))
+        {
+            queries.Add($"\"{streetAddress} {city}, {state} {zip}\" zillow");
+        }
+        else if (!string.IsNullOrWhiteSpace(slug))
+        {
+            queries.Add($"\"{slug}\" zillow");
+        }
+
+        if (queries.Count == 0)
+        {
+            return (null, null, null, null);
+        }
+
+        foreach (var query in queries)
+        {
+            var engines = new[]
+            {
+                $"https://www.startpage.com/sp/search?query={Uri.EscapeDataString(query)}",
+                $"https://search.yahoo.com/search?p={Uri.EscapeDataString(query)}",
+            };
+
+            foreach (var engineUrl in engines)
+            {
+                try
+                {
+                    var response = await client.GetAsync(engineUrl);
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        continue;
+                    }
+
+                    var html = await response.Content.ReadAsStringAsync();
+                    var plain = StripHtmlToText(html);
+                    if (string.IsNullOrWhiteSpace(plain))
+                    {
+                        continue;
+                    }
+
+                    var narrowed = NarrowSnippet(plain, zpid, streetAddress, city);
+
+                    var price = ExtractFirstGroup(narrowed,
+                        "\\$\\s*([0-9][0-9,]{3,})");
+
+                    var beds = ExtractFirstGroup(narrowed,
+                        "([0-9]+(?:\\.[0-9]+)?)\\s*beds?");
+
+                    var baths = ExtractFirstGroup(narrowed,
+                        "([0-9]+(?:\\.[0-9]+)?)\\s*baths?");
+
+                    var squareFeet = ExtractFirstGroup(narrowed,
+                        "([0-9][0-9,]{2,})\\s*(?:sq\\.?\\s*ft|sqft|square\\s*feet)");
+
+                    if (!string.IsNullOrWhiteSpace(price)
+                        || !string.IsNullOrWhiteSpace(beds)
+                        || !string.IsNullOrWhiteSpace(baths)
+                        || !string.IsNullOrWhiteSpace(squareFeet))
+                    {
+                        return (price, beds, baths, squareFeet);
+                    }
+                }
+                catch
+                {
+                    // Best-effort fallback only.
+                }
+            }
+        }
+
+        return (null, null, null, null);
+    }
+
+    private static string NarrowSnippet(string plainText, string? zpid, string? streetAddress, string? city)
+    {
+        if (string.IsNullOrWhiteSpace(plainText))
+        {
+            return string.Empty;
+        }
+
+        var lower = plainText.ToLowerInvariant();
+        var pivot = -1;
+
+        if (!string.IsNullOrWhiteSpace(zpid))
+        {
+            pivot = lower.IndexOf($"{zpid}_zpid", StringComparison.Ordinal);
+        }
+
+        if (pivot < 0 && !string.IsNullOrWhiteSpace(streetAddress))
+        {
+            pivot = lower.IndexOf(streetAddress.ToLowerInvariant(), StringComparison.Ordinal);
+        }
+
+        if (pivot < 0 && !string.IsNullOrWhiteSpace(city))
+        {
+            pivot = lower.IndexOf(city.ToLowerInvariant(), StringComparison.Ordinal);
+        }
+
+        if (pivot < 0)
+        {
+            pivot = lower.IndexOf("zillow", StringComparison.Ordinal);
+        }
+
+        if (pivot < 0)
+        {
+            return plainText;
+        }
+
+        var start = Math.Max(0, pivot - 500);
+        var length = Math.Min(2500, plainText.Length - start);
+        return plainText.Substring(start, length);
+    }
+
+    private static string StripHtmlToText(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+        {
+            return string.Empty;
+        }
+
+        var cleaned = Regex.Replace(html, "<script[\\s\\S]*?</script>", " ", RegexOptions.IgnoreCase);
+        cleaned = Regex.Replace(cleaned, "<style[\\s\\S]*?</style>", " ", RegexOptions.IgnoreCase);
+        cleaned = Regex.Replace(cleaned, "<[^>]+>", " ");
+        cleaned = WebUtility.HtmlDecode(cleaned);
+        cleaned = Regex.Replace(cleaned, "\\s+", " ").Trim();
+        return cleaned;
+    }
+
+    private static string? GetListingSlug(Uri uri)
+    {
+        var path = uri.AbsolutePath ?? string.Empty;
+        var marker = "/homedetails/";
+        var idx = path.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+        if (idx < 0)
+        {
+            return null;
+        }
+
+        var remainder = path[(idx + marker.Length)..].Trim('/');
+        if (string.IsNullOrWhiteSpace(remainder))
+        {
+            return null;
+        }
+
+        var firstSegment = remainder.Split('/')[0];
+        if (string.IsNullOrWhiteSpace(firstSegment))
+        {
+            return null;
+        }
+
+        return firstSegment.Replace('-', ' ').Trim();
     }
 
     private static bool IsBotBlockedResponse(string html)
